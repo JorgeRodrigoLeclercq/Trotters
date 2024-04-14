@@ -1,21 +1,28 @@
 import { StyleSheet } from "react-native";
-import {COLORS, SIZES} from "../resources/index";
+import {COLORS, SIZES, SHADOWS} from "../resources/index";
 
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         justifyContent: 'space-between',
-        backgroundColor: COLORS.white
+        backgroundColor: COLORS.secondary
       },
 
       top: {
-        flex: 0.4,
-        backgroundColor: COLORS.primary,
+        height: "40%",
+        backgroundColor: COLORS.tertiary,
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
         justifyContent: 'center',
         alignItems: 'center',
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 2
       },
 
       pfp: {
@@ -26,9 +33,58 @@ const styles = StyleSheet.create({
         borderColor: COLORS.white
       },
 
-      id: {
-        fontFamily: "bold",
+      name: {
+        fontFamily: 'bold',
         fontSize: SIZES.medium,
+        position: 'absolute',
+        bottom: "20%"
+      },
+
+      nationality: {
+        fontFamily: 'semibold',
+        fontSize: SIZES.small,
+        position: 'absolute',
+        bottom: "15%"
+      },
+
+      attribute: {
+        height:"10%",
+        width:"90%",
+        backgroundColor: COLORS.white,
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+
+      line: {
+        backgroundColor: COLORS.gray,
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        height: 4,
+        width: '90%'
+      },
+
+      tag:{
+        fontFamily: 'semibold',
+        fontSize: SIZES.large,
+        alignSelf: 'flex-start',
+        paddingLeft: '5%'
+      },
+
+      info: {
+        fontFamily: 'regular',
+        fontSize: SIZES.medium,
+        alignSelf: 'flex-start',
+        paddingLeft: '5%'
+      },
+
+      blankSpace: {
+        flex: 0.05
       }
 
 })
