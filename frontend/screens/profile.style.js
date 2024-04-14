@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
           height: 2,
         },
         shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 2
+        shadowRadius: 5.84,
+        elevation: 5,
       },
 
       pfp: {
@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
       },
 
       attribute: {
-        height:"10%",
-        width:"90%",
+        //height:"10%",
+        //width:"90%",
         backgroundColor: COLORS.white,
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
@@ -57,6 +57,9 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 20,
         justifyContent: 'center',
         alignItems: 'center',
+        flexBasis: 'auto',
+        marginLeft: 10,
+        marginRight: 10
       },
 
       line: {
