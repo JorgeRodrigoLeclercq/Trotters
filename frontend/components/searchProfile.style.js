@@ -25,55 +25,26 @@ const styles = StyleSheet.create({
         elevation: 5,
       },
 
-      backIcon: {
-        position: "absolute",
-        height: 70,
-        width: 70,
-        borderRadius: 100,
-        //borderWidth: 5,
-        //borderColor: COLORS,
-        top: 35,
-        right: 20,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: COLORS.tertiary
-
-      },
-
-      messageIcon: {
-        position: "absolute",
-        height: 70,
-        width: 70,
-        borderRadius: 100,
-        //borderWidth: 5,
-        //borderColor: COLORS.white,
-        top: 35,
-        left: 20,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: COLORS.tertiary
-
-      },
-
       pfp: {
-        height: "100%",
-        width: "100%"
+        height: 125,
+        width: 125,
+        borderRadius: 100,
+        borderWidth: 5,
+        borderColor: COLORS.white
       },
 
       name: {
         fontFamily: 'bold',
         fontSize: SIZES.medium,
         position: 'absolute',
-        bottom: "10%",
-        left: "2%"
+        bottom: "20%"
       },
 
       nationality: {
         fontFamily: 'semibold',
         fontSize: SIZES.small,
         position: 'absolute',
-        bottom: "2%",
-        left: "2%"
+        bottom: "15%"
       },
 
       attribute: {
