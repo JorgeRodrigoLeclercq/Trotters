@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
 import { useCallback } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
+import { SignIn, SignUp, Chat } from './screens';
 
 
 const Stack = createNativeStackNavigator();
@@ -27,14 +28,33 @@ export default function App() {
   if (!fontsLoaded){
     return null;
   }
+
+  let isLoggedIn = true;
+
   return (
     <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen
-          name='Bottom Navigation'
-          component={BottomTabNavigation}
-          options={{headerShown:false}}
-          />
+        {isLoggedIn ? (
+          // Screens for logged in users
+          <Stack.Group>
+            <Stack.Screen
+              name='Bottom Navigation'
+              component={BottomTabNavigation}
+              options={{headerShown:false}}
+            />
+            <Stack.Screen screenOptions ={{headerShown:false}}
+              name='Chat'
+              component={Chat}
+              options={{headerShown:false}}
+            />
+          </Stack.Group>
+        ) : (
+          // Auth screens
+          <Stack.Group screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="SignIn" component={SignIn} />
+            <Stack.Screen name="SignUp" component={SignUp} />
+          </Stack.Group>
+        )}
         </Stack.Navigator>
     </NavigationContainer>
   );

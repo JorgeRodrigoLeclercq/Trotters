@@ -1,125 +1,90 @@
 import { StyleSheet } from "react-native";
 import {COLORS, SIZES, SHADOWS} from "../resources/index";
 
-
 const styles = StyleSheet.create({
-    container: {
-        justifyContent: 'space-between',
-        backgroundColor: COLORS.secondary
-      },
+    container:  {
+        backgroundColor: COLORS.lightWhite,
+        height: "100%"
+    },
 
-      top: {
-        height: "40%",
-        backgroundColor: COLORS.tertiary,
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20,
-        justifyContent: 'center',
-        alignItems: 'center',
-        shadowColor: "#000",
+    searchContainer: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignContent: "center",
+        marginHorizontal: SIZES.small,
+        backgroundColor: COLORS.white,
+        borderRadius: SIZES.xxLarge,
+        marginVertical: SIZES.xxLarge,
+        height: 50
+    },
+
+    searchBox: {
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderColor: COLORS.black,
+        borderWidth: 1,
+        borderRadius: 8
+    },
+
+    searchIcon: {
+        marginHorizontal: 10,
+        color: COLORS.gray,
+        marginTop: SIZES.small
+    },
+
+    searchWrapper: {
+        flex: 1,
+        backgroundColor: COLORS.white,
+        marginRight: SIZES.small,
+        borderRadius: SIZES.small
+    },
+    
+    searchInput: {
+        fontFamily: "regular",
+        width: "100%",
+        height: "100%",
+        paddingHorizontal: SIZES.small
+    },
+
+    searchBtn: {
+        width: 50,
+        height: "100%",
+        borderRadius: SIZES.medium,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: COLORS.primary
+    },
+    containerGPT: {
+        flex: 1,
+        marginHorizontal: 20,
+        marginTop: 50,
+        backgroundColor: '#fff', // Set a white background for the overall view
+      },
+      searchBoxGPT: {
+        fontSize: 16,
+        padding: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc', // Light grey line under the text input
+        marginBottom: 20,
+      },
+      listItem: {
+        backgroundColor: '#f8f8f8', // Light grey background for each item
+        padding: 20,
+        marginVertical: 8,
+        borderRadius: 10,
+        shadowColor: '#000', // Adding shadow
         shadowOffset: {
           width: 0,
           height: 2,
         },
-        shadowOpacity: 0.25,
-        shadowRadius: 5.84,
-        elevation: 5,
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4,
       },
-
-      backIcon: {
-        position: "absolute",
-        height: 70,
-        width: 70,
-        borderRadius: 100,
-        //borderWidth: 5,
-        //borderColor: COLORS,
-        top: 35,
-        right: 20,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: COLORS.tertiary
-
-      },
-
-      messageIcon: {
-        position: "absolute",
-        height: 70,
-        width: 70,
-        borderRadius: 100,
-        //borderWidth: 5,
-        //borderColor: COLORS.white,
-        top: 35,
-        left: 20,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: COLORS.tertiary
-
-      },
-
-      pfp: {
-        height: "100%",
-        width: "100%"
-      },
-
-      name: {
-        fontFamily: 'bold',
-        fontSize: SIZES.medium,
-        position: 'absolute',
-        bottom: "10%",
-        left: "2%"
-      },
-
-      nationality: {
-        fontFamily: 'semibold',
-        fontSize: SIZES.small,
-        position: 'absolute',
-        bottom: "2%",
-        left: "2%"
-      },
-
-      attribute: {
-        //height:"10%",
-        //width:"90%",
-        backgroundColor: COLORS.white,
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexBasis: 'auto',
-        marginLeft: 10,
-        marginRight: 10
-      },
-
-      line: {
-        backgroundColor: COLORS.gray,
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        height: 4,
-        width: '90%'
-      },
-
-      tag:{
-        fontFamily: 'semibold',
-        fontSize: SIZES.large,
-        alignSelf: 'flex-start',
-        paddingLeft: '5%'
-      },
-
-      info: {
-        fontFamily: 'regular',
-        fontSize: SIZES.medium,
-        alignSelf: 'flex-start',
-        paddingLeft: '5%'
-      },
-
-      blankSpace: {
-        flex: 0.05
+      listItemText: {
+        fontSize: 18,
+        color: '#333', // Dark grey color for text
       }
-
 })
 
 export default styles;
-
