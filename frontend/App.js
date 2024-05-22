@@ -29,13 +29,12 @@ export default function App() {
     return null;
   }
 
-  let isLoggedIn = true;
+  let isLoggedIn = false;
 
   return (
     <NavigationContainer>
         <Stack.Navigator>
         {isLoggedIn ? (
-          // Screens for logged in users
           <Stack.Group>
             <Stack.Screen
               name='Bottom Navigation'
@@ -49,7 +48,6 @@ export default function App() {
             />
           </Stack.Group>
         ) : (
-          // Auth screens
           <Stack.Group screenOptions={{ headerShown: false }}>
             <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="SignUp" component={SignUp} />

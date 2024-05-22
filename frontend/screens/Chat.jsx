@@ -10,7 +10,7 @@ const Chat = ({navigation}) => {
             { id: 1, text: 'Hello!', isUser: false },
             { id: 2, text: 'Hi! How are you?', isUser: true }
           ]);
-    const [inputText, setInputText] = useState('');
+        const [inputText, setInputText] = useState('');
         
           const sendMessage = () => {
             if (inputText.trim()) {
@@ -27,9 +27,7 @@ const Chat = ({navigation}) => {
           return (
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
               <View style={styles.header}>
-                <TouchableOpacity onPress={() => console.log('Back')}>
-                  <Text>Back</Text>
-                </TouchableOpacity>
+                <Ionicons name={"arrow-back"} size={40} onPress={()=>navigation.navigate("Messages")}/>
                 <Image source={{ uri: 'https://placekitten.com/200/200' }} style={styles.profilePic} />
                 <Text style={styles.userName}>John Doe</Text>
               </View>
