@@ -1,0 +1,57 @@
+PEOPLE:
+
+"name": "Jorge Rodrigo Leclercq",
+"age": "21",
+"nationality": "Madrid, Spain",
+"interests": "Fusion Jazz, Movies and Boxing",
+"description": "Hello, I'm just a guy",
+"email": "testing1@gmail.com",
+"password": "testing1"
+
+"name": "Sarah Isabelle Delgove Alday",
+"age": "21",
+"nationality": "Barcelona, Spain",
+"interests": "Dancing, writing and partying",
+"description": "Hi! My name is Sarah and I'm a girl that loves to travel and to party :3",
+"email": "testing2@gmail.com",
+"password": "testing2"
+
+"name": "Jorge Rodrigo Leclercq",
+"age": "21",
+"nationality": "Madrid, Spain",
+"interests": "Fusion Jazz, Movies and Boxing",
+"description": "Hello, I'm just a guy",
+"email": "testing1@gmail.com",
+"password": "testing1"
+
+"name": "Jorge Rodrigo Leclercq",
+"age": "21",
+"nationality": "Madrid, Spain",
+"interests": "Fusion Jazz, Movies and Boxing",
+"description": "Hello, I'm just a guy",
+"email": "testing1@gmail.com",
+"password": "testing1"
+
+"name": "Jorge Rodrigo Leclercq",
+"age": "21",
+"nationality": "Madrid, Spain",
+"interests": "Fusion Jazz, Movies and Boxing",
+"description": "Hello, I'm just a guy",
+"email": "testing1@gmail.com",
+"password": "testing1"
+
+"name": "Jorge Rodrigo Leclercq",
+"age": "21",
+"nationality": "Madrid, Spain",
+"interests": "Fusion Jazz, Movies and Boxing",
+"description": "Hello, I'm just a guy",
+"email": "testing1@gmail.com",
+"password": "testing1"
+
+"name": "Jorge Rodrigo Leclercq",
+"age": "21",
+"nationality": "Madrid, Spain",
+"interests": "Fusion Jazz, Movies and Boxing",
+"description": "Hello, I'm just a guy",
+"email": "testing1@gmail.com",
+"password": "testing1"

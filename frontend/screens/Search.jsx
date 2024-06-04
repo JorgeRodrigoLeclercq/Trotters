@@ -4,6 +4,7 @@ import { TouchableOpacity, View, TextInput, FlatList, Text, ActivityIndicator, S
 import {Ionicons} from "@expo/vector-icons";
 import { useState, useEffect } from 'react';
 import { COLORS } from '../resources';
+import axios from "axios";
 
 
 //const API_ENDPOINT = "../resources/locations.json";
@@ -45,8 +46,18 @@ const Search = () => {
     }
   }
 
-  const handleSelectItem = (item) => {
+  const handleSelectItem = async(item) => {
     setSelectedItem(item);
+    try {
+      console.log(item);
+      const response = await axios.get(`http://192.168.1.97:3000/api/people/search/${item}`);
+      //console.log(response);
+      console.log("=================");
+      console.log(response.data);
+      console.log("=================");
+      } catch (error) {
+          console.log("Failed to get the products", error);
+      } 
   };
 
   if (isLoading) {
