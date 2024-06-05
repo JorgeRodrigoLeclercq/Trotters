@@ -50,7 +50,7 @@ const Search = () => {
     setSelectedItem(item);
     try {
       console.log(item);
-      const response = await axios.get(`http://192.168.1.97:3000/api/people/search/${item}`);
+      const response = await axios.get(`http://192.168.1.97:3000/api/people/search/${item.city}, ${item.country}`);
       //console.log(response);
       console.log("=================");
       console.log(response.data);
