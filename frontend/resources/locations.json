@@ -1,7 +1,7 @@
 {
-    "Spain": "Madrid",
-    "France": "Paris",
-    "Portugal": "Lisbon",
-    "Germany": "Berlin",
-    "Morocco": "Rabal"
+    "Spain": ["Madrid", "Barcelona", "Bilbao"],
+    "France": ["Paris", "Montpellier", "Marseille"],
+    "Portugal": ["Lisbon", "Oporto"],
+    "Germany": ["Berlin", "Frankfurt", "Munich"],
+    "Morocco": ["Rabal", "Marrakech", "Tanger", "Fez", "Casablanca"]
 }

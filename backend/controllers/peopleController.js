@@ -70,6 +70,7 @@ module.exports = {
     },
 
     searchPeople: async(req, res) => {
+        console.log(req.params.key);
         try {
             const result = await People.aggregate(
                 [
@@ -90,5 +91,5 @@ module.exports = {
         } catch(error) {
             res.status(500).json("Failed to get the people")
         }
-    }
+    }   
 }
