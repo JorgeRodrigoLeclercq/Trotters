@@ -5,11 +5,16 @@ import { useFonts } from 'expo-font';
 import { useCallback } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import { SignIn, SignUp, Chat } from './screens';
+import React, { useState, useEffect } from 'react';
 
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [userData, setUserData] = useState(null);
+  
   const [fontsLoaded] = useFonts({
     regular: require("./resources/Poppins-Regular.ttf"),
     light: require("./resources/Poppins-Light.ttf"),
@@ -29,12 +34,10 @@ export default function App() {
     return null;
   }
 
-  let isLoggedIn = true;
-
   return (
     <NavigationContainer>
         <Stack.Navigator>
-        {isLoggedIn ? (
+        {loggedIn ? (
           <Stack.Group>
             <Stack.Screen
               name='Bottom Navigation'

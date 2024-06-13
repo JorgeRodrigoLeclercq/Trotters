@@ -1,3 +1,89 @@
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, FlatList, StyleSheet, TouchableOpacity, Image, ScrollView, SafeAreaView } from 'react-native';
+import locations from '../resources/locations.json'; // Adjust the path accordingly
+import axios from "axios";
+import styles from "./search.style";
+
+const Search = () => {
+    const [searchText, setSearchText] = useState('');
+    const [filteredLocations, setFilteredLocations] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [showFlatList, setShowFlatList] = useState(true);
+
+    useEffect(() => {
+        const allLocations = [];
+        const countries = Object.keys(locations);
+
+        countries.forEach(country => {
+            allLocations.push(country); // Add country-only entries
+            locations[country].forEach(city => {
+                allLocations.push(`${city}, ${country}`); // Add city-country pairs
+            });
+        });
+
+        if (searchText) {
+            const results = allLocations.filter(location =>
+                location.toLowerCase().includes(searchText.toLowerCase())
+            ).slice(0, 10);
+                setFilteredLocations(results);
+                setShowFlatList(true);
+            } else {
+                setFilteredLocations([]);
+                setShowFlatList(false);
+            }
+    }, [searchText]);
+
+    const handleItemPress = async (item) => {
+        try {
+            const response = await axios.get(`http://192.168.1.97:3000/api/people/${item}`);
+            setUsers(response.data);
+            setShowFlatList(false);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    return (
+        <SafeAreaView style={styles.safeContainer}>
+        <View style={styles.container}>
+            <TextInput
+                style={styles.searchBar}
+                placeholder="Search for a city or country"
+                value={searchText}
+                onChangeText={setSearchText}
+            />
+            {showFlatList && (<FlatList
+                style={styles.flatList}
+                data={filteredLocations}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => (
+                    <TouchableOpacity style={styles.item} onPress={() => handleItemPress(item)}>
+                        <Text>{item}</Text>
+                    </TouchableOpacity>
+                )}
+            />
+            )}
+            <ScrollView contentContainerStyle={styles.userContainer}>
+                    {users.map(user => (
+                        <View key={user._id} style={styles.userCard}>
+                            <View style={styles.userInfo}>
+                                <Text style={styles.userName}>{user.name}</Text>
+                                <Text style={styles.userAge}>{user.age} years old</Text>
+                            </View>
+                            <Image source={require('../resources/pfp.png')} style={styles.profileImage} />
+                        </View>
+                    ))}
+            </ScrollView>
+        </View>
+    </SafeAreaView>
+    );
+};
+
+
+
+export default Search;
+
+
 // import React from 'react';
 // import styles from "./search.style";
 // import { TouchableOpacity, View, TextInput, FlatList, Text, ActivityIndicator, SafeAreaView, Image } from "react-native";
@@ -372,150 +458,3 @@
 // });
 
 // export default Search;
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, FlatList, StyleSheet, TouchableOpacity, Image, ScrollView, SafeAreaView } from 'react-native';
-import locations from '../resources/locations.json'; // Adjust the path accordingly
-import axios from "axios";
-
-const Search = () => {
-    const [searchText, setSearchText] = useState('');
-    const [filteredLocations, setFilteredLocations] = useState([]);
-    const [users, setUsers] = useState([]);
-    const [showFlatList, setShowFlatList] = useState(true);
-
-    useEffect(() => {
-        const allLocations = [];
-        const countries = Object.keys(locations);
-
-        countries.forEach(country => {
-            allLocations.push(country); // Add country-only entries
-            locations[country].forEach(city => {
-                allLocations.push(`${city}, ${country}`); // Add city-country pairs
-            });
-        });
-
-        if (searchText) {
-            const results = allLocations.filter(location =>
-                location.toLowerCase().includes(searchText.toLowerCase())
-            ).slice(0, 10);
-                setFilteredLocations(results);
-                setShowFlatList(true);
-            } else {
-                setFilteredLocations([]);
-                setShowFlatList(false);
-            }
-    }, [searchText]);
-
-    const handleItemPress = async (item) => {
-        try {
-            const response = await axios.get(`http://192.168.1.97:3000/api/people/search/${item}`);
-            setUsers(response.data);
-            setShowFlatList(false);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    return (
-        <SafeAreaView style={styles.safeContainer}>
-        <View style={styles.container}>
-            <TextInput
-                style={styles.searchBar}
-                placeholder="Search for a city or country"
-                value={searchText}
-                onChangeText={setSearchText}
-            />
-            {showFlatList && (<FlatList
-                style={styles.flatList}
-                data={filteredLocations}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => (
-                    <TouchableOpacity style={styles.item} onPress={() => handleItemPress(item)}>
-                        <Text>{item}</Text>
-                    </TouchableOpacity>
-                )}
-            />
-            )}
-            <ScrollView contentContainerStyle={styles.userContainer}>
-                    {users.map(user => (
-                        <View key={user._id} style={styles.userCard}>
-                            <View style={styles.userInfo}>
-                                <Text style={styles.userName}>{user.name}</Text>
-                                <Text style={styles.userAge}>{user.age} years old</Text>
-                            </View>
-                            <Image source={require('../resources/pfp.png')} style={styles.profileImage} />
-                        </View>
-                    ))}
-            </ScrollView>
-        </View>
-    </SafeAreaView>
-    );
-};
-
-const styles = StyleSheet.create({
-    safeContainer: {
-        flex: 1,
-        backgroundColor: '#fff',
-    },
-    container: {
-        flex: 1,
-        padding: 20,
-    },
-    searchBar: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        paddingLeft: 10,
-        borderRadius: 5,
-        marginBottom: 10,
-    },
-    flatList: {
-        position: 'absolute',
-        top: 60,
-        width: '100%',
-        zIndex: 1,
-        backgroundColor: 'white',
-    },
-    item: {
-        padding: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
-    },
-    userContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        marginTop: 60,
-    },
-    userCard: {
-        width: '48%',
-        height: 150,
-        backgroundColor: '#f9f9f9',
-        borderRadius: 10,
-        marginBottom: 10,
-        overflow: 'hidden',
-    },
-    userInfo: {
-        position: 'absolute',
-        zIndex: 2,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        width: '100%',
-        padding: 10,
-    },
-    userName: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: 'white',
-    },
-    userAge: {
-        fontSize: 14,
-        color: 'white',
-    },
-    profileImage: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-    },
-});
-
-export default Search;

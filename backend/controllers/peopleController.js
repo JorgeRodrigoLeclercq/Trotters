@@ -27,17 +27,21 @@ module.exports = {
     loginPeople: async(req, res) => {
         try {
             const user = await People.findOne({email: req.body.email});
-            !user && res.status(401).json("Wrong credentials provide a valid emal");
+            if(!user){
+                return res.status(401).json("Wrong credentials provide a valid emal");
+            } 
             console.log(user.email);
 
             
 
-            const decryptedPassword = CryptoJS.AES.decrypt(user.password, process.env.SECRET);
-            const decryptedpass = decryptedPassword.toString(CryptoJS.enc.Utf8);
+            const binDecryptedPassword = CryptoJS.AES.decrypt(user.password, process.env.SECRET);
+            const decryptedPassword = binDecryptedPassword.toString(CryptoJS.enc.Utf8);
 
             console.log("2");
 
-            decryptedpass !== req.body.password && res.status(401).json("Wrong password");
+            if (decryptedPassword !== req.body.password){
+                return res.status(401).json("Wrong password");
+            } 
 
             console.log("3");
 
@@ -62,7 +66,9 @@ module.exports = {
 
     getPeople: async(req, res) => {
         try {
-            const people = await People.findById(req.params.id)
+            //const people = await People.findById(req.params.id)
+            const regex = new RegExp(req.params.key, 'i'); // 'i' makes it case-insensitive
+            const people = await People.find({ nationality: { $regex: regex } });
             res.status(200).json(people)
         } catch (error) {
             res.status(500).json("Failed to get the people")
