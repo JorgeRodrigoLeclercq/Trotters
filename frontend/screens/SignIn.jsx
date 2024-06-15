@@ -14,6 +14,7 @@ import { COLORS, SHADOWS, SIZES } from "../resources/index"
 import Button from '../components/Button';
 import { Formik } from 'formik';
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -48,23 +49,47 @@ const SignIn = ({navigation}) => {
     }
 
     const login = async (values) => {
-        setLoader(true)
+        setLoader(true);
         console.log(values);
 
         try {
             const endpoint = "http://192.168.1.97:3000/api/people/login";
             const data = values;
 
-            const response = await axios.post(endpoint, data)
+            const response = await axios.post(endpoint, data);
 
-            if (response.status === 200){
+            if (response.status === 200) {
                 setLoader(false);
                 setResponseData(response.data);
+                console.log(response.data);
+                await AsyncStorage.setItem('testingTrotters1', JSON.stringify(true));
+                await AsyncStorage.setItem('testingTrotters1info', JSON.stringify(response.data))
+                await AsyncStorage.setItem('testingTrotters1id', JSON.stringify(response.data._id))
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: 'BottomNavigation' }],
+                });
+            }
 
-                await AsyncStorage.setItem(`user${responseData._id}`, JSON.stringify(responseData))
 
-                await AsyncStorage.setItem('id', JSON.stringify(responseData._id))
-            }else{
+
+        // try {
+        //     const endpoint = "http://192.168.1.97:3000/api/people/login";
+        //     const data = values;
+
+        //     const response = await axios.post(endpoint, data)
+
+        //     if (response.status === 200){
+        //         setLoader(false);
+        //         setResponseData(response.data);
+
+        //         // IR A BOTTOM NAVIGATION
+        //         // UTILIZAR RESPONSE DATA EN LAS DIFERENTES PANTALLAS DE BOTTOM NAVIGATION
+        //         // MANTENER LA SESIÓN INICIADA PARA FUTUROS LOGINS
+        //         //await AsyncStorage.setItem('testingTrotters1', true);
+        //         navigation.navigate("Bottom Navigation");
+        //     }
+        else{
                 Alert.alert(
                     "Error logging in",
                     "Please provide valid credentials",
@@ -93,6 +118,7 @@ const SignIn = ({navigation}) => {
                     {defaultIndex : 1}
                 ]
             )
+            console.log(error);
         }finally{
             setLoader(false);
         }

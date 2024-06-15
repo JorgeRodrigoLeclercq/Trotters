@@ -52,9 +52,8 @@ module.exports = {
             );
             
             console.log("4");
-
+            console.log(user._doc);
             const {password, __v, createdAt, updatedAt, ...userData} = user._doc;
-
             res.status(200).json({...userData, token: userToken})
 
             console.log("5");
