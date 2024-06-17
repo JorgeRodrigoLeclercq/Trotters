@@ -57,16 +57,54 @@ export default function App() {
               component={Chat}
               options={{ headerShown: false }}
             />
+            <Stack.Screen name="SignIn" component={SignIn} />
+            <Stack.Screen name="SignUp" component={SignUp} />
           </Stack.Group>
         ) : (
           <Stack.Group screenOptions={{ headerShown: false }}>
             <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="SignUp" component={SignUp} />
+            <Stack.Screen
+              name="BottomNavigation"
+              component={BottomTabNavigation}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Chat"
+              component={Chat}
+              options={{ headerShown: false }}
+            />
           </Stack.Group>
         )}
       </Stack.Navigator>
     </NavigationContainer>
   );
+
+  // return (
+  //   <NavigationContainer>
+  //     <Stack.Navigator>
+  //       {loggedIn ? (
+  //         <Stack.Group>
+  //           <Stack.Screen
+  //             name="BottomNavigation"
+  //             component={BottomTabNavigation}
+  //             options={{ headerShown: false }}
+  //           />
+  //           <Stack.Screen
+  //             name="Chat"
+  //             component={Chat}
+  //             options={{ headerShown: false }}
+  //           />
+  //         </Stack.Group>
+  //       ) : (
+  //         <Stack.Group screenOptions={{ headerShown: false }}>
+  //           <Stack.Screen name="SignIn" component={SignIn} />
+  //           <Stack.Screen name="SignUp" component={SignUp} />
+  //         </Stack.Group>
+  //       )}
+  //     </Stack.Navigator>
+  //   </NavigationContainer>
+  // );
 }
 
 // import { NavigationContainer } from '@react-navigation/native';
