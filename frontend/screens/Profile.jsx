@@ -13,8 +13,22 @@ import { useCallback, useEffect, useState } from 'react';
 const Profile = ({navigation}) => {
 
     const [userData, setUserData] = useState(null);
-
     const [loading, setLoading] = useState(true);
+    const [windowHeight, setWindowHeight] = useState(0);
+    const [containerHeight, setContainerHeight] = useState(0);
+    // let windowHeight = Dimensions.get('window').height;
+    // let containerHeight = (windowHeight + StatusBar.currentHeight) - 70;
+
+    useEffect(() => {
+      const getwindowHeight = () => {
+        setWindowHeight(Dimensions.get('window').height);
+      }
+      const getContainerHeight = () => {
+        setContainerHeight(windowHeight + StatusBar.currentHeight - 70);
+      }
+      getwindowHeight();
+      getContainerHeight();
+    }, [windowHeight]);
 
     useEffect(() => {
       const getUserData = async () => {
@@ -33,11 +47,7 @@ const Profile = ({navigation}) => {
       };
       getUserData();
     }, []);
-    
-  
 
-    let windowHeight = Dimensions.get('window').height;
-    let containerHeight = (windowHeight + StatusBar.currentHeight) - 70;
     const handleLogout = async () => {
         try {
           await AsyncStorage.removeItem('testingTrotters1');
@@ -51,13 +61,14 @@ const Profile = ({navigation}) => {
         }
       };
 
-      if (loading) {
-        return (
-          <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
-            <ActivityIndicator size="large" color="#0000ff" />
-          </View>
-        );
-      }
+    if (loading) {
+      return (
+        <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      );
+    }
+
     return (
         <View style={styles.container} height={containerHeight}>
                 <View style={styles.top}>
