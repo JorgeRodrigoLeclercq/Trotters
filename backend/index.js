@@ -15,4 +15,25 @@ app.use(express.urlencoded({limit: '10mb', extended: true}));
 
 app.use('/api/people', peopleRouter)
 
-app.listen(process.env.PORT || port, () => console.log(`Example app listening on port ${process.env.PORT}!`))
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+const httpServer = createServer( app );
+const io = new Server(httpServer);
+
+httpServer.listen(process.env.PORT || port, () => console.log(`Example app listening on port ${process.env.PORT}!`))
+
+io.on('connection', (socket) => {
+    console.log(`connect: ${socket.id}`, socket.request.headers);
+
+    socket.on('tamos on?', () => {
+        console.log("MANOS ARRIBA CHAVALES!");
+    })
+
+    socket.on('send message', (message) => {
+        console.log(message);
+    })
+  
+    socket.on('disconnect', () => {
+      console.log(`disconnect: ${socket.id}`);
+    });
+});

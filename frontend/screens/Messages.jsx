@@ -9,6 +9,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
 
+
 //const API_ENDPOINT = "../resources/locations.json";
 
 const Messages = ({navigation}) => {

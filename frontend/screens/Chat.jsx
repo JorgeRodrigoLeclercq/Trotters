@@ -2,6 +2,7 @@ import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet, Image,
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./chat.style";
 import { useState, useEffect } from "react";
+import { socket } from "../hook/socket";
 
 
 const Chat = ({navigation}) => {
@@ -11,6 +12,15 @@ const Chat = ({navigation}) => {
             { id: 2, text: 'Hi! How are you?', isUser: true }
           ]);
         const [inputText, setInputText] = useState('');
+
+        useEffect(() => {
+          if (socket.connected){
+            onConnect();
+          }
+          function onConnect(){
+            socket.emit("tamos on?");
+          }
+        }, [])
         
           const sendMessage = () => {
             if (inputText.trim()) {
@@ -19,6 +29,7 @@ const Chat = ({navigation}) => {
                 text: inputText,
                 isUser: true
               };
+              socket.emit('send message', newMessage);
               setMessages([...messages, newMessage]);
               setInputText('');
             }
