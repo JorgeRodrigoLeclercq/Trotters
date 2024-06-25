@@ -5,7 +5,9 @@ import { useState, useEffect } from "react";
 import { socket } from "../hook/socket";
 
 
-const Chat = ({navigation}) => {
+const Chat = ({route, navigation}) => {
+
+        const { userId, userName } = route.params;
 
         const [messages, setMessages] = useState([
             { id: 1, text: 'Hello!', isUser: false },
@@ -29,6 +31,7 @@ const Chat = ({navigation}) => {
                 text: inputText,
                 isUser: true
               };
+              
               socket.emit('send message', newMessage);
               setMessages([...messages, newMessage]);
               setInputText('');
@@ -40,7 +43,7 @@ const Chat = ({navigation}) => {
               <View style={styles.header}>
                 <Ionicons name={"arrow-back"} size={40} onPress={()=>navigation.navigate("Messages")}/>
                 <Image source={{ uri: 'https://placekitten.com/200/200' }} style={styles.profilePic} />
-                <Text style={styles.userName}>John Doe</Text>
+                <Text style={styles.userName}>{userName}</Text>
               </View>
               <ScrollView style={styles.messagesContainer}>
                 {messages.map((msg) => (
