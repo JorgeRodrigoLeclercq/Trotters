@@ -4,54 +4,53 @@ import { TouchableOpacity, View, TextInput, FlatList, Text, ActivityIndicator, S
 import { Ionicons } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
 import { COLORS } from "../resources";
-import { Chat } from "./Chat";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-
-
-
-//const API_ENDPOINT = "../resources/locations.json";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const Messages = ({navigation}) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
-  const [fullData, setFullData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    setIsLoading(true);
     fetchData();
   }, [])
 
-  const fetchData = async(url) => {
-    const nationalities = require("../resources/locations.json");
-    const transformedData = Object.keys(nationalities).map(key => ({
-      country: key,
-      city: nationalities[key]
-    }));
-    setData(transformedData);
-    setFullData(transformedData);
-    setIsLoading(false);
+
+  const fetchData = async() => {
+    setIsLoading(true);
+    try {
+      const userData = await AsyncStorage.getItem('testingTrotters1info');
+      const parsedUserData = JSON.parse(userData);
+      const userId = parsedUserData._id
+      if (!userId) {
+        setError('User ID not found in AsyncStorage');
+        setIsLoading(false);
+        return;
+      }
+      const response = await axios.get('http://192.168.1.97:3000/api/chat/getConversations', {
+        params: { userId }
+      });
+      setData(response.data);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   const handleSearch = (query) => {
     setSearchQuery(query);
     if (query.trim() === '') {
-      setData(fullData);  // If the search query is empty, restore the full data
+      fetchData();  // Re-fetch full data if search query is empty
     } else {
-      const filteredData = fullData.filter(item =>
-        item.city.toLowerCase().includes(query.toLowerCase()) ||
-        item.country.toLowerCase().includes(query.toLowerCase())
+      const filteredData = data.filter(item =>
+        item.name.toLowerCase().includes(query.toLowerCase())
       );
       setData(filteredData);  // Set data to filtered results
     }
   }
-
-  const handleSelectItem = (item) => {
-    setSelectedItem(item);
-  };
 
   if (isLoading) {
     return(
@@ -63,20 +62,8 @@ const Messages = ({navigation}) => {
 
   if (error) {
     return(<View>
-      <Text>Error in fetching the data</Text>
+      <Text>Error in fetching the data: {error}</Text>
     </View>)
-  }
-
-  if (selectedItem) {
-    return (
-      <View style={{backgroundColor: COLORS.lightWhite, height: "100%", justifyContent: "center", alignContent: "center"}}>
-        <Image
-          source={require('../resources/pfp.png')} // Replace this URL with your image URL
-          style={{ width: 200, height: 200, borderRadius: 100 }}
-          //resizeMode="contain"
-        />
-      </View>
-    );
   }
 
   return (
@@ -86,22 +73,20 @@ const Messages = ({navigation}) => {
         clearButtonMode="always"
         style={styles.searchBoxGPT}
         autoCapitalize="none"
-        //autoCorrect="false"
         value={searchQuery}
         onChangeText={(query) => handleSearch(query)}
       />
       <FlatList
-      data={data}
-      keyExtractor={(item, index) => index.toString()}  // Use index as key extractor
-      renderItem={({item}) => (
-        <TouchableOpacity onPress={() => navigation.navigate("Chat")}>
+        data={data}
+        keyExtractor={(item) => item.id}  // Use id as key extractor
+        renderItem={({item}) => (
+          <TouchableOpacity onPress={() => navigation.navigate("Chat", { userId: item.id, userName: item.name })}>
             <View style={styles.listItem}>
-              <Text style={styles.listItemText}>{item.city}, {item.country}</Text>
+              <Text style={styles.listItemText}>{item.name}</Text>
             </View>
-        </TouchableOpacity>
-      )}
+          </TouchableOpacity>
+        )}
       />
-         
     </SafeAreaView>
   );
 };

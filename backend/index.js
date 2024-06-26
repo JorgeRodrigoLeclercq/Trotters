@@ -6,6 +6,7 @@ const app = express();
 //app.use(cors());
 const port = 3000;
 const peopleRouter = require("./routers/people")
+const chatRouter = require("./routers/chat")
 
 dotenv.config();
 mongoose.connect(process.env.MONGO_URL).then(() => console.log('db connected')).catch((err) => console.log(err))
@@ -14,6 +15,7 @@ app.use(express.json({limit: '10mb'}));
 app.use(express.urlencoded({limit: '10mb', extended: true}));
 
 app.use('/api/people', peopleRouter)
+app.use('/api/chat', chatRouter)
 
 const { createServer } = require("http");
 const { Server } = require("socket.io");

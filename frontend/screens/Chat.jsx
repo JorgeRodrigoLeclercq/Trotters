@@ -1,6 +1,8 @@
 import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./chat.style";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 import { useState, useEffect } from "react";
 import { socket } from "../hook/socket";
 
@@ -8,63 +10,87 @@ import { socket } from "../hook/socket";
 const Chat = ({route, navigation}) => {
 
         const { userId, userName } = route.params;
-
-        const [messages, setMessages] = useState([
-            { id: 1, text: 'Hello!', isUser: false },
-            { id: 2, text: 'Hi! How are you?', isUser: true }
-          ]);
+        const [currentUserId, setCurrentUserId] = useState(null);
+        const [messages, setMessages] = useState([]);
         const [inputText, setInputText] = useState('');
 
-        useEffect(() => {
-          if (socket.connected){
-            onConnect();
-          }
-          function onConnect(){
-            socket.emit("tamos on?");
-          }
-        }, [])
+          useEffect(() => {
+            // Fetch the current user's ID from AsyncStorage
+            const fetchCurrentUserId = async () => {
+                const userData = await AsyncStorage.getItem('testingTrotters1info');
+                const parsedUserData = JSON.parse(userData);
+                setCurrentUserId(parsedUserData._id);
+            };
+    
+            fetchCurrentUserId();
+    
+            // Fetch messages from the backend
+            const fetchMessages = async () => {
+                try {
+                    const response = await axios.get('http://192.168.1.97:3000/api/chat/getMessages', {
+                        params: { userId, currentUserId }
+                    });
+                    setMessages(response.data);
+                } catch (error) {
+                    console.error('Error fetching messages:', error);
+                }
+            };
+    
+            fetchMessages();
+    
+            if (socket.connected) {
+                onConnect();
+            }
+    
+            function onConnect() {
+                socket.emit("tamos on?");
+            }
+        }, [userId, currentUserId]);
         
-          const sendMessage = () => {
-            if (inputText.trim()) {
+        const sendMessage = () => {
+          if (inputText.trim()) {
               const newMessage = {
-                id: messages.length + 1,
-                text: inputText,
-                isUser: true
+                  id: messages.length + 1,
+                  text: inputText,
+                  isUser: true,
+                  sender: currentUserId,
+                  receiver: userId,
+                  sendAt: new Date().toISOString()
               };
-              
+  
               socket.emit('send message', newMessage);
               setMessages([...messages, newMessage]);
               setInputText('');
-            }
-          };
+          }
+      };
         
-          return (
-            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
-              <View style={styles.header}>
-                <Ionicons name={"arrow-back"} size={40} onPress={()=>navigation.navigate("Messages")}/>
+      return (
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
+            <View style={styles.header}>
+                <Ionicons name={"arrow-back"} size={40} onPress={() => navigation.navigate("Messages")} />
                 <Image source={{ uri: 'https://placekitten.com/200/200' }} style={styles.profilePic} />
                 <Text style={styles.userName}>{userName}</Text>
-              </View>
-              <ScrollView style={styles.messagesContainer}>
+            </View>
+            <ScrollView style={styles.messagesContainer}>
                 {messages.map((msg) => (
-                  <View key={msg.id} style={[styles.message, msg.isUser ? styles.userMessage : styles.otherMessage]}>
-                    <Text>{msg.text}</Text>
-                  </View>
+                    <View key={msg._id} style={[styles.message, msg.sender == currentUserId ? styles.userMessage : styles.otherMessage]}>
+                        <Text>{msg.content}</Text>
+                    </View>
                 ))}
-              </ScrollView>
-              <View style={styles.inputContainer}>
+            </ScrollView>
+            <View style={styles.inputContainer}>
                 <TextInput
-                  style={styles.input}
-                  value={inputText}
-                  onChangeText={setInputText}
-                  placeholder="Type a message"
+                    style={styles.input}
+                    value={inputText}
+                    onChangeText={setInputText}
+                    placeholder="Type a message"
                 />
                 <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
-                  <Text>Send</Text>
+                    <Text>Send</Text>
                 </TouchableOpacity>
-              </View>
-            </KeyboardAvoidingView>
-          );
+            </View>
+        </KeyboardAvoidingView>
+    );
     
 }
 
