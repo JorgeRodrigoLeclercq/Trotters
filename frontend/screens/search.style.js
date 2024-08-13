@@ -66,6 +66,10 @@ const styles = StyleSheet.create({
       height: '100%',
       position: 'absolute',
   },
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+},
 });
 
 export default styles;

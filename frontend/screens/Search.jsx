@@ -3,12 +3,17 @@ import { View, Text, TextInput, FlatList, StyleSheet, TouchableOpacity, Image, S
 import locations from '../resources/locations.json'; // Adjust the path accordingly
 import axios from "axios";
 import styles from "./search.style";
+//import { BlurView } from '@react-native-community/blur';
+import Modal from 'react-native-modal';
+import ProfileModal from '../components/ProfileModal'; // Import the new ProfileModal component
 
-const Search = () => {
+const Search = ({navigation}) => {
     const [searchText, setSearchText] = useState('');
     const [filteredLocations, setFilteredLocations] = useState([]);
     const [users, setUsers] = useState([]);
     const [showFlatList, setShowFlatList] = useState(true);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
 
     useEffect(() => {
         const allLocations = [];
@@ -38,44 +43,85 @@ const Search = () => {
             const response = await axios.get(`http://192.168.1.97:3000/api/people/${item}`);
             setUsers(response.data);
             setShowFlatList(false);
+            console.log(response.data);
         } catch (error) {
             console.error(error);
         }
     };
 
+    const handleUserPress = (user) => {
+        setSelectedUser(user);
+        setIsModalVisible(true);
+    };
+
+    const closeModal = () => {
+        setIsModalVisible(false);
+        setSelectedUser(null);
+    };
+
     return (
         <SafeAreaView style={styles.safeContainer}>
-        <View style={styles.container}>
-            <TextInput
-                style={styles.searchBar}
-                placeholder="Search for a city or country"
-                value={searchText}
-                onChangeText={setSearchText}
-            />
-            {showFlatList && (<FlatList
-                style={styles.flatList}
-                data={filteredLocations}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => (
-                    <TouchableOpacity style={styles.item} onPress={() => handleItemPress(item)}>
-                        <Text>{item}</Text>
-                    </TouchableOpacity>
+            <View style={styles.container}>
+                <TextInput
+                    style={styles.searchBar}
+                    placeholder="Search for a city or country"
+                    value={searchText}
+                    onChangeText={setSearchText}
+                />
+                {showFlatList && (
+                    <FlatList
+                        style={styles.flatList}
+                        data={filteredLocations}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity style={styles.item} onPress={() => handleItemPress(item)}>
+                                <Text>{item}</Text>
+                            </TouchableOpacity>
+                        )}
+                    />
                 )}
-            />
-            )}
-            <ScrollView contentContainerStyle={styles.userContainer}>
+                <ScrollView contentContainerStyle={styles.userContainer}>
                     {users.map(user => (
-                        <View key={user._id} style={styles.userCard}>
+                        <TouchableOpacity key={user._id} style={styles.userCard} onPress={() => handleUserPress(user)}>
+                        {/* <View style={styles.userCard}> */}
                             <View style={styles.userInfo}>
                                 <Text style={styles.userName}>{user.name}</Text>
                                 <Text style={styles.userAge}>{user.age} years old</Text>
                             </View>
                             <Image source={require('../resources/pfp.png')} style={styles.profileImage} />
-                        </View>
+                        {/* </View> */}
+                        </TouchableOpacity>
                     ))}
-            </ScrollView>
-        </View>
-    </SafeAreaView>
+                </ScrollView>
+                {/* <ScrollView contentContainerStyle={styles.userContainer}>
+                    {users.map(user => (
+                        <TouchableOpacity key={user._id} onPress={() => handleUserPress(user)}>
+                            <View style={styles.userCard}>
+                                <View style={styles.userInfo}>
+                                    <Text style={styles.userName}>{user.name}</Text>
+                                    <Text style={styles.userAge}>{user.age} years old</Text>
+                                </View>
+                                <Image source={require('../resources/pfp.png')} style={styles.profileImage} />
+                            </View>
+                        </TouchableOpacity>
+                    ))}
+                </ScrollView> */}
+                {/* {isModalVisible && (
+                    <BlurView
+                        style={StyleSheet.absoluteFill}
+                        blurType="light"
+                        blurAmount={10}
+                    />
+                )} */}
+                <Modal
+                    isVisible={isModalVisible}
+                    onBackdropPress={closeModal}
+                    style={styles.modal}
+                >
+                    <ProfileModal user={selectedUser} onClose={closeModal} navigation={navigation} />
+                </Modal>
+            </View>
+        </SafeAreaView>
     );
 };
 
