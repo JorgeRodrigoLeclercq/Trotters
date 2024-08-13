@@ -29,7 +29,7 @@ const Messages = ({navigation}) => {
         setIsLoading(false);
         return;
       }
-      const response = await axios.get('http://192.168.1.97:3000/api/chat/getConversations', {
+      const response = await axios.get('http://192.168.1.38:3000/api/chat/getConversations', {
         params: { userId }
       });
       setData(response.data);

@@ -1,70 +1,96 @@
-import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet, Image, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./chat.style";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useState, useEffect } from "react";
-import { socket } from "../hook/socket";
+import { useSocket } from '../SocketContext'; // Import the useSocket hook
 
+const Chat = ({ route, navigation }) => {
+    const { userId, userName } = route.params;
+    const [currentUserId, setCurrentUserId] = useState(null);
+    const [messages, setMessages] = useState([]);
+    const [inputText, setInputText] = useState('');
 
-const Chat = ({route, navigation}) => {
+    const socket = useSocket(); // Use the socket from context
 
-        const { userId, userName } = route.params;
-        const [currentUserId, setCurrentUserId] = useState(null);
-        const [messages, setMessages] = useState([]);
-        const [inputText, setInputText] = useState('');
+    useEffect(() => {
+        // Fetch the current user's ID from AsyncStorage
+        const fetchCurrentUserId = async () => {
+            const userData = await AsyncStorage.getItem('testingTrotters1info');
+            const parsedUserData = JSON.parse(userData);
+            setCurrentUserId(parsedUserData._id);
+        };
 
-          useEffect(() => {
-            // Fetch the current user's ID from AsyncStorage
-            const fetchCurrentUserId = async () => {
-                const userData = await AsyncStorage.getItem('testingTrotters1info');
-                const parsedUserData = JSON.parse(userData);
-                setCurrentUserId(parsedUserData._id);
-            };
-    
-            fetchCurrentUserId();
-    
-            // Fetch messages from the backend
-            const fetchMessages = async () => {
-                try {
-                    const response = await axios.get('http://192.168.1.97:3000/api/chat/getMessages', {
-                        params: { userId, currentUserId }
-                    });
-                    setMessages(response.data);
-                } catch (error) {
-                    console.error('Error fetching messages:', error);
-                }
-            };
-    
-            fetchMessages();
-    
-            if (socket.connected) {
-                onConnect();
+        fetchCurrentUserId();
+
+        // Fetch messages from the backend
+        const fetchMessages = async () => {
+            try {
+                const response = await axios.get('http://192.168.1.38:3000/api/chat/getMessages', {
+                    params: { userId, currentUserId }
+                });
+                setMessages(response.data);
+            } catch (error) {
+                console.error('Error fetching messages:', error);
             }
-    
-            function onConnect() {
-                socket.emit("tamos on?");
+        };
+
+        fetchMessages();
+
+        if (socket && socket.connected) {
+            onConnect();
+        }
+
+        function onConnect() {
+            socket.emit("tamos on?");
+        }
+
+        socket.on("message", (message) => {
+            setMessages(prevMessages => [...prevMessages, message]);
+        });
+
+        // Cleanup the effect
+        return () => {
+            if (socket) {
+                socket.off("message");
             }
-        }, [userId, currentUserId]);
-        
-        const sendMessage = () => {
-          if (inputText.trim()) {
-              const newMessage = {
-                  id: messages.length + 1,
-                  text: inputText,
-                  isUser: true,
-                  sender: currentUserId,
-                  receiver: userId,
-                  sendAt: new Date().toISOString()
-              };
-  
-              socket.emit('send message', newMessage);
-              setMessages([...messages, newMessage]);
-              setInputText('');
-          }
-      };
-        
-      return (
+        };
+    }, [userId, currentUserId, socket]);
+
+    const sendMessage = async () => {
+        if (inputText.trim()) {
+            const newMessage = {
+                content: inputText,
+                sender: currentUserId,
+                receiver: userId,
+                sendAt: new Date().toISOString()
+            };
+
+            try {
+                // Post the message to the backend using axios
+                await axios.post('http://192.168.1.38:3000/api/chat/sendMessage', {
+                    content: inputText,
+                    sender: currentUserId,
+                    receiver: userId
+                });
+
+                // Emit the message via socket
+                socket.emit("send message", JSON.stringify({
+                    to: userId,
+                    message: newMessage
+                }));
+
+                // Update the local messages state
+                setMessages([...messages, newMessage]);
+                setInputText('');
+            } catch (error) {
+                console.error('Error sending message:', error);
+            }
+        }
+    };
+
+    return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
             <View style={styles.header}>
                 <Ionicons name={"arrow-back"} size={40} onPress={() => navigation.navigate("Messages")} />
@@ -91,37 +117,6 @@ const Chat = ({route, navigation}) => {
             </View>
         </KeyboardAvoidingView>
     );
-    
 }
 
 export default Chat;
-
-// import { View, Text, SafeAreaView, Image, TextInput } from "react-native";
-// import { Ionicons } from "@expo/vector-icons";
-// import styles from "./chat.style";
-// import { useState, useEffect } from "react";
-
-
-// const Chat = ({navigation}) => {
-
-//     const [message, setMessage] = useState("");
-
-//     return(
-//         <SafeAreaView style={{flex: 1}}>
-//             <View style={styles.topContainer}>
-//                 <Ionicons name={"arrow-back"} size={40} onPress={() => navigation.navigate("Messages")}/>
-//                 <Image style={styles.pfp} source={require('../resources/pfp.png')}/>
-//                 <Text style={styles.receiver}>Alexis</Text>
-//             </View>
-
-//             <TextInput
-//                 style={styles.input}
-//                 value={message}
-//                 onChangeText={setMessage}
-//             />
-
-//         </SafeAreaView>
-//     )
-// }
-
-// export default Chat;
