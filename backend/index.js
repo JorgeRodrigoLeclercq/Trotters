@@ -24,16 +24,25 @@ const io = new Server(httpServer);
 
 httpServer.listen(process.env.PORT || port, () => console.log(`Example app listening on port ${process.env.PORT}!`))
 
+const sockets = {}
+
 io.on('connection', (socket) => {
-    console.log(`connect: ${socket.id}`, socket.request.headers);
+    sockets[socket.handshake.query.userId] = socket;
+    console.log(sockets);
+    console.log(`connect: ${socket.handshake.query.userId}`, socket.request.headers);
 
     socket.on('tamos on?', () => {
         console.log("MANOS ARRIBA CHAVALES!");
     })
 
-    socket.on('send message', (message) => {
-        console.log(message);
-    })
+    socket.on("send message", (data) => {
+        console.log(data);
+        const { to, message } = JSON.parse(data);
+        if (sockets[to]) {
+        sockets[to].emit("message", message);
+        }
+        });
+    
   
     socket.on('disconnect', () => {
       console.log(`disconnect: ${socket.id}`);

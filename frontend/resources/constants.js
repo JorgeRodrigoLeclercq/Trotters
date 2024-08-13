@@ -55,8 +55,4 @@ const SHADOWS = {
   },
 };
 
-const LINKS = {
-
-};
-
-export { COLORS, SIZES , SHADOWS, LINKS };
+export { COLORS, SIZES , SHADOWS };

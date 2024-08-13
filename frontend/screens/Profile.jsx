@@ -8,16 +8,12 @@ import Button from '../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCallback, useEffect, useState } from 'react';
 
-
-
 const Profile = ({navigation}) => {
 
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [windowHeight, setWindowHeight] = useState(0);
     const [containerHeight, setContainerHeight] = useState(0);
-    // let windowHeight = Dimensions.get('window').height;
-    // let containerHeight = (windowHeight + StatusBar.currentHeight) - 70;
 
     useEffect(() => {
       const getwindowHeight = () => {
@@ -38,7 +34,6 @@ const Profile = ({navigation}) => {
           setUserData(parsedInfo);
           setLoading(false);
           console.log(userData);
-          //console.log(userData["name"]);
         } catch (error) {
           console.error(error);
           setLoading(false);
@@ -51,6 +46,8 @@ const Profile = ({navigation}) => {
     const handleLogout = async () => {
         try {
           await AsyncStorage.removeItem('testingTrotters1');
+          await AsyncStorage.removeItem('testingTrotters1info')
+          await AsyncStorage.removeItem('testingTrotters1id')
           navigation.reset({
             index: 0,
             routes: [{ name: 'SignIn' }],
