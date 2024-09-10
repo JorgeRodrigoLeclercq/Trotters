@@ -54,7 +54,7 @@ const SignIn = ({navigation}) => {
 
         try {
             // const endpoint = "http://192.168.1.97:3000/api/people/login";
-            const endpoint = "http://192.168.1.37:3000/api/people/login";
+            const endpoint = "http://192.168.0.20:3000/api/people/login";
             const data = values;
 
             const response = await axios.post(endpoint, data);

@@ -27,7 +27,7 @@ const Chat = ({ route, navigation }) => {
         // Fetch messages from the backend
         const fetchMessages = async () => {
             try {
-                const response = await axios.get('http://192.168.1.38:3000/api/chat/getMessages', {
+                const response = await axios.get('http://192.168.0.20:3000/api/chat/getMessages', {
                     params: { userId, currentUserId }
                 });
                 setMessages(response.data);
@@ -69,7 +69,7 @@ const Chat = ({ route, navigation }) => {
 
             try {
                 // Post the message to the backend using axios
-                await axios.post('http://192.168.1.38:3000/api/chat/sendMessage', {
+                await axios.post('http://192.168.0.20:3000/api/chat/sendMessage', {
                     content: inputText,
                     sender: currentUserId,
                     receiver: userId

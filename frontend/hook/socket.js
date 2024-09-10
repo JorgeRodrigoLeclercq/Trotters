@@ -19,7 +19,7 @@ export const createSocket = async () => {
     // Check if userID exists
     if (userID !== null) {
       // Pass the userID as a query parameter when establishing the connection
-      const socket = io('http://192.168.1.38:3000', {
+      const socket = io('http://192.168.0.20:3000', {
         query: {
           userId: userID
         }
