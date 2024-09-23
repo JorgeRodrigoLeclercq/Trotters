@@ -1,13 +1,13 @@
-import React from 'react';
-import styles from "./messages.style";
+import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, View, TextInput, FlatList, Text, ActivityIndicator, SafeAreaView, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useState, useEffect } from "react";
-import { COLORS } from "../resources";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import styles from "./messages.style";
+import { COLORS } from "../resources";
+import { StatusBar } from "react-native";
 
-const Messages = ({navigation}) => {
+const Messages = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -15,15 +15,14 @@ const Messages = ({navigation}) => {
 
   useEffect(() => {
     fetchData();
-  }, [])
+  }, []);
 
-
-  const fetchData = async() => {
+  const fetchData = async () => {
     setIsLoading(true);
     try {
       const userData = await AsyncStorage.getItem('testingTrotters1info');
       const parsedUserData = JSON.parse(userData);
-      const userId = parsedUserData._id
+      const userId = parsedUserData._id;
       if (!userId) {
         setError('User ID not found in AsyncStorage');
         setIsLoading(false);
@@ -38,7 +37,7 @@ const Messages = ({navigation}) => {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -50,39 +49,48 @@ const Messages = ({navigation}) => {
       );
       setData(filteredData);  // Set data to filtered results
     }
-  }
+  };
 
   if (isLoading) {
-    return(
-      <View style={{flex: 1, justifyContent: "center", alignContent: "center"}}>
-        <ActivityIndicator size={"large"} color={COLORS.black}/>
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={COLORS.black} />
       </View>
     );
   }
 
   if (error) {
-    return(<View>
-      <Text>Error in fetching the data: {error}</Text>
-    </View>)
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>Error fetching data: {error}</Text>
+      </View>
+    );
   }
 
   return (
-    <SafeAreaView style={styles.containerGPT}>
-      <TextInput
-        placeholder="Search"
-        clearButtonMode="always"
-        style={styles.searchBoxGPT}
-        autoCapitalize="none"
-        value={searchQuery}
-        onChangeText={(query) => handleSearch(query)}
-      />
+    <SafeAreaView style={styles.container}>
+      <View style={{height: StatusBar.currentHeight, backgroundColor: COLORS.primary}}></View>
+      {/* Search Bar */}
+      <View style={styles.searchContainer}>
+        <Ionicons name="search" size={20} color={COLORS.gray} style={styles.searchIcon} />
+        <TextInput
+          placeholder="Search"
+          style={styles.searchInput}
+          value={searchQuery}
+          onChangeText={handleSearch}
+        />
+      </View>
+
+      {/* Conversations List */}
       <FlatList
         data={data}
-        keyExtractor={(item) => item.id}  // Use id as key extractor
-        renderItem={({item}) => (
-          <TouchableOpacity onPress={() => navigation.navigate("Chat", { userId: item.id, userName: item.name })}>
-            <View style={styles.listItem}>
-              <Text style={styles.listItemText}>{item.name}</Text>
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <TouchableOpacity style={styles.listItem} onPress={() => navigation.navigate("Chat", { userId: item.id, userName: item.name })}>
+            <Image source={{ uri: item.image }} style={styles.profileImage} />
+            <View style={styles.textContainer}>
+              <Text style={styles.nameText}>{item.name}</Text>
+              <Text style={styles.messageText} numberOfLines={1}>Holaaa</Text>
             </View>
           </TouchableOpacity>
         )}
@@ -92,3 +100,4 @@ const Messages = ({navigation}) => {
 };
 
 export default Messages;
+
