@@ -1,6 +1,4 @@
-
-
-import { Text, View, Image, ScrollView, Alert, ActivityIndicator } from "react-native";
+import { Text, View, Image, ScrollView, Alert, ActivityIndicator, TouchableOpacity } from "react-native";
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from "./profile.style";
@@ -10,6 +8,7 @@ import Button from '../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCallback, useEffect, useState } from 'react';
 import { COLORS } from "../resources";
+import { Ionicons } from "@expo/vector-icons";
 
 const Profile = ({navigation}) => {
 
@@ -36,22 +35,11 @@ const Profile = ({navigation}) => {
       getUserData();
     }, []);
 
-    const handleLogout = async () => {
+    const getRandomColor = () => {
+      const colorList = ['#3B00E6', '#E601D6', '#00E5C3', '#DCE600', '#E67200'];
+      const randomIndex = Math.floor(Math.random() * colorList.length);
 
-      try {
-        await AsyncStorage.removeItem('testingTrotters1');
-        await AsyncStorage.removeItem('testingTrotters1info')
-        await AsyncStorage.removeItem('testingTrotters1id')
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'SignIn' }],
-        });
-      } 
-
-      catch (error) {
-        console.log(error);
-        Alert.alert("Error", "Something went wrong while logging out.");
-      }
+      return colorList[randomIndex];
     };
 
     if (loading) {
@@ -64,11 +52,19 @@ const Profile = ({navigation}) => {
 
     return (
       <View style={styles.container}>
-        <View style={{height: StatusBar.currentHeight, backgroundColor: COLORS.primary}}></View>
+        <View style={{height: StatusBar.currentHeight, backgroundColor: COLORS.white}}></View>
         
         <View style={styles.top}>
-          <Text style={styles.logo}> TROTTERS </Text>
-        </View>
+        <Text style={styles.logo}>TROTTERS</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+          <Ionicons
+            name="settings-outline"
+            size={26}
+            color={COLORS.gray}
+            style={{ alignSelf: 'flex-end' }}
+          />
+        </TouchableOpacity>
+      </View>
 
         <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
         <View style={styles.user}>
@@ -79,19 +75,26 @@ const Profile = ({navigation}) => {
 
         <View style={styles.attribute}>
             <Text style={styles.tag}>Age</Text>
-            <View style={styles.line}></View>
             <Text style={styles.info}>{userData.age}</Text>
         </View>
 
         <View style={styles.attribute}>
           <Text style={styles.tag}>Interests</Text>
-          <View style={styles.line}></View>
-          <Text style={styles.info}>{userData.interests}</Text>
+          <View style={styles.interests}>
+            {userData.interests.map((interest, index) => {
+              const randomColor = getRandomColor();
+              return(
+                <View key={index} style={[styles.interestContainer, { borderColor: randomColor }]}>
+                <View style={[styles.circle, { backgroundColor: randomColor }]} />
+                <Text style={styles.interest}>{interest}</Text>
+              </View>
+              );
+            })}
+          </View>
         </View>
 
         <View style={styles.attribute}>
           <Text style={styles.tag}>About Me</Text>
-          <View style={styles.line}></View>
           <Text style={styles.info}>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas
           Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas</Text>
         </View>

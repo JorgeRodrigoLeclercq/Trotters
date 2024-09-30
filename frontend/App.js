@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
 import { useCallback, useEffect, useState } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
-import { SignIn, SignUp, Chat } from './screens';
+import { SignIn, SignUp, Chat, Settings } from './screens';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SocketProvider } from './SocketContext'; // Import SocketProvider
 
@@ -59,6 +59,11 @@ export default function App() {
                 component={Chat}
                 options={{ headerShown: false }}
               />
+              <Stack.Screen
+                name="Settings"
+                component={Settings}
+                options={{headerShown: false }}
+                />
               <Stack.Screen name="SignIn" component={SignIn} />
               <Stack.Screen name="SignUp" component={SignUp} />
             </Stack.Group>

@@ -1,55 +1,59 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, View, TextInput, FlatList, Text, ActivityIndicator, SafeAreaView, Image } from "react-native";
+import { TouchableOpacity, View, TextInput, FlatList, Text, ActivityIndicator, SafeAreaView, Image, StatusBar } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import styles from "./messages.style";
 import { COLORS } from "../resources";
-import { StatusBar } from "react-native";
+import removeAccents from 'remove-accents';  
 
 const Messages = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [initialData, setInitialData] = useState([]);
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  const fetchData = async () => {
-    setIsLoading(true);
-    try {
-      const userData = await AsyncStorage.getItem('testingTrotters1info');
-      const parsedUserData = JSON.parse(userData);
-      const userId = parsedUserData._id;
-      if (!userId) {
-        setError('User ID not found in AsyncStorage');
-        setIsLoading(false);
-        return;
-      }
-      const response = await axios.get('http://192.168.0.20:3000/api/chat/getConversations', {
-        params: { userId }
-      });
-      setData(response.data);
-    } catch (error) {
-      setError(error.message);
-    } finally {
+const fetchData = async () => {
+  setIsLoading(true);
+  try {
+    const userData = await AsyncStorage.getItem('testingTrotters1info');
+    const parsedUserData = JSON.parse(userData);
+    const userId = parsedUserData._id;
+    if (!userId) {
+      setError('User ID not found in AsyncStorage');
       setIsLoading(false);
+      return;
     }
-  };
+    const response = await axios.get('http://192.168.0.20:3000/api/chat/getConversations', {
+      params: { userId }
+    });
+    setData(response.data);
+    setInitialData(response.data);  // Save the initial data
+  } catch (error) {
+    setError(error.message);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
-  const handleSearch = (query) => {
-    setSearchQuery(query);
-    if (query.trim() === '') {
-      fetchData();  // Re-fetch full data if search query is empty
-    } else {
-      const filteredData = data.filter(item =>
-        item.name.toLowerCase().includes(query.toLowerCase())
-      );
-      setData(filteredData);  // Set data to filtered results
-    }
-  };
+const handleSearch = (query) => {
+  setSearchQuery(query);
+  const normalizedQuery = removeAccents(query.toLowerCase());  // Normalize query
+  if (normalizedQuery.trim() === '') {
+    setData(initialData);  // Reset to initial data
+  } else {
+    const filteredData = initialData.filter(item =>
+      removeAccents(item.name.toLowerCase()).includes(normalizedQuery)  // Normalize item names
+    );
+    setData(filteredData);
+  }
+};
+
 
   if (isLoading) {
     return (
@@ -69,7 +73,8 @@ const Messages = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{height: StatusBar.currentHeight, backgroundColor: COLORS.primary}}></View>
+      <View style={{ height: StatusBar.currentHeight, backgroundColor: COLORS.white }}></View>
+      
       {/* Search Bar */}
       <View style={styles.searchContainer}>
         <Ionicons name="search" size={20} color={COLORS.gray} style={styles.searchIcon} />
@@ -100,4 +105,5 @@ const Messages = ({ navigation }) => {
 };
 
 export default Messages;
+
 

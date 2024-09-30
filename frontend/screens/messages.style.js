@@ -1,19 +1,19 @@
 import { StyleSheet } from "react-native";
-import { COLORS, SIZES, SHADOWS } from "../resources/index";
+import { COLORS, SIZES } from "../resources/index";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.lightWhite,
+    backgroundColor: COLORS.gray,
   },
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
-    margin: SIZES.medium,
+    justifyContent: "center",
     padding: SIZES.small,
-    backgroundColor: COLORS.white,
-    borderRadius: SIZES.medium,
-    elevation: 2,
+    backgroundColor: COLORS.white,  // Same color as status bar
+    borderBottomWidth: 1,  // Only a line at the bottom
+    borderBottomColor: COLORS.white,
   },
   searchIcon: {
     marginRight: SIZES.small,
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: SIZES.medium,
     color: COLORS.gray,
+    paddingBottom: 2,  // Small padding for better text input experience
   },
   loadingContainer: {
     flex: 1,
@@ -41,10 +42,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: COLORS.white,
     padding: SIZES.small,
-    marginVertical: SIZES.small,
-    marginHorizontal: SIZES.medium,
-    borderRadius: SIZES.medium,
-    elevation: 3,
+    borderBottomWidth: 1,  // Divider between items like Instagram
+    borderBottomColor: COLORS.white,
   },
   profileImage: {
     width: 50,
@@ -61,10 +60,12 @@ const styles = StyleSheet.create({
     color: COLORS.black,
   },
   messageText: {
-    fontSize: SIZES.small,
+    fontSize: SIZES.mediumish,
     color: COLORS.gray,
     marginTop: 2,
   },
 });
 
 export default styles;
+
+

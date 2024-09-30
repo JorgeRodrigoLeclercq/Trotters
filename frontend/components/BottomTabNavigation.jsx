@@ -18,6 +18,7 @@ const screenOptions = {
         left: 0,
         elevation: 0,
         height: 70,
+        borderTopColor: COLORS.white 
     }
 
 }
@@ -30,7 +31,7 @@ const BottomTabNavigation = () => {
                 tabBarIcon: ({focused})=> {
                     return <Ionicons name={focused ? "person": "person-outline"}
                     size={24}
-                    color={focused ? COLORS.primary : COLORS.gray2}
+                    color={focused ? COLORS.primary : COLORS.gray}
                     />
                 }
             }}
@@ -41,7 +42,7 @@ const BottomTabNavigation = () => {
                 tabBarIcon: ({focused})=> {
                     return <Ionicons name={"search"}
                     size={24}
-                    color={focused ? COLORS.primary : COLORS.gray2}
+                    color={focused ? COLORS.primary : COLORS.gray}
                     />
                 }
             }}
@@ -52,7 +53,7 @@ const BottomTabNavigation = () => {
                 tabBarIcon: ({focused})=> {
                     return <Ionicons name={focused ? "chatbubbles": "chatbubbles-outline"}
                     size={24}
-                    color={focused ? COLORS.primary : COLORS.gray2}
+                    color={focused ? COLORS.primary : COLORS.gray}
                     />
                 }
             }}

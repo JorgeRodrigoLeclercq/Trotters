@@ -6,6 +6,8 @@ import axios from "axios";
 import Modal from 'react-native-modal';
 import ProfileModal from '../components/ProfileModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Ionicons } from "@expo/vector-icons";
+import { COLORS } from '../resources';
 
 const Search = ({ navigation }) => {
     const [searchText, setSearchText] = useState('');
@@ -43,6 +45,8 @@ const Search = ({ navigation }) => {
     };
 
     const handleItemPress = async (item) => {
+        setSearchText(item); // Update the searchText with the selected item
+        setShowFlatList(false); // Hide the FlatList after selection
         try {
             const userInterestsString = await AsyncStorage.getItem('testingTrotters1info');
             const userInterests = JSON.parse(userInterestsString)?.interests || [];
@@ -87,7 +91,11 @@ const Search = ({ navigation }) => {
                     onChangeText={setSearchText}
                 />
                 <TouchableOpacity style={styles.searchIcon}>
-                    <Text style={styles.searchIconText}>🔍</Text>
+                    <Ionicons name={"search"}
+                        size={24}
+                        color={COLORS.gray}
+                        marginTop={7.5}
+                    />
                 </TouchableOpacity>
             </View>
 
@@ -106,7 +114,7 @@ const Search = ({ navigation }) => {
                 </View>
             )}
 
-            <ScrollView contentContainerStyle={styles.userContainer}>
+            <ScrollView contentContainerStyle={styles.userContainer} showsVerticalScrollIndicator={false} >
                 {users.map(user => (
                     <TouchableOpacity key={user._id} style={styles.userCard} onPress={() => handleUserPress(user)}>
                         <View style={styles.userInfo}>

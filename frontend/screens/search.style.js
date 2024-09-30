@@ -19,14 +19,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         borderRadius: 100,
         paddingHorizontal: 10,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 5,
-        elevation: 5,
+        // shadowColor: '#000',
+        // shadowOffset: { width: 0, height: 2 },
+        // shadowOpacity: 0.1,
+        // shadowRadius: 5,
+        // elevation: 5,
         marginTop: 50,
         marginBottom: 15,
-        zIndex: 2, // Ensure it is above the FlatList
     },
     searchBar: {
         flex: 1,
@@ -41,10 +40,8 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: COLORS.primary,
+        //backgroundColor: COLORS.primary,
         paddingHorizontal: 15,
-        // borderTopRightRadius: 100,
-        // borderBottomRightRadius: 100,
         borderRadius: 500,
         marginRight: -15,
     },
@@ -55,15 +52,17 @@ const styles = StyleSheet.create({
     flatListContainer: {
         width: '90%',
         borderRadius: 10,
-        overflow: 'hidden', // Ensures rounded corners are visible
+        overflow: 'hidden', 
         backgroundColor: 'white',
-        marginTop: 5, // Space between search bar and list
+        //marginTop: 0,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 5,
         elevation: 5,
-        zIndex: 1, // Ensure it appears below the search bar
+        zIndex: 3, 
+        position: 'absolute', // Set position to absolute
+        top: 110, // Adjust top value to position it correctly
     },
     flatList: {
         width: '100%',
@@ -72,7 +71,7 @@ const styles = StyleSheet.create({
     item: {
         padding: 10,
         borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
+        borderBottomColor: COLORS.white,
     },
     userContainer: {
         flexDirection: 'row',
@@ -80,6 +79,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: '2%',
         paddingVertical: 10,
+        zIndex: 1
     },
     userCard: {
         width: '47%',
@@ -92,10 +92,10 @@ const styles = StyleSheet.create({
     },
     userInfo: {
         position: 'absolute',
-        zIndex: 2,
         width: '100%',
         padding: 10,
         bottom: 0,
+        zIndex: 2
     },
     userName: {
         fontSize: 16,

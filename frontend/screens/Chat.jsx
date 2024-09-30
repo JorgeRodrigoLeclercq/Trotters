@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useState, useEffect } from "react";
 import { useSocket } from '../SocketContext'; // Import the useSocket hook
+import { COLORS } from '../resources';
 
 const Chat = ({ route, navigation }) => {
     const { userId, userName } = route.params;
@@ -100,7 +101,7 @@ const Chat = ({ route, navigation }) => {
             <ScrollView style={styles.messagesContainer}>
                 {messages.map((msg) => (
                     <View key={msg._id} style={[styles.message, msg.sender == currentUserId ? styles.userMessage : styles.otherMessage]}>
-                        <Text>{msg.content}</Text>
+                        <Text style={{color: COLORS.white, fontWeight: "10000"}}>{msg.content}</Text>
                     </View>
                 ))}
             </ScrollView>
@@ -112,7 +113,7 @@ const Chat = ({ route, navigation }) => {
                     placeholder="Type a message"
                 />
                 <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
-                    <Text>Send</Text>
+                    <Ionicons name="send" size={20} color={COLORS.gray}/>
                 </TouchableOpacity>
             </View>
         </KeyboardAvoidingView>

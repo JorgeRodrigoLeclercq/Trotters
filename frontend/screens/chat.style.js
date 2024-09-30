@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       alignItems: 'center',
       padding: 10,
-      backgroundColor: '#f0f0f0'
+      backgroundColor: COLORS.white
     },
     profilePic: {
       width: 40,
@@ -20,32 +20,33 @@ const styles = StyleSheet.create({
     },
     messagesContainer: {
       flex: 1,
-      padding: 10
+      padding: 10,
+      backgroundColor: COLORS.white
     },
     message: {
       padding: 10,
-      borderRadius: 10,
+      borderRadius: 20,
       marginBottom: 10,
-      maxWidth: '80%'
+      maxWidth: '80%',
     },
     userMessage: {
       alignSelf: 'flex-end',
-      backgroundColor: '#dcf8c6'
+      backgroundColor: COLORS.primary
     },
     otherMessage: {
       alignSelf: 'flex-start',
-      backgroundColor: '#fff'
+      backgroundColor: COLORS.secondary
     },
     inputContainer: {
       flexDirection: 'row',
       padding: 10,
       alignItems: 'center',
-      backgroundColor: '#f0f0f0'
+      backgroundColor: COLORS.white
     },
     input: {
       flex: 1,
       padding: 10,
-      backgroundColor: '#fff',
+      backgroundColor: COLORS.white,
       borderRadius: 20
     },
     sendButton: {
