@@ -3,20 +3,14 @@ import React from 'react';
 import styles from "./settings.style";
 import { COLORS, SIZES } from "../resources";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
 import Button from '../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
 
 const Settings = ({navigation}) => {
 
     const handleLogout = async () => {
         try {
-            await AsyncStorage.removeItem('testingTrotters1');
-            await AsyncStorage.removeItem('testingTrotters1info')
-            await AsyncStorage.removeItem('testingTrotters1id')
-            
+            await AsyncStorage.removeItem('trottersApp');
             navigation.reset({
             index: 0,
             routes: [{ name: 'SignIn' }],

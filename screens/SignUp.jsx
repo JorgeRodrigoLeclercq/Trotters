@@ -91,7 +91,7 @@ const SignUp = ({route}) => {
         console.log(values);
 
         try {
-            const endpoint = "http://192.168.0.19:3000/api/people/register";
+            const endpoint = "http://192.168.0.20:3000/api/people/register";
             const data = {...values, email};
 
             const response = await axios.post(endpoint, data);

@@ -10,7 +10,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { COLORS } from "../resources";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-
 const Profile = ({navigation}) => {
 
   const [userData, setUserData] = useState(null);
@@ -20,7 +19,7 @@ const Profile = ({navigation}) => {
     const getUserData = async () => {
 
     try {
-      const info = await AsyncStorage.getItem('testingTrotters1info');
+      const info = await AsyncStorage.getItem('trottersApp');
         const parsedInfo = JSON.parse(info);
         setUserData(parsedInfo);
         setLoading(false);
@@ -105,6 +104,3 @@ const Profile = ({navigation}) => {
 }
 
 export default Profile;
-
-
-

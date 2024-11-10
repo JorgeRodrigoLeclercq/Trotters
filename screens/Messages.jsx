@@ -22,7 +22,7 @@ const Messages = ({ navigation }) => {
 const fetchData = async () => {
   setIsLoading(true);
   try {
-    const userData = await AsyncStorage.getItem('testingTrotters1info');
+    const userData = await AsyncStorage.getItem('trottersApp');
     const parsedUserData = JSON.parse(userData);
     const userId = parsedUserData._id;
     if (!userId) {
@@ -30,7 +30,7 @@ const fetchData = async () => {
       setIsLoading(false);
       return;
     }
-    const response = await axios.get('http://192.168.0.19:3000/api/chat/getConversations', {
+    const response = await axios.get('http://192.168.0.20:3000/api/chat/getConversations', {
       params: { userId }
     });
     setData(response.data);
@@ -106,5 +106,3 @@ const handleSearch = (query) => {
 };
 
 export default Messages;
-
-

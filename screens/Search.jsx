@@ -8,7 +8,6 @@ import ProfileModal from '../components/ProfileModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { COLORS } from '../resources';
 //import Ionicons from 'react-native-vector-icons/Ionicons';
-
 //import { COLORS } from '../resources';
 
 const Search = ({ navigation }) => {
@@ -50,10 +49,10 @@ const Search = ({ navigation }) => {
         setSearchText(item); // Update the searchText with the selected item
         setShowFlatList(false); // Hide the FlatList after selection
         try {
-            const userInterestsString = await AsyncStorage.getItem('testingTrotters1info');
+            const userInterestsString = await AsyncStorage.getItem('trottersApp');
             const userInterests = JSON.parse(userInterestsString)?.interests || [];
 
-            const response = await axios.get(`http://192.168.0.19:3000/api/people/${item}`);
+            const response = await axios.get(`http://192.168.0.20:3000/api/people/${item}`);
             const usersData = response.data;
 
             const sortedUsers = usersData.sort((a, b) => {
@@ -145,17 +144,3 @@ const Search = ({ navigation }) => {
 };
 
 export default Search;
-
-// import { View, Text } from 'react-native';
-// const Search = () => {
-
-//     return(
-//         <View>
-//             <Text>
-//                 Hello
-//             </Text>
-//         </View>
-//     )
-// }
-
-// export default Search;
