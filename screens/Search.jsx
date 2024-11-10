@@ -6,9 +6,10 @@ import axios from "axios";
 import { Modal } from 'react-native';
 import ProfileModal from '../components/ProfileModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
 import { COLORS } from '../resources';
+//import Ionicons from 'react-native-vector-icons/Ionicons';
+
+//import { COLORS } from '../resources';
 
 const Search = ({ navigation }) => {
     const [searchText, setSearchText] = useState('');
@@ -21,7 +22,7 @@ const Search = ({ navigation }) => {
     useEffect(() => {
         const allLocations = [];
         const countries = Object.keys(locations);
-
+        console.log(isModalVisible);
         countries.forEach(country => {
             allLocations.push(country); 
             locations[country].forEach(city => {
@@ -92,11 +93,11 @@ const Search = ({ navigation }) => {
                     onChangeText={setSearchText}
                 />
                 <TouchableOpacity style={styles.searchIcon}>
-                    <Ionicons name={"search"}
+                    {/* <Ionicons name={"search"}
                         size={24}
                         color={COLORS.gray}
                         marginTop={7.5}
-                    />
+                    /> */}
                 </TouchableOpacity>
             </View>
 
@@ -128,9 +129,13 @@ const Search = ({ navigation }) => {
             </ScrollView>
             
             <Modal
-                isVisible={isModalVisible}
+                visible={isModalVisible}
+                backdropColor={COLORS.gray}
                 onBackdropPress={closeModal}
                 style={styles.modal}
+                // transparent={true}
+                // animationType="slide"
+                // onRequestClose={closeModal}
             >
                 <ProfileModal user={selectedUser} onClose={closeModal} navigation={navigation} />
             </Modal>
@@ -141,4 +146,16 @@ const Search = ({ navigation }) => {
 
 export default Search;
 
+// import { View, Text } from 'react-native';
+// const Search = () => {
 
+//     return(
+//         <View>
+//             <Text>
+//                 Hello
+//             </Text>
+//         </View>
+//     )
+// }
+
+// export default Search;
