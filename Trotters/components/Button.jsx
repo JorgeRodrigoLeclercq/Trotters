@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import React from 'react';
 import { COLORS } from '../resources/index';
 
-const Button = ({title, onPress, isValid, loader}) => {
+const Button = ({title, onPress, isValid, loader, color, colorText}) => {
     return(
-        <TouchableOpacity onPress={onPress} style={styles.btnStyle(isValid===false?COLORS.gray:COLORS.primary)}>
-            {loader === false? (<Text style={styles.btnTxt}>{title}</Text>
+        <TouchableOpacity onPress={onPress} style={styles.btnStyle(isValid===false?COLORS.gray:color)}>
+            {loader === false? (<Text style={styles.btnTxt(colorText)}>{title}</Text>
         ):(
         <ActivityIndicator/>)}
         </TouchableOpacity>
@@ -15,19 +15,19 @@ const Button = ({title, onPress, isValid, loader}) => {
 export default Button
 
 const styles = StyleSheet.create({
-    btnTxt: {
+    btnTxt: (colorText)=>({
         fontFamily: "Poppins-Bold",
-        color: COLORS.white,
+        color: colorText,
         fontSize: 18
-    },
+    }),
     btnStyle: (backgroundColor)=>( {
         height: 50,
-        width: '100%',
+        width: '80%',
         marginVertical: 20,
         backgroundColor: backgroundColor,
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 12
+        borderRadius: 25
     }
 )
 })

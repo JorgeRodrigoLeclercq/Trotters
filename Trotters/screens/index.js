@@ -4,7 +4,10 @@ import Conversations from './Conversations';
 import Chat from './Chat';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
-import Settings from './Settings'
+import SignUpLocation from './SignUpLocation';
+import SignUpInterests from './SignUpInterests';
+import Settings from './Settings';
+
 export {
     Profile,
     Search,
@@ -12,5 +15,7 @@ export {
     Chat,
     SignIn,
     SignUp,
+    SignUpLocation,
+    SignUpInterests,
     Settings
 }

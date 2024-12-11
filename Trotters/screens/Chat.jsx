@@ -1,6 +1,5 @@
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
 import styles from "./chat.style";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -29,7 +28,7 @@ const Chat = ({ route, navigation }) => {
         // Fetch messages from the backend
         const fetchMessages = async () => {
             try {
-                const response = await axios.get('http://192.168.0.20:3000/api/chat/getMessages', {
+                const response = await axios.get('http://192.168.0.22:3000/api/chat/getMessages', {
                     params: { userId, currentUserId }
                 });
                 setMessages(response.data);
@@ -71,7 +70,7 @@ const Chat = ({ route, navigation }) => {
 
             try {
                 // Post the message to the backend using axios
-                await axios.post('http://192.168.0.20:3000/api/chat/sendMessage', {
+                await axios.post('http://192.168.0.22:3000/api/chat/sendMessage', {
                     content: inputText,
                     sender: currentUserId,
                     receiver: userId

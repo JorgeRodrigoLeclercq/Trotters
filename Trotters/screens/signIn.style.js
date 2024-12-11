@@ -1,90 +1,49 @@
-import { StyleSheet } from "react-native"
-import { COLORS, SHADOWS, SIZES } from "../resources"
-import { ErrorMessage } from "formik";
+import { StyleSheet } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import { COLORS, SIZES } from '../resources';
 
 const styles = StyleSheet.create({
-    // usernameContainer: {
-    //     height: "5%",
-    //     width: "65%",
-    //     backgroundColor: COLORS.white,
-    //     borderRadius: 100,
-    //     margin: 10
-    // },
+    container: {
+        flex: 1,
+        justifyContent: 'space-between',
+        backgroundColor: 'transparent', // Required for gradient
+    },
+    gradientBackground: {
+        ...StyleSheet.absoluteFillObject, // Fills the container
+    },
+    logoContainer: {
+        flex: 2,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    logo: {
+        fontFamily: 'Poppins-Bold',
+        fontSize: SIZES.xxLarge,
+        color: COLORS.white
+    },
+    motto: {
+        fontFamily: 'Poppins-SemiBold',
+        fontSize: SIZES.large,
+        color: COLORS.white
+    },
+    buttonContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+});
 
-    // passwordContainer: {
-    //     height: "5%",
-    //     width: "65%",
-    //     backgroundColor: COLORS.white,
-    //     borderRadius: 100,
-    //     marginTop: 10
-    // },
-
-    // sigInContainer:{
-    //     height: "5%",
-    //     width: "30%",
-    //     backgroundColor: COLORS.primary,
-    //     borderRadius: 100,
-    //     justifyContent: "center",
-    //     alignItems: "center",
-    //     ...SHADOWS.medium,
-    //     marginTop: 10
-    // },
-    
-    // underline: {
-    //     textDecorationLine: "underline",
-    //     color: "#3366CC"
-    // }
-
-    cover: {
-        height: SIZES.height/2.4,
-        width: SIZES.width-60,
-        resizeMode: "contain",
-        marginBottom: SIZES.xxLarge
-    },
-
-    title: {
-        fontFamily: "Poppins-Bold",
-        fontSize: SIZES.xLarge,
-        color: COLORS.primary,
-        alignItems: "center",
-        marginBottom: SIZES.xxLarge
-    },
-    wrapper: {
-        marginBottom: 20,
-        marginHorizontal: 20
-    },
-    label: {
-        fontFamily: "Poppins-Regular",
-        fontSize: SIZES.xSmall,
-        marginBottom: 5,
-        marginEnd: 5,
-        textAlign: "right"
-    },
-    inputWrapper: (borderColor) => ({
-        borderColor: borderColor,
-        backgroundColor: COLORS.lightWhite,
-        borderWidth: 1,
-        height: 55,
-        borderRadius: 12,
-        flexDirection: 'row',
-        paddingHorizontal: 15,
-        alignItems: "center"
-    }),
-    iconStyle: {
-        marginRight: 10
-    },
-    errorMessage: {
-        color: COLORS.red,
-        fontFamily: "Poppins-Regular",
-        marginTop: 5,
-        marginLeft: 5,
-        fontSize: SIZES.xSmall
-    },
-    registration: {
-        marginTop:20,
-        textAlign: "center"
-    }
-
-})
+// Export GradientBackground component as a named export
+export const GradientBackground = ({ children }) => (
+    <LinearGradient
+        colors={[COLORS.tertiary, COLORS.primary]}
+        start={{ x: 1, y: 0 }}
+        end={{ x: 0, y: 1 }}
+        locations={[0.1, 1]}
+        style={styles.gradientBackground}
+    >
+        {children}
+    </LinearGradient>
+);
 
 export default styles;

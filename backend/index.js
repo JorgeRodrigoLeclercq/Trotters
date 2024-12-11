@@ -18,7 +18,7 @@ mongoose
 const userRouter = require("./routers/user");
 app.use("/api/people", userRouter);
 
-const messagingRouter = require("./routers/chat");
+const messagingRouter = require("./routers/messaging");
 app.use("/api/messaging", messagingRouter);
 
 // Middleware

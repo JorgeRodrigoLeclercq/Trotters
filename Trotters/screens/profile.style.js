@@ -99,7 +99,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     margin: 1,
     justifyContent: 'center',
-    alignItems: 'center'
   },
 
   circle: {

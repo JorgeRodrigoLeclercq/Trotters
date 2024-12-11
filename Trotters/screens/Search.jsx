@@ -52,7 +52,7 @@ const Search = ({ navigation }) => {
             const userInterestsString = await AsyncStorage.getItem('trottersApp');
             const userInterests = JSON.parse(userInterestsString)?.interests || [];
 
-            const response = await axios.get(`http://192.168.0.20:3000/api/people/${item}`);
+            const response = await axios.get(`http://192.168.0.22:3000/api/people/${item}`);
             const usersData = response.data;
 
             const sortedUsers = usersData.sort((a, b) => {
@@ -123,7 +123,7 @@ const Search = ({ navigation }) => {
                             <Text style={styles.userAge}>{user.age} years old</Text>
                         </View>
                         <Image style={styles.profileImage} 
-                        source={{ uri: user.profileImage || require('../resources/pfp.png') }}/>
+                        source={{ uri: user.profileImage || require('../resources/neutral-avatar.jpg') }}/>
                     </TouchableOpacity>
                 ))}
             </ScrollView>

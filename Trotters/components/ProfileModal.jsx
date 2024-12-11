@@ -11,7 +11,7 @@ const ProfileModal = ({ user, onClose, navigation }) => {
         <View style={[styles.modalContainer, { height: windowHeight }]}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.top}>
-                    <Image style={styles.pfp} source={require('../resources/pfp.png')} />
+                    <Image style={styles.pfp} source={require('../resources/neutral-avatar.jpg')} />
                     <Text style={styles.name}>{user.name}</Text>
                     <Text style={styles.nationality}>{user.nationality}</Text>
                 </View>

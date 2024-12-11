@@ -1,12 +1,9 @@
 import { Text, View, Image, ScrollView, Alert, ActivityIndicator, TouchableOpacity } from "react-native";
 import React from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from "./profile.style";
-import { Dimensions } from 'react-native';
 import { StatusBar } from "react-native";
-import Button from '../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { COLORS } from "../resources";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -66,10 +63,9 @@ const Profile = ({navigation}) => {
 
       <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
         <View style={styles.user}>
-          {/* Use the profileImage stored in AsyncStorage */}
           <Image
             style={styles.pfp}
-            source={{ uri: userData.profileImage || require('../resources/pfp.png') }} // Fallback to default image if not available
+            source={{ uri: userData.profileImage }} 
           />
           <Text style={styles.name}>{userData.name}</Text>
           <Text style={styles.nationality}>{userData.nationality}</Text>
