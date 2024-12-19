@@ -3,11 +3,10 @@ const mongoose = require('mongoose');
 const UserSchema = new mongoose.Schema({
     name: String,
     age: String,
-    nationality: String,
+    location: String,
     interests: [String],
-    description: String ,
-    profilePicture: Buffer , 
-    profilePictureType: String ,
+    description: String,
+    profileImage: String, 
     email: String,
 }, { timestamps: true });
 

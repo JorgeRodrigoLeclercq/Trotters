@@ -1,41 +1,46 @@
-import { Text, View, Image, ScrollView, Alert, ActivityIndicator, TouchableOpacity, StatusBar } from "react-native";
-import React from 'react';
+import { View, Text, TouchableOpacity, Alert } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from "./settings.style";
-import { COLORS, SIZES } from "../resources";
+import { COLORS } from "../resources/constants";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Button from '../components/Button';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Settings = ({navigation}) => {
-
-    const handleLogout = async () => {
+    const signOut = async () => {
         try {
             await AsyncStorage.removeItem('trottersApp');
             navigation.reset({
-            index: 0,
-            routes: [{ name: 'SignIn' }],
+                index: 0,
+                routes: [{ name: 'SignIn' }],
             });
         } 
-
         catch (error) {
-            console.log(error);
-            Alert.alert("Error", "Something went wrong while logging out.");
+            Alert.alert("Error", error);
         }
     };
 
     return(
         <View style={styles.container}>
-            <View style={{height: StatusBar.currentHeight, backgroundColor: COLORS.white}}></View>
             <View style={styles.header}>
-                <Ionicons
-                    name="arrow-back"
-                    size={26}/>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("BottomNavigation")}
+                    style={styles.backWrapper}>
+                    <Ionicons
+                        name="caret-back"
+                        size={30}
+                    />
+                </TouchableOpacity>
                 <Text style={styles.title}> Settings </Text>
             </View>
-            <View>
-            <TouchableOpacity style={styles.btnStyle}onPress={handleLogout}>
-                <Text style={styles.btnTxt}>LOG OUT</Text>
-            </TouchableOpacity>
+            <View style={styles.button}>
+                <Button
+                    title="Sign Out" 
+                    onPress={signOut}
+                    isValid={true}
+                    isLoading={false}
+                    color={COLORS.primary} 
+                    textColor={COLORS.white}
+                />
             </View>
         </View>
     )

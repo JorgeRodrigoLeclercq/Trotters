@@ -1,119 +1,86 @@
 import { StyleSheet } from "react-native";
-import {COLORS, SIZES, SHADOWS} from "../resources/index";
+import {COLORS, SIZES } from "../resources/index";
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: COLORS.white,
     flex: 1
   },
-
-  top: {
-    height: "7.5%",
-    backgroundColor: COLORS.white,
+  header: {
+    height: "10%",
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: "row",
+    flexDirection: "row"
   },
-
-  logo: {
+  logo: {    
     fontFamily: 'Poppins-Bold',
     fontSize: 30,
-    color: COLORS.primary,
-    textAlign: 'center',
-    flex: 1
+    color: COLORS.primary
   },
-  
+  settingsWrapper: {
+    position: "absolute", 
+    right: 10, 
+    top: 25
+  },
+  dataContainer: {
+    height: "90%"
+  },
   user: {
-    backgroundColor: COLORS.white,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: 30,
     marginBottom: 20,
-    paddingVertical: 30
   },
-
-  scrollContainer: {
-    flexGrow: 1,  
-    marginBottom: 70,  
-  },
-
-  pfp: {
-    height: 150,
+  profileImage: {
     width: 150,
-    borderRadius: 100,
-    borderWidth: 5,
+    height: 150,
+    borderRadius: 100
   },
-
   name: {
     fontFamily: 'Poppins-Bold',
     fontSize: SIZES.medium
   },
-
-  nationality: {
+  location: {
     fontFamily: 'Poppins-SemiBold',
     fontSize: SIZES.mediumish
   },
-
   attribute: {
-    backgroundColor: COLORS.white,
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexBasis: 'auto',
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 10,
-    marginRight: 10,
-    padding: 5,
-    paddingLeft: -5
+    margin: 15
   },
-
   tag:{
     fontFamily: 'Poppins-SemiBold',
-    fontSize: SIZES.small,
-    alignSelf: 'flex-start',
+    fontSize: SIZES.mediumish,
     paddingLeft: '5%'
   },
-
-  info: {
+  data: {
     fontFamily: 'Poppins-Regular',
     fontSize: SIZES.medium,
-    alignSelf: 'flex-start',
-    paddingLeft: '5%'
+    paddingHorizontal: '5%'
   },
-
   interests: {
     flexDirection: 'row',
-    flexWrap: 'wrap',  
-    justifyContent: 'flex-start',  
-    alignSelf: 'flex-start',  
+    flexWrap: 'wrap',    
     paddingLeft: '5%'  
   },
-
   interestContainer: {
-    flexDirection: 'row',  
-    alignItems: 'center',  
-    borderWidth: 2,  
-    borderRadius: 15,  
-    paddingHorizontal: 10,
-    margin: 1,
     justifyContent: 'center',
+    alignItems: 'center',  
+    flexDirection: 'row',  
+    paddingHorizontal: 10,
+    borderRadius: 25,  
+    borderWidth: 2,  
+    margin: 1
   },
-
   circle: {
     width: 10,  
     height: 10,
-    borderRadius: 5,  
-    marginRight: 8
+    borderRadius: 25,  
+    marginRight: 5
   },
-
   interest: {
     fontFamily: 'Poppins-Regular',
     fontSize: SIZES.medium,
-    alignSelf: 'flex-start'
+    paddingTop: 4
   }
-
 })
 
 export default styles;

@@ -5,13 +5,13 @@ import { COLORS } from "../resources";
 import Button from "../components/Button";
 import locations from '../resources/locations.json';
 
-const SignUpLocation = ({navigation, route}) => {
-    const signUpData = route.params;
-
+const SignUpLocation = ({ route, navigation }) => {
+    const [signUpData, setSignUpData] = useState(route.params.data);
     const [searchText, setSearchText] = useState('');
     const [showFlatList, setShowFlatList] = useState(false);
     const [filteredLocations, setFilteredLocations] = useState([]);
     const [endOfSearch, setEndOfSearch] = useState(false);
+    const [isValid, setIsValid] = useState(false);
 
     useEffect(() => {
         const allLocations = [];
@@ -23,23 +23,29 @@ const SignUpLocation = ({navigation, route}) => {
             });
         });
 
-        if (searchText && !endOfSearch) {
+        if (searchText && endOfSearch) {
+            setEndOfSearch(false);
+            setShowFlatList(false);
+            setIsValid(true);
+            
+            setSignUpData(prevData => ({
+                ...prevData,
+                location: searchText
+            }));
+
+        } else if (searchText) {
             const results = allLocations.filter(location =>
                 location.toLowerCase().includes(searchText.toLowerCase())
-            ).slice(0, 10);
+            ).slice(0, 15);
             setFilteredLocations(results);
             setShowFlatList(true);
-        } else {
-            setEndOfSearch(false);
-            setFilteredLocations([]);
-            setShowFlatList(false);
+            setIsValid(false);
         }
     }, [searchText]);
 
-    const handleItemPress = async (item) => {
-        setEndOfSearch(true)
+    const handleLocationPress = async (item) => {
+        setEndOfSearch(true);
         setSearchText(item);
-        setShowFlatList(false); 
     };
 
     return(
@@ -61,7 +67,7 @@ const SignUpLocation = ({navigation, route}) => {
                             data={filteredLocations}
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={({ item }) => (
-                                <TouchableOpacity style={styles.item} onPress={() => handleItemPress(item)}>
+                                <TouchableOpacity style={styles.item} onPress={() => handleLocationPress(item)}>
                                     <Text>{item}</Text>
                                 </TouchableOpacity>
                             )}
@@ -71,7 +77,18 @@ const SignUpLocation = ({navigation, route}) => {
             </View>
 
             <View style={styles.button}>
-                <Button onPress = {()=>{navigation.navigate("SignUpInterests"), {signUpData: signUpData, location: searchText}}} loader = {false} title="Continue" color={COLORS.primary} colorText={COLORS.white}/>
+                <Button 
+                    title="Continue" 
+                    onPress={() => {
+                        navigation.navigate("SignUpInterests", {
+                            data: signUpData
+                        });
+                    }}
+                    isValid={isValid}
+                    isLoading={false}
+                    color={COLORS.primary} 
+                    textColor={COLORS.white}
+                />
             </View>
         </View>
     );

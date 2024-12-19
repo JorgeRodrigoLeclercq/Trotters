@@ -1,10 +1,8 @@
-import { Text, View, Image, ScrollView, Alert, ActivityIndicator, TouchableOpacity } from "react-native";
-import React from 'react';
-import styles from "./profile.style";
-import { StatusBar } from "react-native";
+import { Text, View, Image, ActivityIndicator, TouchableOpacity, Alert } from "react-native";
+import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect, useState } from 'react';
-import { COLORS } from "../resources";
+import styles from "./profile.style";
+import { COLORS, SIZES } from "../resources";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Profile = ({navigation}) => {
@@ -15,13 +13,11 @@ const Profile = ({navigation}) => {
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const info = await AsyncStorage.getItem('trottersApp');
-        const parsedInfo = JSON.parse(info);
-        setUserData(parsedInfo);
+        const data = await AsyncStorage.getItem('trottersApp');
+        const parsedData = JSON.parse(data);
+        setUserData(parsedData);
         setLoading(false);
-        console.log(parsedInfo);  // Log parsed user data
       } catch (error) {
-        console.error(error);
         setLoading(false);
         Alert.alert("Error", "Something went wrong while fetching user data.");
       }
@@ -40,40 +36,39 @@ const Profile = ({navigation}) => {
   if (loading) {
     return (
       <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size={SIZES.large} color="#6200EE"/>
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <View style={{ height: StatusBar.currentHeight, backgroundColor: COLORS.white }}></View>
-
-      <View style={styles.top}>
+      <View style={styles.header}>
         <Text style={styles.logo}>TROTTERS</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+        <TouchableOpacity 
+          onPress={() => navigation.navigate("Settings")}
+          style={styles.settingsWrapper}>
           <Ionicons
-            name="settings-outline"
-            size={26}
+            name="settings-sharp"
+            size={30}
             color={COLORS.gray}
-            style={{ alignSelf: 'flex-end' }}
           />
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+      <View style={styles.dataContainer}>
         <View style={styles.user}>
           <Image
-            style={styles.pfp}
             source={{ uri: userData.profileImage }} 
+            style={styles.profileImage}
           />
           <Text style={styles.name}>{userData.name}</Text>
-          <Text style={styles.nationality}>{userData.nationality}</Text>
+          <Text style={styles.location}>{userData.location}</Text>
         </View>
 
         <View style={styles.attribute}>
           <Text style={styles.tag}>Age</Text>
-          <Text style={styles.info}>{userData.age}</Text>
+          <Text style={styles.data}>{userData.age}</Text>
         </View>
 
         <View style={styles.attribute}>
@@ -93,9 +88,9 @@ const Profile = ({navigation}) => {
 
         <View style={styles.attribute}>
           <Text style={styles.tag}>About Me</Text>
-          <Text style={styles.info}>Lorem ipsum dolor sit amet, consectetuer adipiscing elit...</Text>
+          <Text style={styles.data}>{userData.description}</Text>
         </View>
-      </ScrollView>
+      </View>
     </View>
   );
 };

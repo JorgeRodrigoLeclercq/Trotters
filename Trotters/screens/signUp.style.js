@@ -1,13 +1,22 @@
 import { StyleSheet } from "react-native"
-import { COLORS, SHADOWS, SIZES } from "../resources"
-import { ErrorMessage } from "formik";
+import { COLORS } from "../resources"
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: COLORS.white
+    },
+    scrollViewWrapper:{
+        height: '90%'
+    },
+    valuesScroll: {
+        flexGrow: 1
+    },
     imageWrapper: {
         alignSelf: 'center',
         marginTop: 60,
         marginBottom: 65,
-        borderRadius: 100, 
+        borderRadius: 25, 
         padding: 5, 
     },
     profileImage: {
@@ -16,26 +25,19 @@ const styles = StyleSheet.create({
         borderRadius: 60, 
     },
     wrapper: {
-        marginBottom: 65,
-        marginHorizontal: 20
+        marginBottom: '15%',
+        marginHorizontal: '5%'
     },
     inputWrapper: (height, borderColor) => ({
-        borderColor: borderColor,
-        backgroundColor: COLORS.lightWhite,
-        borderWidth: 1,
         height: height,
-        borderRadius: 12,
         flexDirection: 'row',
-        paddingHorizontal: 15
+        borderColor: borderColor,
+        borderWidth: 2,
+        borderRadius: 25,
+        paddingHorizontal: '5%'
     }),
-    errorMessage: {
-        color: COLORS.red,
-        fontFamily: "Poppins-Regular",
-        marginTop: 5,
-        marginLeft: 5,
-        fontSize: SIZES.xSmall
-    },
     button: {
+        height: '10%',
         justifyContent: "center",
         alignItems: "center"
     }

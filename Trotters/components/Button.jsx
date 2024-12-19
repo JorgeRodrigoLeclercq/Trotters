@@ -1,33 +1,32 @@
 import { StyleSheet, Text, TouchableOpacity, ActivityIndicator } from "react-native";
-import React from 'react';
-import { COLORS } from '../resources/index';
+import { COLORS, SIZES } from '../resources/index';
 
-const Button = ({title, onPress, isValid, loader, color, colorText}) => {
+const Button = ({title, onPress, isValid, isLoading, color, textColor}) => {
     return(
-        <TouchableOpacity onPress={onPress} style={styles.btnStyle(isValid===false?COLORS.gray:color)}>
-            {loader === false? (<Text style={styles.btnTxt(colorText)}>{title}</Text>
+        <TouchableOpacity 
+            style={styles.buttonStyle(isValid === false ? COLORS.gray : color)}
+            onPress={onPress}> 
+            {isLoading === false ? (<Text style={styles.buttonText(textColor)}>{title}</Text>
         ):(
         <ActivityIndicator/>)}
         </TouchableOpacity>
     )
 }
 
-export default Button
+export default Button;
 
 const styles = StyleSheet.create({
-    btnTxt: (colorText)=>({
-        fontFamily: "Poppins-Bold",
-        color: colorText,
-        fontSize: 18
-    }),
-    btnStyle: (backgroundColor)=>( {
-        height: 50,
+    buttonStyle: (backgroundColor)=>({
         width: '80%',
-        marginVertical: 20,
-        backgroundColor: backgroundColor,
+        height: 50,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: backgroundColor,
         borderRadius: 25
-    }
-)
+    }),
+    buttonText: (textColor)=>({
+        fontFamily: "Poppins-Bold",
+        color: textColor,
+        fontSize: 18
+    })
 })

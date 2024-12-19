@@ -4,21 +4,20 @@ import {COLORS, SIZES, SHADOWS} from "../resources/index";
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.white,
-        alignItems: 'center',
         justifyContent: 'flex-start',
+        alignItems: 'center'
     },
     searchContainer: {
         width: '100%',
-        height: '80%',
+        height: '90%',
         alignItems: 'center'
     },
     searchBarContainer: {
         width: '90%',
-        backgroundColor: COLORS.white,
         alignItems: 'center',
         flexDirection: 'row',
-        marginTop: '10%'
+        marginTop: '10%',
+        backgroundColor: COLORS.white
     },
     searchBar: {
         flex: 1,
@@ -39,13 +38,13 @@ const styles = StyleSheet.create({
     item: {
         padding: '3%',
         borderBottomWidth: 1,
-        borderBottomColor: COLORS.white,
+        borderBottomColor: COLORS.white
     },
     button: {
         width: '100%',
-        height: '20%',
+        height: '10%',
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "center"
     }
 });
 

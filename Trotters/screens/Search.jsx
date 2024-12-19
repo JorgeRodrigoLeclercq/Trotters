@@ -1,27 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, FlatList, TouchableOpacity, Image, ScrollView, SafeAreaView, Alert } from 'react-native';
-import locations from '../resources/locations.json';
-import styles from './search.style';
+import { View, Text, TextInput, FlatList, TouchableOpacity, Image, ScrollView, Modal, Alert } from 'react-native';
+import { useState, useEffect } from 'react';
 import axios from "axios";
-import { Modal } from 'react-native';
-import ProfileModal from '../components/ProfileModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { COLORS } from '../resources';
-//import Ionicons from 'react-native-vector-icons/Ionicons';
-//import { COLORS } from '../resources';
+import styles from './search.style';
+import ProfileModal from '../components/ProfileModal';
+import locations from '../resources/locations.json';
 
 const Search = ({ navigation }) => {
     const [searchText, setSearchText] = useState('');
     const [filteredLocations, setFilteredLocations] = useState([]);
     const [users, setUsers] = useState([]);
     const [showFlatList, setShowFlatList] = useState(true);
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
 
     useEffect(() => {
         const allLocations = [];
         const countries = Object.keys(locations);
-        console.log(isModalVisible);
         countries.forEach(country => {
             allLocations.push(country); 
             locations[country].forEach(city => {
@@ -45,14 +40,15 @@ const Search = ({ navigation }) => {
         return userInterests.filter(interest => otherUserInterests.includes(interest)).length;
     };
 
-    const handleItemPress = async (item) => {
-        setSearchText(item); // Update the searchText with the selected item
-        setShowFlatList(false); // Hide the FlatList after selection
+    const handleLocationPress = async (item) => {
+        setSearchText(item); 
+        setShowFlatList(false); 
+
         try {
             const userInterestsString = await AsyncStorage.getItem('trottersApp');
             const userInterests = JSON.parse(userInterestsString)?.interests || [];
 
-            const response = await axios.get(`http://192.168.0.22:3000/api/people/${item}`);
+            const response = await axios.get(`http://192.168.0.22:3000/api/people/search/${item}`);
             const usersData = response.data;
 
             const sortedUsers = usersData.sort((a, b) => {
@@ -63,84 +59,81 @@ const Search = ({ navigation }) => {
 
             setUsers(sortedUsers);
             setShowFlatList(false);
-            console.log(sortedUsers);
 
         } catch (error) {
             Alert.alert("Error", "Failed to fetch users from the location.");
-            console.error(error);
         }
     };
 
     const handleUserPress = (user) => {
         setSelectedUser(user);
-        setIsModalVisible(true);
+        setModalVisible(true);
     };
 
     const closeModal = () => {
-        setIsModalVisible(false);
+        setModalVisible(false);
         setSelectedUser(null);
     };
 
     return (
-        <SafeAreaView style={styles.safeContainer}>
         <View style={styles.container}>
             <View style={styles.searchBarContainer}>
                 <TextInput
-                    style={styles.searchBar}
                     placeholder="Where are you going?"
                     value={searchText}
                     onChangeText={setSearchText}
+                    style={styles.searchBar}
                 />
-                <TouchableOpacity style={styles.searchIcon}>
-                    {/* <Ionicons name={"search"}
-                        size={24}
-                        color={COLORS.gray}
-                        marginTop={7.5}
-                    /> */}
-                </TouchableOpacity>
             </View>
 
             {showFlatList && (
                 <View style={styles.flatListContainer}>
                     <FlatList
-                        style={styles.flatList}
                         data={filteredLocations}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item }) => (
-                            <TouchableOpacity style={styles.item} onPress={() => handleItemPress(item)}>
+                            <TouchableOpacity style={styles.item} onPress={() => handleLocationPress(item)}>
                                 <Text>{item}</Text>
                             </TouchableOpacity>
                         )}
+                        style={styles.flatList}
                     />
                 </View>
             )}
 
-            <ScrollView contentContainerStyle={styles.userContainer} showsVerticalScrollIndicator={false} >
-                {users.map(user => (console.log(user.profileImage),
-                    <TouchableOpacity key={user._id} style={styles.userCard} onPress={() => handleUserPress(user)}>
-                        <View style={styles.userInfo}>
+            <ScrollView contentContainerStyle={styles.usersContainer} showsVerticalScrollIndicator={false} >
+                {users.map(user => (
+                    <TouchableOpacity 
+                        key={user.email} 
+                        onPress={() => handleUserPress(user)}
+                        style={styles.userCard}
+                    >
+                        <View style={styles.userData}>
                             <Text style={styles.userName}>{user.name}</Text>
                             <Text style={styles.userAge}>{user.age} years old</Text>
                         </View>
-                        <Image style={styles.profileImage} 
-                        source={{ uri: user.profileImage || require('../resources/neutral-avatar.jpg') }}/>
+                        
+                        <Image 
+                            source={{ uri: user.profileImage }}
+                            style={styles.profileImage}
+                        />
                     </TouchableOpacity>
                 ))}
             </ScrollView>
-            
-            <Modal
-                visible={isModalVisible}
-                backdropColor={COLORS.gray}
-                onBackdropPress={closeModal}
-                style={styles.modal}
-                // transparent={true}
-                // animationType="slide"
-                // onRequestClose={closeModal}
-            >
-                <ProfileModal user={selectedUser} onClose={closeModal} navigation={navigation} />
+
+            <Modal  
+                visible={modalVisible}
+                transparent={true}
+                animationType="fade"
+                onRequestClose={closeModal}>
+                <View style={styles.modalWrapper}>
+                    <ProfileModal
+                        user={selectedUser}
+                        onClose={closeModal}
+                    />
+                </View>
             </Modal>
         </View>
-    </SafeAreaView>
     );
 };
 

@@ -1,38 +1,35 @@
-import React from 'react';
-import { Text, View, StyleSheet, Image } from 'react-native';
-import {
-    GoogleSignin,
-    GoogleSigninButton,
-    statusCodes,
-} from '@react-native-google-signin/google-signin';
+import { Text, View, Image, Alert } from 'react-native';
+import { useState } from 'react';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles, { GradientBackground } from './signIn.style';
+import { COLORS, SIZES } from '../resources';
 import Button from '../components/Button';
-import { COLORS } from '../resources';
 
 GoogleSignin.configure({
     webClientId: '999940019688-2q5ci841jkvgb9us36visi6qk3i72fhg.apps.googleusercontent.com',
-    scopes: ['https://www.googleapis.com/auth/drive.readonly'],
-    offlineAccess: true,
-    forceCodeForRefreshToken: true,
+    scopes: ['email'],
 });
 
 const SignIn = ({ navigation }) => {
+    const [isLoading, setIsLoading ] = useState(false);
+
     const signIn = async () => {
+        setIsLoading(true);
+
         try {
             await GoogleSignin.hasPlayServices();
+            setIsLoading(false);
             const response = await GoogleSignin.signIn();
+
             if (response) {
-                // Handle successful sign-in
                 const email = response.data.user.email;
                 try {
-                    const apiResponse = await axios.get(`http://192.168.0.22:3000/api/people/signIn/${email}`);
-                    console.log(apiResponse);
+                    const response = await axios.get(`http://192.168.0.22:3000/api/people/signIn/${email}`);
 
-                    if (apiResponse.status === 200) {
-                        console.log(apiResponse.data);
-                        await AsyncStorage.setItem('trottersApp', JSON.stringify(apiResponse.data.userData));
+                    if (response.status === 200) {
+                        await AsyncStorage.setItem('trottersApp', JSON.stringify(response.data.userData));
                         navigation.reset({
                             index: 0,
                             routes: [{ name: 'BottomNavigation' }],
@@ -41,20 +38,19 @@ const SignIn = ({ navigation }) => {
                         navigation.navigate('SignUp', { email: email });
                     }
                 } catch (error) {
-                    console.error('Failed to check user existence', error);
+                    Alert.alert('Error', error.message);
                 }
-            } else {
-                console.log('User canceled sign-in');
-            }
+            } 
+
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-                console.log('Sign in was cancelled');
+                Alert.alert('Sign In Cancelled', 'Sign in was cancelled by the user.');
             } else if (error.code === statusCodes.IN_PROGRESS) {
-                console.log('Sign in is in progress');
+                Alert.alert('Sign In in Progress', 'Sign in is already in progress.');
             } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-                console.log('Play services not available or outdated');
+                Alert.alert('Play Services Unavailable', 'Play services not available or outdated.');
             } else {
-                console.log('Some other error occurred:', error);
+                Alert.alert('Error', error.message);
             }
         }
     };
@@ -70,30 +66,28 @@ const SignIn = ({ navigation }) => {
                         We are Trotters!
                     </Text>
                 </View>
+
                 <View style={styles.buttonContainer}>
                 <Button
-                title={
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    title={
+                        <View style={{ alignItems: "center", flexDirection: "row"}}>
                             <Image
                                 source={require('../resources/google-icon.png')} 
                                 style={{ width: 20, height: 20, marginRight: 10 }}
                             />
-                            <Text style={{ color: COLORS.black, fontSize: 16, fontWeight: 'bold' }}>
+                            <Text style={{ fontFamily: "Poppins-SemiBold", fontSize: SIZES.medium, color: COLORS.black }}>
                                 Sign In with Google
                             </Text>
                         </View>
                     }
                     onPress={signIn}
-                    loader={false}
+                    isLoading={isLoading}
                     color={COLORS.white}
-                    colorText={COLORS.black}
-                    style={{ paddingVertical: 12, paddingHorizontal: 24, borderRadius: 4 }}
                 />
                 </View>
             </View>
         </GradientBackground>
     );
-    
 };
 
 export default SignIn;

@@ -18,7 +18,7 @@ const screenOptions = {
         left: 0,
         elevation: 0,
         height: 70,
-        borderTopColor: COLORS.white 
+        borderTopColor: COLORS.white,
     }
 }
 
@@ -28,7 +28,7 @@ const BottomTabNavigation = () => {
             <Tab.Screen name="Profile" component={Profile}
             options={{
                 tabBarIcon: ({focused})=> {
-                    return <Ionicons name={focused ? "person": "person-outline"}
+                    return <Ionicons name={focused ? "person" : "person-outline"}
                     size={24}
                     color={focused ? COLORS.primary : COLORS.gray}
                     />
@@ -39,7 +39,7 @@ const BottomTabNavigation = () => {
             <Tab.Screen name="Search" component={Search}
             options={{
                 tabBarIcon: ({focused})=> {
-                    return <Ionicons name={"search"}
+                    return <Ionicons name={focused ? "search" : "search-outline"}
                     size={24}
                     color={focused ? COLORS.primary : COLORS.gray}
                     />
@@ -50,7 +50,7 @@ const BottomTabNavigation = () => {
             <Tab.Screen name="Conversations" component={Conversations}
             options={{
                 tabBarIcon: ({focused})=> {
-                    return <Ionicons name={focused ? "chatbubbles": "chatbubbles-outline"}
+                    return <Ionicons name={focused ? "chatbubbles" : "chatbubbles-outline"}
                     size={24}
                     color={focused ? COLORS.primary : COLORS.gray}
                     />

@@ -1,100 +1,165 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, Dimensions, ScrollView } from 'react-native';
-import Button from './Button';
+import { View, Text, Image, TouchableOpacity, StyleSheet  } from 'react-native';
+import { COLORS, SIZES } from '../resources';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const ProfileModal = ({ user, onClose, navigation }) => {
-    if (!user) return null;
-
-    const windowHeight = Dimensions.get('window').height * 0.9; // 90% of the window height
+    const getRandomColor = () => {
+        const colorList = ['#3B00E6', '#E601D6', '#00E5C3', '#DCE600', '#E67200'];
+        const randomIndex = Math.floor(Math.random() * colorList.length);
+    
+        return colorList[randomIndex];
+    };
 
     return (
-        <View style={[styles.modalContainer, { height: windowHeight }]}>
-            <ScrollView contentContainerStyle={styles.scrollContainer}>
-                <View style={styles.top}>
-                    <Image style={styles.pfp} source={require('../resources/neutral-avatar.jpg')} />
+        <View style={styles.container}>
+            <View style={styles.user}>
+                <View style={styles.userData}>
                     <Text style={styles.name}>{user.name}</Text>
-                    <Text style={styles.nationality}>{user.nationality}</Text>
+                    <Text style={styles.location}>{user.location}</Text>
                 </View>
 
-                <View style={styles.blankSpace}></View>
+                <Image 
+                    source={{ uri: user.profileImage }}
+                    style={styles.profileImage}
+                />
+            </View>
 
-                <View style={styles.attribute}>
-                    <Text style={styles.tag}>Age</Text>
-                    <View style={styles.line}></View>
-                    <Text style={styles.info}>{user.age}</Text>
+            <View style={styles.attribute}>
+                <Text style={styles.tag}>Age</Text>
+                <Text style={styles.data}>{user.age}</Text>
+            </View>
+
+            <View style={styles.attribute}>
+                <Text style={styles.tag}>Interests</Text>
+                <View style={styles.interests}>
+                    {user.interests.map((interest, index) => {
+                    const randomColor = getRandomColor();
+                    return (
+                        <View key={index} style={[styles.interestContainer, { borderColor: randomColor }]}>
+                        <View style={[styles.circle, { backgroundColor: randomColor }]} />
+                        <Text style={styles.interest}>{interest}</Text>
+                        </View>
+                    );
+                    })}
                 </View>
+            </View>
 
-                <View style={styles.blankSpace}></View>
+            <View style={styles.attribute}>
+                <Text style={styles.tag}>About Me</Text>
+                <Text style={styles.data}>{user.description}</Text>
+            </View>
 
-                <View style={styles.attribute}>
-                    <Text style={styles.tag}>Interests</Text>
-                    <View style={styles.line}></View>
-                    <Text style={styles.info}>{user.interests}</Text>
-                </View>
-
-                <View style={styles.blankSpace}></View>
-
-                <View style={styles.attribute}>
-                    <Text style={styles.tag}>About Me</Text>
-                    <View style={styles.line}></View>
-                    <Text style={styles.info}>{user.description}</Text>
-                </View>
-
-                <Button title="Close" onPress={() => navigation.navigate("Chat", { userId: user._id, userName: user.name })} />
-            </ScrollView>
+            <View style={styles.buttonsContainer}>
+                <TouchableOpacity
+                    onPress={onClose}
+                    style={styles.closeWrapper}
+                >
+                    <Ionicons
+                        name="close-circle"
+                        size={90}
+                        color={COLORS.tertiary}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("Chat")}
+                    style={styles.chatWrapper}
+                >
+                    <Ionicons
+                        name="chatbubbles"
+                        size={SIZES.xxLarge}
+                        color={COLORS.white}
+                    />
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    modalContainer: {
-        backgroundColor: 'white',
-        borderRadius: 10,
-        padding: 20,
+    container: {
+        width: "90%",
+        height: "90%",
+        borderRadius: 25,
+        backgroundColor: COLORS.white
     },
-    scrollContainer: {
-        flexGrow: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+    user: {
+        height: "40%"
     },
-    top: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    pfp: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
-        marginBottom: 20,
+    userData: {
+        position: "absolute",
+        padding: 10,
+        bottom: 0,
+        zIndex: 2
     },
     name: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 10,
+        fontFamily: "Poppins-Bold",
+        fontSize: SIZES.large,
     },
-    nationality: {
-        fontSize: 18,
-        color: 'gray',
+    location: {
+        fontFamily: "Poppins-SemiBold",
+        fontSize: SIZES.medium
     },
-    blankSpace: {
-        height: 20,
+    profileImage: {
+        width: "100%",
+        height: "100%",
+        borderTopRightRadius: 25,
+        borderTopLeftRadius: 25
     },
     attribute: {
-        width: '100%',
-        paddingHorizontal: 20,
+        margin: 15
     },
     tag: {
-        fontSize: 18,
-        fontWeight: 'bold',
+        fontFamily: "Poppins-SemiBold",
+        fontSize: SIZES.mediumish
     },
-    line: {
-        height: 1,
-        backgroundColor: 'gray',
-        marginVertical: 5,
+    data: {
+        fontFamily: "Poppins-Regular",
+        fontSize: SIZES.medium,
     },
-    info: {
-        fontSize: 16,
+    interests: {
+        flexDirection: 'row',
+        flexWrap: 'wrap'   
     },
+    interestContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',  
+        flexDirection: 'row',  
+        paddingHorizontal: 10,
+        borderRadius: 25,  
+        borderWidth: 2,  
+        margin: 1
+    },
+    circle: {
+        width: 10,  
+        height: 10,
+        borderRadius: 25,  
+        marginRight: 5
+    },
+    interest: {
+        fontFamily: 'Poppins-Regular',
+        fontSize: SIZES.medium,
+        paddingTop: 4
+    },
+    buttonsContainer: {
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "row",
+        position: "absolute",
+        bottom: 0    
+    },
+    closeWrapper: {
+        margin: 15
+    },
+    chatWrapper: {
+        width: 75,
+        height: 75,
+        justifyContent: "center",
+        alignItems: "center",
+        margin: 15,
+        borderRadius: 50,
+        backgroundColor: COLORS.primary
+    }
 });
 
 export default ProfileModal;

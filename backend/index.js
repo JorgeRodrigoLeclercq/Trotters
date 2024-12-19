@@ -14,16 +14,16 @@ mongoose
     .then(() => console.log("MongoDB connected"))
     .catch((err) => console.log(err));
 
+// Middleware
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
+
 // Routers
 const userRouter = require("./routers/user");
 app.use("/api/people", userRouter);
 
 const messagingRouter = require("./routers/messaging");
 app.use("/api/messaging", messagingRouter);
-
-// Middleware
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 // HTTP Server & Socket.IO
 const { createServer } = require("http");

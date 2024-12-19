@@ -6,15 +6,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'space-between',
-        backgroundColor: 'transparent', // Required for gradient
+        backgroundColor: 'transparent' 
     },
     gradientBackground: {
-        ...StyleSheet.absoluteFillObject, // Fills the container
+        ...StyleSheet.absoluteFillObject
     },
     logoContainer: {
         flex: 2,
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center'
     },
     logo: {
         fontFamily: 'Poppins-Bold',
@@ -29,11 +29,10 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
-    },
+        alignItems: 'center'
+    }
 });
 
-// Export GradientBackground component as a named export
 export const GradientBackground = ({ children }) => (
     <LinearGradient
         colors={[COLORS.tertiary, COLORS.primary]}

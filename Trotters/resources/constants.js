@@ -6,16 +6,10 @@ const COLORS = {
   secondary: "#E000F5",
   tertiary: "#16E0DD",
 
-  brown: "#46271C",
   gray: "#CCCCCC",
-
-  offwhite: "#F3F4F8",
   white: "#FFFFFF",
-  lightWhite: "#FAFAFC",
-  black: "#000000",
-  red: "#e81e4d",
-};
-
+  black: "#000000"
+  };
 
 const SIZES = {
   xSmall: 10,
@@ -25,10 +19,7 @@ const SIZES = {
   large: 20,
   xLarge: 24,
   xxLarge: 44,
-  height,
-  width
 };
-
 
 const SHADOWS = {
   small: {

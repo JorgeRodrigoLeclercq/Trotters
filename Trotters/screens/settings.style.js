@@ -1,37 +1,33 @@
 import { StyleSheet } from "react-native";
-import {COLORS, SIZES, SHADOWS} from "../resources/index";
+import {COLORS, SIZES } from "../resources/index";
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: COLORS.white,
-    flex: 1
+    flex: 1,
+    alignItems: "center"
   },
-
   header: {
+    width: "100%",
+    height: "10%",
+    justifyContent: "flex-start",
+    alignItems: "center",
     flexDirection: "row"
   },
-
   title: {
-    color: COLORS.black,
+    fontFamily: 'Poppins-Bold',
     fontSize: SIZES.large,
-    fontFamily: 'Poppins-SemiBold'
+    color: COLORS.black
   },
-
-  btnTxt: {
-    fontFamily: "Poppins-Bold",
-    color: COLORS.white,
-    fontSize: 18
-},
-
-    btnStyle: {
-        height: 50,
-        width: '100%',
-        marginVertical: 20,
-        backgroundColor: COLORS.primary,
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: 12
-    }
+  backWrapper: {
+    paddingLeft: 5,
+    paddingBottom: 5
+  },
+  button: {
+    width: "50%",
+    height: "10%",
+    justifyContent: "center",
+    alignItems: "center"
+  }
 })
 
 export default styles;

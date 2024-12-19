@@ -24,13 +24,13 @@ const fetchData = async () => {
   try {
     const userData = await AsyncStorage.getItem('trottersApp');
     const parsedUserData = JSON.parse(userData);
-    const userId = parsedUserData._id;
+    const userId = parsedUserData.email;
     if (!userId) {
       setError('User ID not found in AsyncStorage');
       setIsLoading(false);
       return;
     }
-    const response = await axios.get('http://192.168.0.22:3000/api/chat/getConversations', {
+    const response = await axios.get('http://192.168.0.22:3000/api/messaging/getConversations', {
       params: { userId }
     });
     setData(response.data);
