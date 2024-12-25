@@ -10,4 +10,6 @@ const UserSchema = new mongoose.Schema({
     email: String,
 }, { timestamps: true });
 
-module.exports = mongoose.model("User", UserSchema, "user");
+const User = mongoose.model("User", UserSchema, "user");
+
+module.exports = { User }

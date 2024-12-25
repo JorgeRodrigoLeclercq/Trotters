@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 
 export const GradientBackground = ({ children }) => (
     <LinearGradient
-        colors={[COLORS.tertiary, COLORS.primary]}
+        colors={[COLORS.secondary, COLORS.primary]}
         start={{ x: 1, y: 0 }}
         end={{ x: 0, y: 1 }}
         locations={[0.1, 1]}

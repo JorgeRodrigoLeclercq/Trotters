@@ -1,88 +1,86 @@
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Image, KeyboardAvoidingView, Platform } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import styles from "./chat.style";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
 import { useState, useEffect } from "react";
-import { useSocket } from '../SocketContext'; // Import the useSocket hook
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import styles from "./chat.style";
 import { COLORS } from '../resources';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useSocket } from '../SocketContext'; 
 
 const Chat = ({ route, navigation }) => {
-    const { userId, userName } = route.params;
-    const [currentUserId, setCurrentUserId] = useState(null);
+    const { otherUserId, otherUserName, otherUserProfileImage } = route.params;
+    const [currentUserId, setCurrentUserId] = useState('');
     const [messages, setMessages] = useState([]);
     const [inputText, setInputText] = useState('');
 
-    const socket = useSocket(); // Use the socket from context
+    const socket = useSocket(); 
 
     useEffect(() => {
-        // Fetch the current user's ID from AsyncStorage
-        const fetchCurrentUserId = async () => {
-            const userData = await AsyncStorage.getItem('trottersApp');
-            const parsedUserData = JSON.parse(userData);
-            setCurrentUserId(parsedUserData._id);
-        };
-
-        fetchCurrentUserId();
-
-        // Fetch messages from the backend
-        const fetchMessages = async () => {
+        const fetchData = async () => {
             try {
-                const response = await axios.get('http://192.168.0.22:3000/api/chat/getMessages', {
-                    params: { userId, currentUserId }
+                const currentUser = await AsyncStorage.getItem('trottersApp');
+                const parsedCurrentUser = JSON.parse(currentUser);
+                setCurrentUserId(parsedCurrentUser._id);
+
+                const response = await axios.get('http://192.168.0.22:3000/api/messaging/getMessages', {
+                    params: { 
+                        currentUserId: parsedCurrentUser._id, 
+                        otherUserId 
+                    }
                 });
+
                 setMessages(response.data);
             } catch (error) {
-                console.error('Error fetching messages:', error);
+                console.error('Error in fetchData:', error);
             }
         };
+    
+        fetchData();
 
-        fetchMessages();
+        // if (socket && socket.connected) {
+        //     onConnect();
+        // }
 
-        if (socket && socket.connected) {
-            onConnect();
-        }
+        // function onConnect() {
+        //     socket.emit("tamos on?");
+        // }
 
-        function onConnect() {
-            socket.emit("tamos on?");
-        }
+        // socket.on("message", (message) => {
+        //     setMessages(prevMessages => [...prevMessages, message]);
+        // });
 
-        socket.on("message", (message) => {
-            setMessages(prevMessages => [...prevMessages, message]);
-        });
-
-        // Cleanup the effect
-        return () => {
-            if (socket) {
-                socket.off("message");
-            }
-        };
-    }, [userId, currentUserId, socket]);
+        // return () => {
+        //     if (socket) {
+        //         socket.off("message");
+        //     }
+        // };
+    }, []);
 
     const sendMessage = async () => {
         if (inputText.trim()) {
-            const newMessage = {
+            let newMessage = {
                 content: inputText,
-                sender: currentUserId,
-                receiver: userId,
-                sendAt: new Date().toISOString()
+                senderId: currentUserId,
+                receiverId: otherUserId
             };
 
             try {
-                // Post the message to the backend using axios
-                await axios.post('http://192.168.0.22:3000/api/chat/sendMessage', {
-                    content: inputText,
-                    sender: currentUserId,
-                    receiver: userId
+                const response = await axios.post('http://192.168.0.22:3000/api/messaging/sendMessage', {
+                    ...newMessage
                 });
+                
+                if (response.status === 201) {
+                    newMessage = { 
+                        ...newMessage,
+                        _id: response.data._id
+                    }
+                }
 
-                // Emit the message via socket
                 socket.emit("send message", JSON.stringify({
-                    to: userId,
+                    to: otherUserId,
                     message: newMessage
                 }));
 
-                // Update the local messages state
                 setMessages([...messages, newMessage]);
                 setInputText('');
             } catch (error) {
@@ -94,26 +92,35 @@ const Chat = ({ route, navigation }) => {
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
             <View style={styles.header}>
-                <Ionicons name={"arrow-back"} size={40} onPress={() => navigation.navigate("Messages")} />
-                <Image source={{ uri: 'https://placekitten.com/200/200' }} style={styles.profilePic} />
-                <Text style={styles.userName}>{userName}</Text>
+                <Ionicons 
+                    name={"caret-back"} 
+                    size={30} 
+                    onPress={() => navigation.navigate("BottomNavigation")} />
+                <Image source={{ uri: otherUserProfileImage }} style={styles.profileImage} />
+                <Text style={styles.name}>{otherUserName}</Text>
             </View>
+
             <ScrollView style={styles.messagesContainer}>
-                {messages.map((msg) => (
-                    <View key={msg._id} style={[styles.message, msg.sender == currentUserId ? styles.userMessage : styles.otherMessage]}>
-                        <Text style={{color: COLORS.white, fontWeight: "10000"}}>{msg.content}</Text>
+                {messages.map((message) => (
+                    <View 
+                        key={message._id} 
+                        style={[styles.messageWrapper, message.senderId == currentUserId ? styles.currentMessage : styles.otherMessage]}>
+                        <Text style={styles.message}>{message.content}</Text>
                     </View>
                 ))}
             </ScrollView>
+
             <View style={styles.inputContainer}>
                 <TextInput
                     style={styles.input}
                     value={inputText}
                     onChangeText={setInputText}
-                    placeholder="Type a message"
+                    placeholder="What do you want to say?"
                 />
                 <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
-                    <Ionicons name="send" size={20} color={COLORS.gray}/>
+                    <Ionicons 
+                        name="paper-plane" 
+                        size={30}/>
                 </TouchableOpacity>
             </View>
         </KeyboardAvoidingView>

@@ -12,7 +12,7 @@ const Search = ({ navigation }) => {
     const [users, setUsers] = useState([]);
     const [showFlatList, setShowFlatList] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
-    const [selectedUser, setSelectedUser] = useState(null);
+    const [selectedUser, setSelectedUser] = useState({});
 
     useEffect(() => {
         const allLocations = [];
@@ -77,12 +77,12 @@ const Search = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.searchBarContainer}>
+            <View style={styles.searchContainer}>
                 <TextInput
                     placeholder="Where are you going?"
                     value={searchText}
                     onChangeText={setSearchText}
-                    style={styles.searchBar}
+                    style={styles.search}
                 />
             </View>
 
@@ -104,7 +104,7 @@ const Search = ({ navigation }) => {
             <ScrollView contentContainerStyle={styles.usersContainer} showsVerticalScrollIndicator={false} >
                 {users.map(user => (
                     <TouchableOpacity 
-                        key={user.email} 
+                        key={user._id} 
                         onPress={() => handleUserPress(user)}
                         style={styles.userCard}
                     >

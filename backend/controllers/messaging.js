@@ -1,17 +1,16 @@
 const { Message, Conversation } = require('../models/messaging');
-const User = require('../models/user');
+const { User } = require('../models/user'); 
 
 module.exports = {
     sendMessage: async (req, res) => {
-        const { content, senderId, receiverId, sentAt } = req.body;
+        const { content, senderId, receiverId } = req.body;
 
         try {
             // Create a new message
             const newMessage = new Message({
                 content,
                 senderId,
-                receiverId,
-                sentAt,
+                receiverId
             });
     
             // Find conversation between the sender and the receiver
@@ -33,20 +32,20 @@ module.exports = {
             // Save both the message and the conversation
             await newMessage.save();
             await conversation.save();
-    
-            res.status(201).json({ message: "Message sent successfully" });
+
+            res.status(201).json({ _id: newMessage._id });
         } catch (error) {
             res.status(500).json({ message: "Server error", error });
         }
     },
     
     getMessages: async (req, res) => {
-        const { senderId, receiverId } = req.query;
-    
+        const { currentUserId, otherUserId } = req.query;
+        
         try {
             // Find the conversation between the two users
             const conversation = await Conversation.findOne({
-                participants: { $all: [senderId, receiverId] },
+                participants: { $all: [currentUserId, otherUserId] },
             });
     
             if (!conversation) {
@@ -59,37 +58,57 @@ module.exports = {
         }
     },
 
-    getConversations: async (req, res) => {    
-        const { userId } = req.query;
-
+    getConversations: async (req, res) => {
+        const userId = req.params.key;
+    
         try {
             // Fetch all conversations involving the user
             const conversations = await Conversation.find({
                 participants: userId,
             });
     
-            // Extract participants Id
+            if (conversations.length === 0) {
+                return res.status(204).end();
+            }
+            
+            // Extract participant IDs (excluding current user)
             const userIds = new Set();
             conversations.forEach(conversation => {
                 conversation.participants.forEach(participant => {
                     if (participant !== userId) {
-                        uniqueUserIds.add(participant);
+                        userIds.add(participant);
                     }
                 });
             });
     
             // Fetch user details for the unique IDs
-            const users = await People.find(
-                { _id: { $in: Array.from(userIds) } },
-                { createdAt: 0, updatedAt: 0, __v: 0, email: 0 } // Exclude these fields
+            const users = await User.find(
+                { _id: { $in: Array.from(userIds) } }
             );
     
-            res.status(200).json({
-                conversations,
-                users,
+            // Combine user details with the last message
+            const result = conversations.map(conversation => {
+                const otherUserId = conversation.participants.find(participant => participant !== userId);
+                const user = users.find(user => user._id.toString() === otherUserId);
+    
+                // Get the last message from the messages array
+                const lastMessage = conversation.messages[conversation.messages.length - 1];
+    
+                return {
+                    _id: user._id,
+                    name: user.name,
+                    profileImage: user.profileImage,
+                    lastMessage: {
+                        senderId: lastMessage.senderId,
+                        content: lastMessage.content,
+                        createdAt: lastMessage.createdAt
+                    }
+                };
             });
+    
+            res.status(200).json(result);
         } catch (error) {
             res.status(500).json({ message: "Server error", error });
-        }
+        }  
     }    
 }

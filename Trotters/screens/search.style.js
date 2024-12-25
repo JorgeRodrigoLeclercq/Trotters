@@ -5,12 +5,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1
     },
-    searchBarContainer: {
+    searchContainer: {
         height: "10%",
         flexDirection: 'row',
         paddingHorizontal: 33
     },
-    searchBar: {
+    search: {
         flex: 1
     },
     flatListContainer: {

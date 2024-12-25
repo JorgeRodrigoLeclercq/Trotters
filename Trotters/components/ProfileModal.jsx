@@ -57,11 +57,16 @@ const ProfileModal = ({ user, onClose, navigation }) => {
                     <Ionicons
                         name="close-circle"
                         size={90}
-                        color={COLORS.tertiary}
+                        color={COLORS.secondary}
                     />
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("Chat")}
+                    onPress={() => navigation.navigate("Chat", 
+                        { otherUserId: user._id, 
+                          otherUserName: user.name, 
+                          otherUserProfileImage: user.profileImage 
+                        }
+                    )}
                     style={styles.chatWrapper}
                 >
                     <Ionicons

@@ -7,15 +7,15 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Profile = ({navigation}) => {
 
-  const [userData, setUserData] = useState(null);
+  const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getUserData = async () => {
+    const fetchData = async () => {
       try {
         const data = await AsyncStorage.getItem('trottersApp');
         const parsedData = JSON.parse(data);
-        setUserData(parsedData);
+        setUser(parsedData);
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -23,7 +23,7 @@ const Profile = ({navigation}) => {
       }
     };
 
-    getUserData();
+    fetchData();
   }, []);
 
   const getRandomColor = () => {
@@ -59,22 +59,22 @@ const Profile = ({navigation}) => {
       <View style={styles.dataContainer}>
         <View style={styles.user}>
           <Image
-            source={{ uri: userData.profileImage }} 
+            source={{ uri: user.profileImage }} 
             style={styles.profileImage}
           />
-          <Text style={styles.name}>{userData.name}</Text>
-          <Text style={styles.location}>{userData.location}</Text>
+          <Text style={styles.name}>{user.name}</Text>
+          <Text style={styles.location}>{user.location}</Text>
         </View>
 
         <View style={styles.attribute}>
           <Text style={styles.tag}>Age</Text>
-          <Text style={styles.data}>{userData.age}</Text>
+          <Text style={styles.data}>{user.age}</Text>
         </View>
 
         <View style={styles.attribute}>
           <Text style={styles.tag}>Interests</Text>
           <View style={styles.interests}>
-            {userData.interests.map((interest, index) => {
+            {user.interests.map((interest, index) => {
               const randomColor = getRandomColor();
               return (
                 <View key={index} style={[styles.interestContainer, { borderColor: randomColor }]}>
@@ -88,7 +88,7 @@ const Profile = ({navigation}) => {
 
         <View style={styles.attribute}>
           <Text style={styles.tag}>About Me</Text>
-          <Text style={styles.data}>{userData.description}</Text>
+          <Text style={styles.data}>{user.description}</Text>
         </View>
       </View>
     </View>

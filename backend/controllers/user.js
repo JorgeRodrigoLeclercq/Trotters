@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const { User } = require('../models/user');
 
 module.exports = {
     signUp: async (req, res) => {
@@ -17,7 +17,7 @@ module.exports = {
 
             await newUser.save();
 
-            res.status(201).json({ message: "User created successfully" });
+            res.status(201).json({ _id: newUser._id });
         } catch (error) {
             res.status(500).json({ message: "Server error", error });
         }
@@ -30,7 +30,7 @@ module.exports = {
             
             if (user) {
                 // Prepare user data for response
-                const { _id, createdAt, updatedAt, __v, ...userData } = user._doc;
+                const { email, createdAt, updatedAt, __v, ...userData } = user._doc;
 
                 // Send response
                 res.status(200).json({ userData });

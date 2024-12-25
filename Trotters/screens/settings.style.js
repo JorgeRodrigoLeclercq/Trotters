@@ -19,8 +19,8 @@ const styles = StyleSheet.create({
     color: COLORS.black
   },
   backWrapper: {
-    paddingLeft: 5,
-    paddingBottom: 5
+    marginLeft: 5,
+    marginBottom: 5
   },
   button: {
     width: "50%",

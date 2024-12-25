@@ -1,107 +1,93 @@
-import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, View, TextInput, FlatList, Text, ActivityIndicator, SafeAreaView, Image, StatusBar } from "react-native";
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, Text, TextInput, TouchableOpacity, FlatList, Image, Alert } from "react-native";
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import styles from "./conversations.style";
-import { COLORS } from "../resources";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import removeAccents from 'remove-accents';  
+import styles from "./conversations.style";
 
 const Conversations = ({ navigation }) => {
-  const [data, setData] = useState([]);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [conversations, setConversations] = useState([]);
+  const [queryConversations, setQueryConversations] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [initialData, setInitialData] = useState([]);
 
   useEffect(() => {
-    fetchData();
+    const fetchConversations = async () => {
+      try {
+        const userData = await AsyncStorage.getItem('trottersApp');
+        const parsedUserData = JSON.parse(userData);
+        const userId = parsedUserData._id;
+  
+        const response = await axios.get(`http://192.168.0.22:3000/api/messaging/getConversations/${userId}`);
+        const fetchedConversations = response.data;
+  
+        const sortedConversations = fetchedConversations
+          .map(conversation => {
+            if (conversation.lastMessage.senderId === userId) {
+              conversation.lastMessage.content = `You: ${conversation.lastMessage.content}`;
+            }
+            return conversation;
+          })
+          .sort((a, b) => new Date(b.lastMessage.createdAt) - new Date(a.lastMessage.createdAt));
+  
+        setConversations(sortedConversations);
+        setQueryConversations(sortedConversations);
+      } catch (error) {
+        Alert.alert("Error", error.message);
+      }
+    };
+
+    fetchConversations();
   }, []);
 
-const fetchData = async () => {
-  setIsLoading(true);
-  try {
-    const userData = await AsyncStorage.getItem('trottersApp');
-    const parsedUserData = JSON.parse(userData);
-    const userId = parsedUserData.email;
-    if (!userId) {
-      setError('User ID not found in AsyncStorage');
-      setIsLoading(false);
-      return;
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    const normalizedQuery = removeAccents(query.toLowerCase());  
+    if (normalizedQuery.trim() === '') {
+      setQueryConversations(conversations);  
+    } else {
+      const filteredData = conversations.filter(item =>
+        removeAccents(item.name.toLowerCase()).includes(normalizedQuery)
+      );
+      setQueryConversations(filteredData);
     }
-    const response = await axios.get('http://192.168.0.22:3000/api/messaging/getConversations', {
-      params: { userId }
-    });
-    setData(response.data);
-    setInitialData(response.data);  // Save the initial data
-  } catch (error) {
-    setError(error.message);
-  } finally {
-    setIsLoading(false);
-  }
-};
-
-const handleSearch = (query) => {
-  setSearchQuery(query);
-  const normalizedQuery = removeAccents(query.toLowerCase());  // Normalize query
-  if (normalizedQuery.trim() === '') {
-    setData(initialData);  // Reset to initial data
-  } else {
-    const filteredData = initialData.filter(item =>
-      removeAccents(item.name.toLowerCase()).includes(normalizedQuery)  // Normalize item names
-    );
-    setData(filteredData);
-  }
-};
-
-
-  if (isLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={COLORS.black} />
-      </View>
-    );
-  }
-
-  if (error) {
-    return (
-      <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>Error fetching data: {error}</Text>
-      </View>
-    );
-  }
+  };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={{ height: StatusBar.currentHeight, backgroundColor: COLORS.white }}></View>
-      
-      {/* Search Bar */}
+    <View style={styles.container}>
       <View style={styles.searchContainer}>
-        <Ionicons name="search" size={20} color={COLORS.gray} style={styles.searchIcon} />
         <TextInput
-          placeholder="Search"
-          style={styles.searchInput}
+          placeholder="Who do you want to talk to?"
           value={searchQuery}
           onChangeText={handleSearch}
+          style={styles.search}
         />
       </View>
 
-      {/* Conversations List */}
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity style={styles.listItem} onPress={() => navigation.navigate("Chat", { userId: item.id, userName: item.name })}>
-            <Image source={{ uri: item.image }} style={styles.profileImage} />
-            <View style={styles.textContainer}>
-              <Text style={styles.nameText}>{item.name}</Text>
-              <Text style={styles.messageText} numberOfLines={1}>Holaaa</Text>
-            </View>
-          </TouchableOpacity>
-        )}
-      />
-    </SafeAreaView>
+      {queryConversations.length != 0 ? (
+        <FlatList
+          data={queryConversations}
+          keyExtractor={(item) => item._id}
+          renderItem={({ item }) => (
+            <TouchableOpacity 
+              onPress={() => navigation.navigate("Chat",
+                { otherUserId: item._id, 
+                  otherUserName: item.name, 
+                  otherUserProfileImage: item.profileImage 
+                })}
+              style={styles.conversationContainer}>
+              <Image source={{ uri: item.profileImage }} style={styles.profileImage} />
+                <View style={styles.recipientAndLastMessage}>
+                  <Text style={styles.recipient}>{item.name}</Text>
+                  <Text numberOfLines={1} style={styles.lastMessage}>{item.lastMessage.content}</Text>
+                </View>
+            </TouchableOpacity>
+          )}
+          style={styles.listWrapper}
+        />
+      ) : 
+      (<View>
+      </View>)}
+    </View>
   );
 };
 

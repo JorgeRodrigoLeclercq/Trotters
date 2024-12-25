@@ -10,8 +10,8 @@ const SignUp = ({ route, navigation }) => {
     const [name, setName] = useState('');
     const [age, setAge] = useState('');
     const [description, setDescription] = useState('');
-    const [profileImage, setProfileImage] = useState(null);
-    const [imageUri, setImageUri] = useState(null);
+    const [profileImage, setProfileImage] = useState('');
+    const [imageUri, setImageUri] = useState('');
     const [signUpData, setSignUpData] = useState({
         email: route.params.email,
         name: '',

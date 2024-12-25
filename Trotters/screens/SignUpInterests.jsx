@@ -48,6 +48,10 @@ const SignUpInterests = ({ route, navigation }) => {
             const response = await axios.post(endpoint, signUpData);
     
             if (response.status === 201) {
+                setSignUpData(prevData => ({
+                    ...prevData,
+                    _id: response._id
+                }));
                 await AsyncStorage.setItem('trottersApp', JSON.stringify(signUpData));
                 navigation.navigate('BottomNavigation');
             } else {

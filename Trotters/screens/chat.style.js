@@ -3,33 +3,33 @@ import { COLORS, SIZES } from "../resources"
 
 const styles = StyleSheet.create({
     header: {
-      flexDirection: 'row',
+      height: "10%",
       alignItems: 'center',
-      padding: 10,
-      backgroundColor: COLORS.white
+      flexDirection: 'row',
+      marginLeft: 5
     },
-    profilePic: {
-      width: 40,
-      height: 40,
-      borderRadius: 20,
-      marginLeft: 10
+    profileImage: {
+      width: 50,
+      height: 50,
+      borderRadius: 25,
+      marginLeft: 5
     },
-    userName: {
-      marginLeft: 10,
-      fontWeight: 'bold'
+    name: {
+      fontFamily: "Poppins-SemiBold",
+      fontSize: SIZES.large,
+      marginLeft:10
     },
     messagesContainer: {
       flex: 1,
-      padding: 10,
-      backgroundColor: COLORS.white
+      padding: 10
     },
-    message: {
-      padding: 10,
-      borderRadius: 20,
-      marginBottom: 10,
+    messageWrapper: {
       maxWidth: '80%',
+      padding: 10,
+      borderRadius: 25,
+      marginBottom: 10
     },
-    userMessage: {
+    currentMessage: {
       alignSelf: 'flex-end',
       backgroundColor: COLORS.primary
     },
@@ -37,16 +37,18 @@ const styles = StyleSheet.create({
       alignSelf: 'flex-start',
       backgroundColor: COLORS.secondary
     },
+    message: {
+      fontFamily: "Poppins-Medium",
+      color: COLORS.white
+    },
     inputContainer: {
-      flexDirection: 'row',
-      padding: 10,
       alignItems: 'center',
-      backgroundColor: COLORS.white
+      flexDirection: 'row',
+      padding: 10
     },
     input: {
       flex: 1,
       padding: 10,
-      backgroundColor: COLORS.white,
       borderRadius: 20
     },
     sendButton: {
