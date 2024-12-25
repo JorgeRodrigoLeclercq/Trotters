@@ -14,15 +14,14 @@ const styles = StyleSheet.create({
     },
     imageWrapper: {
         alignSelf: 'center',
-        marginTop: 60,
-        marginBottom: 65,
         borderRadius: 25, 
-        padding: 5, 
+        marginTop: "10%",
+        marginBottom: "20%"
     },
     profileImage: {
         width: 120,
         height: 120,
-        borderRadius: 60, 
+        borderRadius: 60
     },
     wrapper: {
         marginBottom: '15%',

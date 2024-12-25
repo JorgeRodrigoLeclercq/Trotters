@@ -115,10 +115,10 @@ const styles = StyleSheet.create({
     },
     tag: {
         fontFamily: "Poppins-SemiBold",
-        fontSize: SIZES.mediumish
+        fontSize: 14
     },
     data: {
-        fontFamily: "Poppins-Regular",
+        fontFamily: "Poppins-Medium",
         fontSize: SIZES.medium,
     },
     interests: {
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
         marginRight: 5
     },
     interest: {
-        fontFamily: 'Poppins-Regular',
+        fontFamily: 'Poppins-Medium',
         fontSize: SIZES.medium,
         paddingTop: 4
     },

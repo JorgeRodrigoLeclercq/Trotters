@@ -71,7 +71,9 @@ const SignUp = ({ route, navigation }) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.scrollViewWrapper}>
+            <KeyboardAvoidingView 
+                behavior="height"
+                style={styles.scrollViewWrapper}>
                 <ScrollView
                     contentContainerStyle={styles.valuesScroll}
                     keyboardShouldPersistTaps="handled"
@@ -87,14 +89,11 @@ const SignUp = ({ route, navigation }) => {
                     </TouchableOpacity>
 
                     <View style={styles.wrapper}>
-                        {/* <View style={{alignItems: "flex-end"}}>
-                            <Text style={{fontFamily: "Poppins-Bold", paddingRight: 10}}>
-                                Name
-                            </Text>
-                        </View> */}
                         <View style={styles.inputWrapper(55, focusedField === "name" ? COLORS.primary : COLORS.white)}>
                             <TextInput
                                 placeholder="What's your name?"
+                                placeholderTextColor={COLORS.gray}
+                                color={COLORS.black}
                                 onFocus={() => setFocusedField("name")}
                                 onBlur={() => setFocusedField(null)}
                                 value={name}
@@ -107,14 +106,11 @@ const SignUp = ({ route, navigation }) => {
                     </View>
 
                     <View style={styles.wrapper}>
-                        {/* <View style={{alignItems: "flex-end"}}>
-                            <Text style={{fontFamily: "Poppins-Bold", paddingRight: 10}}>
-                                Age
-                            </Text>
-                        </View> */}
                         <View style={styles.inputWrapper(55, focusedField === "age" ? COLORS.primary : COLORS.white)}>
                             <TextInput
                                 placeholder="How old are you?"
+                                placeholderTextColor={COLORS.gray}
+                                color={COLORS.black}
                                 onFocus={() => setFocusedField("age")}
                                 onBlur={() => setFocusedField(null)}
                                 value={age}
@@ -128,14 +124,11 @@ const SignUp = ({ route, navigation }) => {
                     </View>
 
                     <View style={styles.wrapper}>
-                        {/* <View style={{alignItems: "flex-end"}}>
-                            <Text style={{fontFamily: "Poppins-Bold", paddingRight: 10}}>
-                                Description
-                            </Text>
-                        </View> */}
                         <View style={styles.inputWrapper(110, focusedField === "description" ? COLORS.primary : COLORS.white)}>
                             <TextInput
                                 placeholder="Tell fellow Trotters something about yourself!"
+                                placeholderTextColor={COLORS.gray}
+                                color={COLORS.black}
                                 onFocus={() => setFocusedField("description")}
                                 onBlur={() => setFocusedField(null)}
                                 value={description}
@@ -148,13 +141,8 @@ const SignUp = ({ route, navigation }) => {
                             />
                         </View>
                     </View>
-
-                    {/* <View style={{justifyContent: "center", alignItems: "center"}}>
-                        <Image source={require("../resources/signUp-grass.jpg")}
-                            style={{}}/>
-                    </View> */}
                 </ScrollView>
-            </View>
+            </KeyboardAvoidingView>
 
             <View style={styles.button}>
                 <Button

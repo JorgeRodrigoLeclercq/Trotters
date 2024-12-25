@@ -1,11 +1,12 @@
 import { StyleSheet } from "react-native";
-import {COLORS, SIZES, SHADOWS} from "../resources/index";
+import { COLORS } from "../resources/index";
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'flex-start',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: COLORS.white
     },
     searchContainer: {
         width: '100%',
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
         width: '90%',
         alignItems: 'center',
         flexDirection: 'row',
-        marginTop: '10%',
+        marginTop: '5%',
         backgroundColor: COLORS.white
     },
     searchBar: {
@@ -26,9 +27,10 @@ const styles = StyleSheet.create({
     flatListContainer: {
         width: '90%',
         borderRadius: 10,
+        marginTop: "1%",
         shadowColor: COLORS.black,
         shadowOpacity: 0.1,
-        shadowRadius: 5,
+        shadowRadius: 10,
         elevation: 10,
         overflow: 'hidden'
     },

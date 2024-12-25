@@ -27,7 +27,7 @@ module.exports = {
         try {
             // Find user by email
             const user = await User.findOne({ email: req.params.key });
-            
+
             if (user) {
                 // Prepare user data for response
                 const { email, createdAt, updatedAt, __v, ...userData } = user._doc;

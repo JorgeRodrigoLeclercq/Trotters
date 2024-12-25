@@ -1,3 +1,3 @@
-import { COLORS,  SIZES, SHADOWS} from "./constants";
+import { COLORS,  SIZES } from "./constants";
 
-export { COLORS,  SIZES, SHADOWS};
+export { COLORS,  SIZES };

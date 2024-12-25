@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     placeholder:{
-        fontFamily: 'Poppins-Bold',
+        fontFamily: 'Poppins-SemiBold',
         color: COLORS.black,
         fontSize: SIZES.medium
     },
@@ -21,18 +21,18 @@ const styles = StyleSheet.create({
     },
     interestsScroll: {
         flexGrow: 1,
-        padding: 10,
+        margin: "2%",
     },
     interestsContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        gap: 10,
+        gap: 5,
     },
     interestContainer: {
         justifyContent: 'center',
         alignItems: 'center', 
         flexDirection: 'row',
-        paddingHorizontal: 5 ,
+        paddingHorizontal: 5,
         borderWidth: 2,  
         borderRadius: 25,
         borderColor: COLORS.gray,
@@ -46,8 +46,9 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.gray 
     },
     interest: {
-        fontFamily: 'Poppins-Regular',
-        fontSize: SIZES.mediumish
+        fontFamily: 'Poppins-Medium',
+        fontSize: 14,
+        color: COLORS.gray
     },
     button: {
         width: '100%',

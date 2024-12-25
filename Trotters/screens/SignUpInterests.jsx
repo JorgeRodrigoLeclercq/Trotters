@@ -8,8 +8,8 @@ import Button from "../components/Button";
 import interests from "../resources/interests.json";
 
 const SignUpInterests = ({ route, navigation }) => {
+    const interestsList = interests.interests;
     const [signUpData, setSignUpData] = useState(route.params.data);
-    const [interestsList, setInterestsList] = useState(interests.interests);
     const [selectedInterests, setSelectedInterests] = useState({});
     const [isValid, setIsValid] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -67,13 +67,13 @@ const SignUpInterests = ({ route, navigation }) => {
     return (
         <View style={styles.container}>
             <View style={styles.placeholderWrapper}>
-                <Text style={styles.placeholder}>What do you want to do when travelling?</Text>
+                <Text style={styles.placeholder}>What do you want to do while travelling?</Text>
             </View>
             
             <View style={styles.scrollViewWrapper}>
                 <ScrollView contentContainerStyle={styles.interestsScroll}>
                     <View style={styles.interestsContainer}>
-                        {interestsList.map((interest, index) => (
+                        {interestsList.map((interest) => (
                             <View 
                                 key={interest} 
                                 style={[

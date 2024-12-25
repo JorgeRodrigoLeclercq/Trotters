@@ -1,4 +1,4 @@
-import { View, Text, TextInput, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, FlatList, TouchableOpacity, KeyboardAvoidingView } from "react-native";
 import { useState, useEffect } from "react";
 import styles from "./signUpLocation.style";
 import { COLORS } from "../resources";
@@ -50,11 +50,15 @@ const SignUpLocation = ({ route, navigation }) => {
 
     return(
         <View style={styles.container}>
-            <View style={styles.searchContainer}>
+            <KeyboardAvoidingView
+                behavior="height"
+                style={styles.searchContainer}>
                 <View style={styles.searchBarContainer}>
                     <TextInput
                         style={styles.searchBar}
                         placeholder="Where are you from?"
+                        placeholderTextColor={COLORS.gray}
+                        color={COLORS.black}
                         value={searchText}
                         onChangeText={setSearchText}
                     />
@@ -68,13 +72,13 @@ const SignUpLocation = ({ route, navigation }) => {
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={({ item }) => (
                                 <TouchableOpacity style={styles.item} onPress={() => handleLocationPress(item)}>
-                                    <Text>{item}</Text>
+                                    <Text style={{ fontFamily: "Poppins-Medium", color:COLORS.black }}>{item}</Text>
                                 </TouchableOpacity>
                             )}
                         />
                     </View>
                 )}
-            </View>
+            </KeyboardAvoidingView>
 
             <View style={styles.button}>
                 <Button 

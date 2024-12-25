@@ -41,18 +41,18 @@ const styles = StyleSheet.create({
   },
   location: {
     fontFamily: 'Poppins-SemiBold',
-    fontSize: SIZES.mediumish
+    fontSize: 14
   },
   attribute: {
     margin: 15
   },
   tag:{
     fontFamily: 'Poppins-SemiBold',
-    fontSize: SIZES.mediumish,
+    fontSize: 14,
     paddingLeft: '5%'
   },
   data: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Poppins-Medium',
     fontSize: SIZES.medium,
     paddingHorizontal: '5%'
   },
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     marginRight: 5
   },
   interest: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Poppins-Medium',
     fontSize: SIZES.medium,
     paddingTop: 4
   }

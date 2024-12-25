@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     fontSize: SIZES.medium
   },
   lastMessage: {
-    fontSize: SIZES.mediumish,
+    fontSize: 14,
     marginTop: 2
   }
 });
