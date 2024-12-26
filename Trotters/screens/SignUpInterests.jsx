@@ -64,10 +64,14 @@ const SignUpInterests = ({ route, navigation }) => {
         }
     };
 
+    const invalidForm = () => {
+        Alert.alert("Invalid form", "Please select 3 interests");
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.placeholderWrapper}>
-                <Text style={styles.placeholder}>What do you want to do while travelling?</Text>
+                <Text style={styles.placeholder}>What do you want to do while traveling?</Text>
             </View>
             
             <View style={styles.scrollViewWrapper}>
@@ -86,7 +90,10 @@ const SignUpInterests = ({ route, navigation }) => {
                                     styles.circle,
                                     { backgroundColor: selectedInterests[interest] || COLORS.gray }
                                 ]}/>
-                                <Text style={styles.interest}>{interest}</Text>
+                                <Text style={[
+                                    styles.interest,
+                                    { color: selectedInterests[interest] ? COLORS.black : COLORS.gray }
+                                ]}>{interest}</Text>
                             </View>
                         ))}
                     </View>
@@ -96,7 +103,10 @@ const SignUpInterests = ({ route, navigation }) => {
             <View style={styles.button}>
                 <Button 
                     title="Sign Up"
-                    onPress={signUp}
+                    onPress={isValid ? 
+                        (signUp) 
+                        : 
+                        (invalidForm)}
                     isValid={isValid} 
                     isLoading={isLoading} 
                     color={COLORS.primary} 

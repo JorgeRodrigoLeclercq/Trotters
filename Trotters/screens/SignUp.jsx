@@ -33,7 +33,7 @@ const SignUp = ({ route, navigation }) => {
 
         if ((typeof name === 'string' && name.trim().length > 0) &&
             (/^\d+$/.test(age)) &&
-            (typeof description === 'string' && description.trim().length > 0) &&
+            (typeof description === 'string' && description.trim().length > 0 && description.trim().length < 250) &&
             (profileImage)) {
             setIsValid(true);
 
@@ -55,7 +55,6 @@ const SignUp = ({ route, navigation }) => {
             if (validExtensions.includes(imageType)) {
                 setImageUri(image.uri); 
 
-                // Save as a String with encoded information
                 try {
                     const binaryData = await RNFS.readFile(image.uri.replace('file://', ''), 'base64');
                     setProfileImage(`data:${image.type};base64,${binaryData}`);
@@ -67,6 +66,24 @@ const SignUp = ({ route, navigation }) => {
                 Alert.alert("Invalid file type", "Please select a JPG, JPEG, or PNG image.");
             }
         }
+    };
+
+    const invalidForm = () => {
+        let error = '';
+        if (!(typeof name === 'string' && name.trim().length > 0)) {
+            error += 'State your name\n';
+        }
+        if (!(/^\d+$/.test(age))) {
+            error += 'Age must be a number\n';
+        }
+        if (!(typeof description === 'string' && description.trim().length > 0 && description.trim().length < 250)) {
+            error += 'Your description should be less than 250 characters\n';
+        }
+        if (!profileImage) {
+            error += 'Please choose you profile picture';
+        }
+
+        Alert.alert("Invalid form", error);
     };
 
     return (
@@ -147,11 +164,13 @@ const SignUp = ({ route, navigation }) => {
             <View style={styles.button}>
                 <Button
                     title="Continue"
-                    onPress={() => {
+                    onPress={isValid ? 
+                        (() => {
                         navigation.navigate("SignUpLocation", {
                             data: signUpData
-                        });
-                    }}
+                        })}) 
+                        : 
+                        (invalidForm)}
                     isValid={isValid}
                     isLoading={false}
                     color={COLORS.primary}

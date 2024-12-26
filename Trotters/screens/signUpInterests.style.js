@@ -21,12 +21,12 @@ const styles = StyleSheet.create({
     },
     interestsScroll: {
         flexGrow: 1,
-        margin: "2%",
+        marginHorizontal: "2%"
     },
     interestsContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        gap: 5,
+        gap: 5
     },
     interestContainer: {
         justifyContent: 'center',
@@ -47,14 +47,13 @@ const styles = StyleSheet.create({
     },
     interest: {
         fontFamily: 'Poppins-Medium',
-        fontSize: 14,
-        color: COLORS.gray
+        fontSize: 14
     },
     button: {
         width: '100%',
         height: '10%',
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "center"
     }
 });
 

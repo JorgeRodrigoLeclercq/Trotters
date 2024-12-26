@@ -1,4 +1,4 @@
-import { View, Text, TextInput, FlatList, TouchableOpacity, KeyboardAvoidingView } from "react-native";
+import { View, Text, TextInput, FlatList, TouchableOpacity, KeyboardAvoidingView, Alert } from "react-native";
 import { useState, useEffect } from "react";
 import styles from "./signUpLocation.style";
 import { COLORS } from "../resources";
@@ -23,8 +23,7 @@ const SignUpLocation = ({ route, navigation }) => {
             });
         });
 
-        if (searchText && endOfSearch) {
-            setEndOfSearch(false);
+        if (allLocations.includes(searchText)) {
             setShowFlatList(false);
             setIsValid(true);
             
@@ -36,16 +35,23 @@ const SignUpLocation = ({ route, navigation }) => {
         } else if (searchText) {
             const results = allLocations.filter(location =>
                 location.toLowerCase().includes(searchText.toLowerCase())
-            ).slice(0, 15);
+            ).slice(0, 13);
             setFilteredLocations(results);
             setShowFlatList(true);
+            setIsValid(false);
+            
+        } else {
+            setShowFlatList(false);
             setIsValid(false);
         }
     }, [searchText]);
 
     const handleLocationPress = async (item) => {
-        setEndOfSearch(true);
         setSearchText(item);
+    };
+
+    const invalidForm = () => {
+        Alert.alert("Invalid form", "Please choose a location");
     };
 
     return(
@@ -83,11 +89,13 @@ const SignUpLocation = ({ route, navigation }) => {
             <View style={styles.button}>
                 <Button 
                     title="Continue" 
-                    onPress={() => {
+                    onPress={isValid ? 
+                        (() => {
                         navigation.navigate("SignUpInterests", {
                             data: signUpData
-                        });
-                    }}
+                        })}) 
+                        : 
+                        (invalidForm)}
                     isValid={isValid}
                     isLoading={false}
                     color={COLORS.primary} 
