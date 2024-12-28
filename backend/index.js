@@ -20,7 +20,7 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 // Routers
 const userRouter = require("./routers/user");
-app.use("/api/people", userRouter);
+app.use("/api/users", userRouter);
 
 const messagingRouter = require("./routers/messaging");
 app.use("/api/messaging", messagingRouter);
@@ -32,5 +32,5 @@ require("./socket")(httpServer); // Pass HTTP server to the Socket.IO module
 
 // Start the server
 httpServer.listen(process.env.PORT || port, () =>
-    console.log(`Example app listening on port ${process.env.PORT}!`)
+    console.log(`Trotters app listening on port ${process.env.PORT}!`)
 );

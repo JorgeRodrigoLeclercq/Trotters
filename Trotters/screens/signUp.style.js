@@ -1,5 +1,5 @@
-import { StyleSheet } from "react-native"
-import { COLORS } from "../resources"
+import { StyleSheet } from 'react-native'
+import { COLORS } from '../resources'
 
 const styles = StyleSheet.create({
     container: {
@@ -15,13 +15,13 @@ const styles = StyleSheet.create({
     imageWrapper: {
         alignSelf: 'center',
         borderRadius: 25, 
-        marginTop: "10%",
-        marginBottom: "20%"
+        marginTop: '10%',
+        marginBottom: '20%'
     },
     profileImage: {
-        width: 120,
-        height: 120,
-        borderRadius: 60
+        width: 150,
+        height: 150,
+        borderRadius: 100
     },
     wrapper: {
         marginBottom: '15%',
@@ -37,9 +37,9 @@ const styles = StyleSheet.create({
     }),
     button: {
         height: '10%',
-        justifyContent: "center",
-        alignItems: "center"
+        justifyContent: 'center',
+        alignItems: 'center'
     }
-})
+});
 
 export default styles;

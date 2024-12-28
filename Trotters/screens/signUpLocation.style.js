@@ -1,5 +1,5 @@
-import { StyleSheet } from "react-native";
-import { COLORS } from "../resources/index";
+import { StyleSheet } from 'react-native';
+import { COLORS } from '../resources/index';
 
 const styles = StyleSheet.create({
     container: {
@@ -18,16 +18,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         marginTop: '5%',
+        paddingHorizontal: 25,
         backgroundColor: COLORS.white
     },
     searchBar: {
-        flex: 1,
-        paddingHorizontal: 25
+        flex: 1
     },
     flatListContainer: {
         width: '90%',
         borderRadius: 10,
-        marginTop: "1%",
+        marginTop: '1%',
         shadowColor: COLORS.black,
         shadowOpacity: 0.1,
         shadowRadius: 10,
@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
     button: {
         width: '100%',
         height: '10%',
-        justifyContent: "center",
-        alignItems: "center"
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
 

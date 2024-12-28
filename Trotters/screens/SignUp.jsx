@@ -1,9 +1,9 @@
-import { View, Text, TextInput, ScrollView, Image, TouchableOpacity, KeyboardAvoidingView, Alert } from "react-native";
+import { View, Text, TextInput, ScrollView, Image, TouchableOpacity, KeyboardAvoidingView, Alert } from 'react-native';
 import { useState, useEffect } from 'react';
 import { launchImageLibrary } from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
-import styles from "./signUp.style";
-import { COLORS } from "../resources/index";
+import styles from './signUp.style';
+import { COLORS } from '../resources/index';
 import Button from '../components/Button';
 
 const SignUp = ({ route, navigation }) => {
@@ -63,7 +63,7 @@ const SignUp = ({ route, navigation }) => {
                 }
 
             } else {
-                Alert.alert("Invalid file type", "Please select a JPG, JPEG, or PNG image.");
+                Alert.alert('Invalid file type', 'Please select a JPG, JPEG, or PNG image.');
             }
         }
     };
@@ -83,39 +83,39 @@ const SignUp = ({ route, navigation }) => {
             error += 'Please choose you profile picture';
         }
 
-        Alert.alert("Invalid form", error);
+        Alert.alert('Invalid form', error);
     };
 
     return (
         <View style={styles.container}>
             <KeyboardAvoidingView 
-                behavior="height"
+                behavior='height'
                 style={styles.scrollViewWrapper}>
                 <ScrollView
                     contentContainerStyle={styles.valuesScroll}
-                    keyboardShouldPersistTaps="handled"
+                    keyboardShouldPersistTaps='handled'
                 >
                     <TouchableOpacity
                         onPress={() => handleImageSelection()}
                         style={styles.imageWrapper}
                     >
                         <Image
-                            source={imageUri ? { uri: imageUri } : require("../resources/neutral-avatar.jpg")}
+                            source={imageUri ? { uri: imageUri } : require('../resources/neutral-avatar.jpg')}
                             style={styles.profileImage}
                         />
                     </TouchableOpacity>
 
                     <View style={styles.wrapper}>
-                        <View style={styles.inputWrapper(55, focusedField === "name" ? COLORS.primary : COLORS.white)}>
+                        <View style={styles.inputWrapper(55, focusedField === 'name' ? COLORS.primary : COLORS.white)}>
                             <TextInput
                                 placeholder="What's your name?"
                                 placeholderTextColor={COLORS.gray}
                                 color={COLORS.black}
-                                onFocus={() => setFocusedField("name")}
+                                onFocus={() => setFocusedField('name')}
                                 onBlur={() => setFocusedField(null)}
                                 value={name}
                                 onChangeText={setName}
-                                autoCapitalize="none"
+                                autoCapitalize='none'
                                 autoCorrect={false}
                                 style={{ flex: 1 }}
                             />
@@ -123,17 +123,17 @@ const SignUp = ({ route, navigation }) => {
                     </View>
 
                     <View style={styles.wrapper}>
-                        <View style={styles.inputWrapper(55, focusedField === "age" ? COLORS.primary : COLORS.white)}>
+                        <View style={styles.inputWrapper(55, focusedField === 'age' ? COLORS.primary : COLORS.white)}>
                             <TextInput
-                                placeholder="How old are you?"
+                                placeholder='How old are you?'
                                 placeholderTextColor={COLORS.gray}
                                 color={COLORS.black}
-                                onFocus={() => setFocusedField("age")}
+                                onFocus={() => setFocusedField('age')}
                                 onBlur={() => setFocusedField(null)}
                                 value={age}
                                 onChangeText={setAge}
-                                keyboardType="numeric"
-                                autoCapitalize="none"
+                                keyboardType='numeric'
+                                autoCapitalize='none'
                                 autoCorrect={false}
                                 style={{ flex: 1 }}
                             />
@@ -141,19 +141,19 @@ const SignUp = ({ route, navigation }) => {
                     </View>
 
                     <View style={styles.wrapper}>
-                        <View style={styles.inputWrapper(110, focusedField === "description" ? COLORS.primary : COLORS.white)}>
+                        <View style={styles.inputWrapper(110, focusedField === 'description' ? COLORS.primary : COLORS.white)}>
                             <TextInput
-                                placeholder="Tell fellow Trotters something about yourself!"
+                                placeholder='Tell fellow Trotters something about yourself!'
                                 placeholderTextColor={COLORS.gray}
                                 color={COLORS.black}
-                                onFocus={() => setFocusedField("description")}
+                                onFocus={() => setFocusedField('description')}
                                 onBlur={() => setFocusedField(null)}
                                 value={description}
                                 onChangeText={setDescription}
-                                autoCapitalize="none"
+                                autoCapitalize='none'
                                 autoCorrect={false}
                                 style={{ flex: 1 }}
-                                textAlignVertical="top"
+                                textAlignVertical='top'
                                 multiline
                             />
                         </View>
@@ -163,10 +163,10 @@ const SignUp = ({ route, navigation }) => {
 
             <View style={styles.button}>
                 <Button
-                    title="Continue"
+                    title='Continue'
                     onPress={isValid ? 
                         (() => {
-                        navigation.navigate("SignUpLocation", {
+                        navigation.navigate('SignUpLocation', {
                             data: signUpData
                         })}) 
                         : 

@@ -1,18 +1,36 @@
 import { View, Text, TextInput, FlatList, TouchableOpacity, Image, ScrollView, Modal, Alert } from 'react-native';
 import { useState, useEffect } from 'react';
-import axios from "axios";
+import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './search.style';
+import { COLORS } from '../resources';
 import ProfileModal from '../components/ProfileModal';
 import locations from '../resources/locations.json';
 
 const Search = ({ navigation }) => {
+    const [userId, setUserId] = useState('');
+    const [userInterests, setUserInterests] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [filteredLocations, setFilteredLocations] = useState([]);
     const [users, setUsers] = useState([]);
     const [showFlatList, setShowFlatList] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedUser, setSelectedUser] = useState({});
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const data = await AsyncStorage.getItem('trottersApp');
+            const parsedData = JSON.parse(data);
+            setUserId(parsedData._id);
+            setUserInterests(parsedData.interests);
+          } catch (error) {
+            Alert.alert('Error', 'Failed to fetch user data.');
+          }
+        };
+    
+        fetchData();
+    }, []);
 
     useEffect(() => {
         const allLocations = [];
@@ -45,10 +63,12 @@ const Search = ({ navigation }) => {
         setShowFlatList(false); 
 
         try {
-            const userInterestsString = await AsyncStorage.getItem('trottersApp');
-            const userInterests = JSON.parse(userInterestsString)?.interests || [];
+            const response = await axios.get(`http://192.168.0.22:3000/api/users/search`, {
+                params: { 
+                    userId, 
+                    location: item }
+            });
 
-            const response = await axios.get(`http://192.168.0.22:3000/api/people/search/${item}`);
             const usersData = response.data;
 
             const sortedUsers = usersData.sort((a, b) => {
@@ -61,7 +81,7 @@ const Search = ({ navigation }) => {
             setShowFlatList(false);
 
         } catch (error) {
-            Alert.alert("Error", "Failed to fetch users from the location.");
+            Alert.alert('Error', 'Failed to fetch users from the location.');
         }
     };
 
@@ -77,12 +97,13 @@ const Search = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.searchContainer}>
+            <View style={styles.searchBarContainer}>
                 <TextInput
-                    placeholder="Where are you going?"
+                    placeholder='Where are you going?'
+                    placeholderTextColor={COLORS.gray}
                     value={searchText}
                     onChangeText={setSearchText}
-                    style={styles.search}
+                    style={styles.searchBar}
                 />
             </View>
 
@@ -93,7 +114,7 @@ const Search = ({ navigation }) => {
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item }) => (
                             <TouchableOpacity style={styles.item} onPress={() => handleLocationPress(item)}>
-                                <Text>{item}</Text>
+                                <Text style={{ fontFamily: 'Poppins-Medium', color:COLORS.black }}>{item}</Text>
                             </TouchableOpacity>
                         )}
                         style={styles.flatList}
@@ -124,12 +145,13 @@ const Search = ({ navigation }) => {
             <Modal  
                 visible={modalVisible}
                 transparent={true}
-                animationType="fade"
+                animationType='fade'
                 onRequestClose={closeModal}>
                 <View style={styles.modalWrapper}>
                     <ProfileModal
                         user={selectedUser}
                         onClose={closeModal}
+                        navigation={navigation}
                     />
                 </View>
             </Modal>

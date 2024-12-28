@@ -1,15 +1,16 @@
-import { StyleSheet } from "react-native";
-import {COLORS, SIZES } from "../resources/index";
+import { StyleSheet } from 'react-native';
+import {COLORS, SIZES } from '../resources/index';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: COLORS.white
   },
   header: {
-    height: "10%",
+    height: '10%',
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: "row"
+    flexDirection: 'row'
   },
   logo: {    
     fontFamily: 'Poppins-Bold',
@@ -17,18 +18,19 @@ const styles = StyleSheet.create({
     color: COLORS.primary
   },
   settingsWrapper: {
-    position: "absolute", 
-    right: 10, 
-    top: 25
+    position: 'absolute', 
+    right: '4%', 
+    top: '25%'
   },
   dataContainer: {
-    height: "90%"
+    flexGrow: 1,
+    paddingBottom: 70
   },
   user: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 30,
-    marginBottom: 20,
+    marginTop: '6%',
+    marginBottom: '9%',
   },
   profileImage: {
     width: 150,
@@ -37,29 +39,33 @@ const styles = StyleSheet.create({
   },
   name: {
     fontFamily: 'Poppins-Bold',
-    fontSize: SIZES.medium
+    fontSize: SIZES.medium,
+    color: COLORS.black
   },
   location: {
     fontFamily: 'Poppins-SemiBold',
-    fontSize: 14
+    fontSize: 14,
+    color: COLORS.black
   },
   attribute: {
-    margin: 15
+    margin: '3%'
   },
   tag:{
     fontFamily: 'Poppins-SemiBold',
-    fontSize: 14,
-    paddingLeft: '5%'
+    fontSize: SIZES.small,
+    color: COLORS.black,
+    paddingHorizontal: '5%'
   },
   data: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-Regular',
     fontSize: SIZES.medium,
+    color: COLORS.black,
     paddingHorizontal: '5%'
   },
   interests: {
     flexDirection: 'row',
     flexWrap: 'wrap',    
-    paddingLeft: '5%'  
+    paddingHorizontal: '5%'  
   },
   interestContainer: {
     justifyContent: 'center',
@@ -68,7 +74,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 25,  
     borderWidth: 2,  
-    margin: 1
+    margin: 2
   },
   circle: {
     width: 10,  
@@ -77,9 +83,9 @@ const styles = StyleSheet.create({
     marginRight: 5
   },
   interest: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-Regular',
     fontSize: SIZES.medium,
-    paddingTop: 4
+    color: COLORS.black
   }
 })
 

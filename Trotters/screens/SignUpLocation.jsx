@@ -1,8 +1,8 @@
-import { View, Text, TextInput, FlatList, TouchableOpacity, KeyboardAvoidingView, Alert } from "react-native";
-import { useState, useEffect } from "react";
-import styles from "./signUpLocation.style";
-import { COLORS } from "../resources";
-import Button from "../components/Button";
+import { View, Text, TextInput, FlatList, TouchableOpacity, KeyboardAvoidingView, Alert } from 'react-native';
+import { useState, useEffect } from 'react';
+import styles from './signUpLocation.style';
+import { COLORS } from '../resources';
+import Button from '../components/Button';
 import locations from '../resources/locations.json';
 
 const SignUpLocation = ({ route, navigation }) => {
@@ -10,7 +10,6 @@ const SignUpLocation = ({ route, navigation }) => {
     const [searchText, setSearchText] = useState('');
     const [showFlatList, setShowFlatList] = useState(false);
     const [filteredLocations, setFilteredLocations] = useState([]);
-    const [endOfSearch, setEndOfSearch] = useState(false);
     const [isValid, setIsValid] = useState(false);
 
     useEffect(() => {
@@ -51,18 +50,18 @@ const SignUpLocation = ({ route, navigation }) => {
     };
 
     const invalidForm = () => {
-        Alert.alert("Invalid form", "Please choose a location");
+        Alert.alert('Invalid form', 'Please choose a location.');
     };
 
     return(
         <View style={styles.container}>
             <KeyboardAvoidingView
-                behavior="height"
+                behavior='height'
                 style={styles.searchContainer}>
                 <View style={styles.searchBarContainer}>
                     <TextInput
                         style={styles.searchBar}
-                        placeholder="Where are you from?"
+                        placeholder='Where are you from?'
                         placeholderTextColor={COLORS.gray}
                         color={COLORS.black}
                         value={searchText}
@@ -78,7 +77,7 @@ const SignUpLocation = ({ route, navigation }) => {
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={({ item }) => (
                                 <TouchableOpacity style={styles.item} onPress={() => handleLocationPress(item)}>
-                                    <Text style={{ fontFamily: "Poppins-Medium", color:COLORS.black }}>{item}</Text>
+                                    <Text style={{ fontFamily: 'Poppins-Medium', color:COLORS.black }}>{item}</Text>
                                 </TouchableOpacity>
                             )}
                         />
@@ -88,10 +87,10 @@ const SignUpLocation = ({ route, navigation }) => {
 
             <View style={styles.button}>
                 <Button 
-                    title="Continue" 
+                    title='Continue' 
                     onPress={isValid ? 
                         (() => {
-                        navigation.navigate("SignUpInterests", {
+                        navigation.navigate('SignUpInterests', {
                             data: signUpData
                         })}) 
                         : 

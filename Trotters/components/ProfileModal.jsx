@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, StyleSheet  } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet  } from 'react-native';
 import { COLORS, SIZES } from '../resources';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -23,31 +23,32 @@ const ProfileModal = ({ user, onClose, navigation }) => {
                     style={styles.profileImage}
                 />
             </View>
-
-            <View style={styles.attribute}>
-                <Text style={styles.tag}>Age</Text>
-                <Text style={styles.data}>{user.age}</Text>
-            </View>
-
-            <View style={styles.attribute}>
-                <Text style={styles.tag}>Interests</Text>
-                <View style={styles.interests}>
-                    {user.interests.map((interest, index) => {
-                    const randomColor = getRandomColor();
-                    return (
-                        <View key={index} style={[styles.interestContainer, { borderColor: randomColor }]}>
-                        <View style={[styles.circle, { backgroundColor: randomColor }]} />
-                        <Text style={styles.interest}>{interest}</Text>
-                        </View>
-                    );
-                    })}
+            <ScrollView contentContainerStyle={styles.dataContainer}>
+                <View style={styles.attribute}>
+                    <Text style={styles.tag}>Age</Text>
+                    <Text style={styles.data}>{user.age}</Text>
                 </View>
-            </View>
 
-            <View style={styles.attribute}>
-                <Text style={styles.tag}>About Me</Text>
-                <Text style={styles.data}>{user.description}</Text>
-            </View>
+                <View style={styles.attribute}>
+                    <Text style={styles.tag}>Interests</Text>
+                    <View style={styles.interests}>
+                        {user.interests.map((interest, index) => {
+                        const randomColor = getRandomColor();
+                        return (
+                            <View key={index} style={[styles.interestContainer, { borderColor: randomColor }]}>
+                            <View style={[styles.circle, { backgroundColor: randomColor }]} />
+                            <Text style={styles.interest}>{interest}</Text>
+                            </View>
+                        );
+                        })}
+                    </View>
+                </View>
+
+                <View style={styles.attribute}>
+                    <Text style={styles.tag}>About Me</Text>
+                    <Text style={styles.data}>{user.description}</Text>
+                </View>
+            </ScrollView>
 
             <View style={styles.buttonsContainer}>
                 <TouchableOpacity
@@ -55,13 +56,13 @@ const ProfileModal = ({ user, onClose, navigation }) => {
                     style={styles.closeWrapper}
                 >
                     <Ionicons
-                        name="close-circle"
+                        name='close-circle'
                         size={90}
                         color={COLORS.secondary}
                     />
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("Chat", 
+                    onPress={() => navigation.navigate('Chat', 
                         { otherUserId: user._id, 
                           otherUserName: user.name, 
                           otherUserProfileImage: user.profileImage 
@@ -70,7 +71,7 @@ const ProfileModal = ({ user, onClose, navigation }) => {
                     style={styles.chatWrapper}
                 >
                     <Ionicons
-                        name="chatbubbles"
+                        name='chatbubbles'
                         size={SIZES.xxLarge}
                         color={COLORS.white}
                     />
@@ -82,44 +83,53 @@ const ProfileModal = ({ user, onClose, navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-        width: "90%",
-        height: "90%",
+        width: '90%',
+        height: '90%',
         borderRadius: 25,
         backgroundColor: COLORS.white
     },
     user: {
-        height: "40%"
+        height: '40%'
     },
     userData: {
-        position: "absolute",
-        padding: 10,
+        position: 'absolute',
+        marginLeft: 10,
         bottom: 0,
         zIndex: 2
     },
     name: {
-        fontFamily: "Poppins-Bold",
+        fontFamily: 'Poppins-Bold',
         fontSize: SIZES.large,
+        color: COLORS.white
     },
     location: {
-        fontFamily: "Poppins-SemiBold",
-        fontSize: SIZES.medium
+        fontFamily: 'Poppins-SemiBold',
+        fontSize: SIZES.medium,
+        color: COLORS.white
     },
     profileImage: {
-        width: "100%",
-        height: "100%",
+        width: '100%',
+        height: '100%',
         borderTopRightRadius: 25,
         borderTopLeftRadius: 25
     },
+    dataContainer: {
+        flexGrow: 1, 
+        paddingBottom: 70
+    },
     attribute: {
-        margin: 15
+        marginHorizontal: 15,
+        marginVertical: 7.5
     },
     tag: {
-        fontFamily: "Poppins-SemiBold",
-        fontSize: 14
+        fontFamily: 'Poppins-SemiBold',
+        fontSize: SIZES.small,
+        color: COLORS.black
     },
     data: {
-        fontFamily: "Poppins-Medium",
+        fontFamily: 'Poppins-Regular',
         fontSize: SIZES.medium,
+        color: COLORS.black
     },
     interests: {
         flexDirection: 'row',
@@ -141,16 +151,16 @@ const styles = StyleSheet.create({
         marginRight: 5
     },
     interest: {
-        fontFamily: 'Poppins-Medium',
+        fontFamily: 'Poppins-Regular',
         fontSize: SIZES.medium,
-        paddingTop: 4
+        color: COLORS.black
     },
     buttonsContainer: {
-        width: "100%",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "row",
-        position: "absolute",
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        position: 'absolute',
         bottom: 0    
     },
     closeWrapper: {
@@ -159,8 +169,8 @@ const styles = StyleSheet.create({
     chatWrapper: {
         width: 75,
         height: 75,
-        justifyContent: "center",
-        alignItems: "center",
+        justifyContent: 'center',
+        alignItems: 'center',
         margin: 15,
         borderRadius: 50,
         backgroundColor: COLORS.primary

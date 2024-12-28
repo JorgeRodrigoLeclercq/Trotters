@@ -33,9 +33,10 @@ module.exports = {
             await newMessage.save();
             await conversation.save();
 
+            // Send response
             res.status(201).json({ _id: newMessage._id });
         } catch (error) {
-            res.status(500).json({ message: "Server error", error });
+            res.status(500).json({ message: "Server error", error: error.message });
         }
     },
     
@@ -50,11 +51,12 @@ module.exports = {
     
             if (!conversation) {
                 return res.status(204).end();
-            }
-    
+            }  
+
+            // Send response
             res.status(200).json(conversation.messages);
         } catch (error) {
-            res.status(500).json({ message: "Server error", error });
+            res.status(500).json({ message: "Server error", error: error.message });
         }
     },
 
@@ -105,10 +107,11 @@ module.exports = {
                     }
                 };
             });
-    
+            
+            // Send response
             res.status(200).json(result);
         } catch (error) {
-            res.status(500).json({ message: "Server error", error });
+            res.status(500).json({ message: "Server error", error: error.message });
         }  
     }    
 }

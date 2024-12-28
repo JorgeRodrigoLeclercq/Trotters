@@ -26,7 +26,7 @@ const SignIn = ({ navigation }) => {
             if (response) {
                 const email = response.data.user.email;
                 try {
-                    const response = await axios.get(`http://192.168.0.22:3000/api/people/signIn/${email}`);
+                    const response = await axios.get(`http://192.168.0.22:3000/api/users/signIn/${email}`);
                     
                     if (response.status === 200) {
                         await AsyncStorage.setItem('trottersApp', JSON.stringify(response.data.userData));
@@ -70,12 +70,12 @@ const SignIn = ({ navigation }) => {
                 <View style={styles.buttonContainer}>
                 <Button
                     title={
-                        <View style={{ alignItems: "center", flexDirection: "row"}}>
+                        <View style={{ alignItems: 'center', flexDirection: 'row'}}>
                             <Image
                                 source={require('../resources/google.jpg')} 
                                 style={{ width: 25, height: 25, marginRight: 10 }}
                             />
-                            <Text style={{ fontFamily: "Poppins-Bold", fontSize: 18, color: COLORS.black }}>
+                            <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 18, color: COLORS.black }}>
                                 Sign In with Google
                             </Text>
                         </View>

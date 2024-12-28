@@ -1,42 +1,43 @@
-import { StyleSheet } from "react-native";
-import {COLORS, SIZES } from "../resources/index";
+import { StyleSheet } from 'react-native';
+import { COLORS, SIZES } from '../resources/index';
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: COLORS.white
     },
-    searchContainer: {
-        height: "10%",
-        flexDirection: 'row',
+    searchBarContainer: {
+        height: '10%',
         paddingHorizontal: 33
     },
-    search: {
-        flex: 1
+    searchBar: {
+        flex: 1,
+        color: COLORS.black
     },
     flatListContainer: {
         width: '95%',
-        justifyContent: "center",
-        alignItems: "center",
+        justifyContent: 'center',
+        alignItems: 'center',
         position: 'absolute', 
-        left: "2.5%",
-        top: 75,
+        left: '2.5%',
+        top: '9%',
         borderRadius: 10,
-        overflow: 'hidden', 
+        marginTop: '1%',
         shadowColor: COLORS.black,
-        shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
-        shadowRadius: 5,
-        elevation: 5,
+        shadowRadius: 10,
+        elevation: 10,
+        overflow: 'hidden',
         zIndex: 3
     },
     flatList: {
         width: '100%',
-        backgroundColor: 'white',
+        backgroundColor: COLORS.white,
     },
     item: {
-        padding: 10,
+        padding: '3%',
         borderBottomWidth: 1,
-        borderBottomColor: COLORS.white,
+        borderBottomColor: COLORS.white
     },
     usersContainer: {
         justifyContent: 'space-between',
@@ -56,17 +57,17 @@ const styles = StyleSheet.create({
     },
     userData: {
         position: 'absolute',
-        padding: 10,
+        margin: 10,
         bottom: 0,
         zIndex: 2
     },
     userName: {
-        fontFamily: "Poppins-Bold",
+        fontFamily: 'Poppins-Bold',
         fontSize: SIZES.large,
         color: COLORS.white
     },
     userAge: {
-        fontFamily: "Poppins-SemiBold",
+        fontFamily: 'Poppins-SemiBold',
         fontSize: SIZES.medium,
         color: COLORS.white
     },

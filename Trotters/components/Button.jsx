@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { COLORS, SIZES } from '../resources/index';
 
 const Button = ({title, onPress, isValid, isLoading, color, textColor}) => {
@@ -19,13 +19,13 @@ const styles = StyleSheet.create({
     buttonStyle: (backgroundColor)=>({
         width: '80%',
         height: 50,
-        justifyContent: "center",
-        alignItems: "center",
+        justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: backgroundColor,
         borderRadius: 25
     }),
     buttonText: (textColor)=>({
-        fontFamily: "Poppins-Bold",
+        fontFamily: 'Poppins-Bold',
         color: textColor,
         fontSize: 18
     })

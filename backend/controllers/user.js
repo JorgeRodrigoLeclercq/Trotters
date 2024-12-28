@@ -5,6 +5,7 @@ module.exports = {
         try {
             const { name, age, location, interests, description, profileImage, email } = req.body;
 
+            // Create the new user
             const newUser = new User({
                 name,
                 age,
@@ -15,11 +16,13 @@ module.exports = {
                 email
             });
 
+            // Save the user
             await newUser.save();
 
+            // Send response
             res.status(201).json({ _id: newUser._id });
         } catch (error) {
-            res.status(500).json({ message: "Server error", error });
+            res.status(500).json({ message: "Server error", error: error.message });
         }
     },
 
@@ -38,20 +41,24 @@ module.exports = {
                 res.status(204).end();
             }
         } catch (error) {
-            res.status(500).json({ message: "Server error", error });
+            res.status(500).json({ message: "Server error", error: error.message });
         }
     },
 
     searchUsers: async(req, res) => {
-        try {
-            // Regular expression search for nationality
-            const regex = new RegExp(req.params.key, 'i'); // 'i' makes it case-insensitive
-            const users = await User.find({ location: { $regex: regex } });
+        const { userId, location } = req.query;
     
-            // Send response with people data
+        try {
+            // Find users matching location but excluding the current user
+            const users = await User.find({
+                location: location,
+                _id: { $ne: userId } // Exclude the current user
+            });
+    
+            // Send response 
             res.status(200).json(users);
         } catch (error) {
-            res.status(500).json({ message: "Server error", error });
+            res.status(500).json({ message: "Server error", error: error.message });
         }
-    },
+    }
 }

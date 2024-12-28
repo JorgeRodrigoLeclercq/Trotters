@@ -1,11 +1,11 @@
-import { View, Text, ScrollView, Alert } from "react-native";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import styles from "./signUpInterests.style";
-import { COLORS } from "../resources";
-import Button from "../components/Button";
-import interests from "../resources/interests.json";
+import { View, Text, ScrollView, Alert } from 'react-native';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import styles from './signUpInterests.style';
+import { COLORS } from '../resources';
+import Button from '../components/Button';
+import interests from '../resources/interests.json';
 
 const SignUpInterests = ({ route, navigation }) => {
     const interestsList = interests.interests;
@@ -44,7 +44,7 @@ const SignUpInterests = ({ route, navigation }) => {
         setIsLoading(true);
     
         try {
-            const endpoint = "http://192.168.0.22:3000/api/people/signUp";
+            const endpoint = 'http://192.168.0.22:3000/api/users/signUp';
             const response = await axios.post(endpoint, signUpData);
     
             if (response.status === 201) {
@@ -55,17 +55,17 @@ const SignUpInterests = ({ route, navigation }) => {
                 await AsyncStorage.setItem('trottersApp', JSON.stringify(signUpData));
                 navigation.navigate('BottomNavigation');
             } else {
-                Alert.alert("Error", "Failed to sign up");
+                Alert.alert('Error', 'Failed to sign up.');
             }
         } catch (error) {
-            Alert.alert("Error", "Something went wrong");
+            Alert.alert('Error', 'Something went wrong.');
         } finally {
             setIsLoading(false);
         }
     };
 
     const invalidForm = () => {
-        Alert.alert("Invalid form", "Please select 3 interests");
+        Alert.alert('Invalid form', 'Please select 3 interests.');
     };
 
     return (
@@ -102,7 +102,7 @@ const SignUpInterests = ({ route, navigation }) => {
 
             <View style={styles.button}>
                 <Button 
-                    title="Sign Up"
+                    title='Sign Up'
                     onPress={isValid ? 
                         (signUp) 
                         : 

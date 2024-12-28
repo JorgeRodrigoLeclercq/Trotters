@@ -1,8 +1,8 @@
-import { Text, View, Image, ActivityIndicator, TouchableOpacity, Alert } from "react-native";
+import { Text, View, Image, ActivityIndicator, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import styles from "./profile.style";
-import { COLORS, SIZES } from "../resources";
+import styles from './profile.style';
+import { COLORS, SIZES } from '../resources';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Profile = ({navigation}) => {
@@ -19,7 +19,7 @@ const Profile = ({navigation}) => {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        Alert.alert("Error", "Something went wrong while fetching user data.");
+        Alert.alert('Error', 'Failed to fetch user data.');
       }
     };
 
@@ -36,7 +36,7 @@ const Profile = ({navigation}) => {
   if (loading) {
     return (
       <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
-        <ActivityIndicator size={SIZES.large} color="#6200EE"/>
+        <ActivityIndicator size={SIZES.large} color='#6200EE'/>
       </View>
     );
   }
@@ -46,17 +46,17 @@ const Profile = ({navigation}) => {
       <View style={styles.header}>
         <Text style={styles.logo}>TROTTERS</Text>
         <TouchableOpacity 
-          onPress={() => navigation.navigate("Settings")}
+          onPress={() => navigation.navigate('Settings')}
           style={styles.settingsWrapper}>
           <Ionicons
-            name="settings-sharp"
+            name='settings-sharp'
             size={30}
             color={COLORS.gray}
           />
         </TouchableOpacity>
       </View>
 
-      <View style={styles.dataContainer}>
+      <ScrollView contentContainerStyle={styles.dataContainer}>
         <View style={styles.user}>
           <Image
             source={{ uri: user.profileImage }} 
@@ -90,7 +90,7 @@ const Profile = ({navigation}) => {
           <Text style={styles.tag}>About Me</Text>
           <Text style={styles.data}>{user.description}</Text>
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 };

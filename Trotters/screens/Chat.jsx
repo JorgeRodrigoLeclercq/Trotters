@@ -1,8 +1,8 @@
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Image, KeyboardAvoidingView, Platform } from 'react-native';
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import styles from "./chat.style";
+import styles from './chat.style';
 import { COLORS } from '../resources';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useSocket } from '../SocketContext'; 
@@ -31,7 +31,7 @@ const Chat = ({ route, navigation }) => {
 
                 setMessages(response.data);
             } catch (error) {
-                console.error('Error in fetchData:', error);
+                console.error('Error', 'Failed to fetch messages.');
             }
         };
     
@@ -42,16 +42,16 @@ const Chat = ({ route, navigation }) => {
         // }
 
         // function onConnect() {
-        //     socket.emit("tamos on?");
+        //     socket.emit('tamos on?');
         // }
 
-        // socket.on("message", (message) => {
+        // socket.on('message', (message) => {
         //     setMessages(prevMessages => [...prevMessages, message]);
         // });
 
         // return () => {
         //     if (socket) {
-        //         socket.off("message");
+        //         socket.off('message');
         //     }
         // };
     }, []);
@@ -76,7 +76,7 @@ const Chat = ({ route, navigation }) => {
                     }
                 }
 
-                socket.emit("send message", JSON.stringify({
+                socket.emit('send message', JSON.stringify({
                     to: otherUserId,
                     message: newMessage
                 }));
@@ -90,12 +90,13 @@ const Chat = ({ route, navigation }) => {
     };
 
     return (
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
             <View style={styles.header}>
                 <Ionicons 
-                    name={"caret-back"} 
+                    name={'caret-back'} 
                     size={30} 
-                    onPress={() => navigation.navigate("BottomNavigation")} />
+                    color={COLORS.gray}
+                    onPress={() => navigation.navigate('BottomNavigation')} />
                 <Image source={{ uri: otherUserProfileImage }} style={styles.profileImage} />
                 <Text style={styles.name}>{otherUserName}</Text>
             </View>
@@ -112,15 +113,17 @@ const Chat = ({ route, navigation }) => {
 
             <View style={styles.inputContainer}>
                 <TextInput
-                    style={styles.input}
+                    placeholder='What do you want to say?'
+                    placeholderTextColor={COLORS.gray}
                     value={inputText}
                     onChangeText={setInputText}
-                    placeholder="What do you want to say?"
+                    style={styles.input}
                 />
                 <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
                     <Ionicons 
-                        name="paper-plane" 
-                        size={30}/>
+                        name='paper-plane' 
+                        size={30}
+                        color={COLORS.gray}/>
                 </TouchableOpacity>
             </View>
         </KeyboardAvoidingView>
