@@ -1,5 +1,6 @@
 import { View, Text, TextInput, TouchableOpacity, FlatList, Image, Alert } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import removeAccents from 'remove-accents';  
@@ -11,38 +12,39 @@ const Conversations = ({ navigation }) => {
   const [queryConversations, setQueryConversations] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  useEffect(() => {
-    const fetchConversations = async () => {
-      try {
-        const userData = await AsyncStorage.getItem('trottersApp');
-        const parsedUserData = JSON.parse(userData);
-        const userId = parsedUserData._id;
-  
-        const response = await axios.get(`http://192.168.0.22:3000/api/messaging/getConversations/${userId}`);
-        
-        if (response.status == 200) {
-          const fetchedConversations = response.data;
-  
-          const sortedConversations = fetchedConversations
-            .map(conversation => {
-              if (conversation.lastMessage.senderId === userId) {
-                conversation.lastMessage.content = `You: ${conversation.lastMessage.content}`;
-              }
-              return conversation;
-            })
-            .sort((a, b) => new Date(b.lastMessage.createdAt) - new Date(a.lastMessage.createdAt));
-    
-          setConversations(sortedConversations);
-          setQueryConversations(sortedConversations);
-        }
+  const fetchConversations = async () => {
+    try {
+      const userData = await AsyncStorage.getItem('trottersApp');
+      const parsedUserData = JSON.parse(userData);
+      const userId = parsedUserData._id;
 
-      } catch (error) {
-        Alert.alert('Error', 'Failed to fetch conversations.');
+      const response = await axios.get(`http://192.168.0.22:3000/api/messaging/getConversations/${userId}`);
+
+      if (response.status === 200) {
+        const fetchedConversations = response.data;
+
+        const sortedConversations = fetchedConversations
+          .map((conversation) => {
+            if (conversation.lastMessage.senderId === userId) {
+              conversation.lastMessage.content = `You: ${conversation.lastMessage.content}`;
+            }
+            return conversation;
+          })
+          .sort((a, b) => new Date(b.lastMessage.createdAt) - new Date(a.lastMessage.createdAt));
+
+        setConversations(sortedConversations);
+        setQueryConversations(sortedConversations);
       }
-    };
+    } catch (error) {
+      Alert.alert('Error', 'Failed to fetch conversations.');
+    }
+  };
 
-    fetchConversations();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchConversations();
+    }, [])
+  );
 
   const handleSearch = (query) => {
     setSearchQuery(query);

@@ -36,7 +36,7 @@ const Profile = ({navigation}) => {
   if (loading) {
     return (
       <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
-        <ActivityIndicator size={SIZES.large} color='#6200EE'/>
+        <ActivityIndicator size={SIZES.large}/>
       </View>
     );
   }

@@ -1,14 +1,18 @@
-import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet  } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { COLORS, SIZES } from '../resources';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const ProfileModal = ({ user, onClose, navigation }) => {
+const ProfileModal = ({ user, interests, onClose, navigation }) => {
     const getRandomColor = () => {
         const colorList = ['#3B00E6', '#E601D6', '#00E5C3', '#DCE600', '#E67200'];
         const randomIndex = Math.floor(Math.random() * colorList.length);
-    
         return colorList[randomIndex];
     };
+
+    const sortedInterests = [
+        ...user.interests.filter((interest) => interests.includes(interest)),
+        ...user.interests.filter((interest) => !interests.includes(interest)),
+    ];
 
     return (
         <View style={styles.container}>
@@ -32,14 +36,17 @@ const ProfileModal = ({ user, onClose, navigation }) => {
                 <View style={styles.attribute}>
                     <Text style={styles.tag}>Interests</Text>
                     <View style={styles.interests}>
-                        {user.interests.map((interest, index) => {
-                        const randomColor = getRandomColor();
-                        return (
-                            <View key={index} style={[styles.interestContainer, { borderColor: randomColor }]}>
-                            <View style={[styles.circle, { backgroundColor: randomColor }]} />
-                            <Text style={styles.interest}>{interest}</Text>
-                            </View>
-                        );
+                        {sortedInterests.map((interest, index) => {
+                            const randomColor = interests.includes(interest)
+                                ? getRandomColor()
+                                : COLORS.gray;
+
+                            return (
+                                <View key={index} style={[styles.interestContainer, { borderColor: randomColor }]}>
+                                    <View style={[styles.circle, { backgroundColor: randomColor }]} />
+                                    <Text style={styles.interest}>{interest}</Text>
+                                </View>
+                            );
                         })}
                     </View>
                 </View>
@@ -56,9 +63,10 @@ const ProfileModal = ({ user, onClose, navigation }) => {
                     style={styles.closeWrapper}
                 >
                     <Ionicons
-                        name='close-circle'
-                        size={90}
-                        color={COLORS.secondary}
+                        name='caret-back'
+                        size={60}
+                        color={COLORS.white}
+                        marginRight={"10%"}
                     />
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -93,7 +101,7 @@ const styles = StyleSheet.create({
     },
     userData: {
         position: 'absolute',
-        marginLeft: 10,
+        marginLeft: "2.5%",
         bottom: 0,
         zIndex: 2
     },
@@ -115,11 +123,11 @@ const styles = StyleSheet.create({
     },
     dataContainer: {
         flexGrow: 1, 
-        paddingBottom: 70
+        paddingBottom: 100
     },
     attribute: {
-        marginHorizontal: 15,
-        marginVertical: 7.5
+        marginHorizontal: "2.5%",
+        marginVertical: "2.5%"
     },
     tag: {
         fontFamily: 'Poppins-SemiBold',
@@ -133,7 +141,7 @@ const styles = StyleSheet.create({
     },
     interests: {
         flexDirection: 'row',
-        flexWrap: 'wrap'   
+        flexWrap: 'wrap'
     },
     interestContainer: {
         justifyContent: 'center',
@@ -142,7 +150,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderRadius: 25,  
         borderWidth: 2,  
-        margin: 1
+        margin: 2
     },
     circle: {
         width: 10,  
@@ -164,14 +172,22 @@ const styles = StyleSheet.create({
         bottom: 0    
     },
     closeWrapper: {
-        margin: 15
+        width: 75,
+        height: 75,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginHorizontal: "10%",
+        marginVertical: "5%",
+        borderRadius: 50,
+        backgroundColor: COLORS.secondary
     },
     chatWrapper: {
         width: 75,
         height: 75,
         justifyContent: 'center',
         alignItems: 'center',
-        margin: 15,
+        marginHorizontal: "10%",
+        marginVertical: "5%",
         borderRadius: 50,
         backgroundColor: COLORS.primary
     }

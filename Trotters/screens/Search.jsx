@@ -1,5 +1,6 @@
 import { View, Text, TextInput, FlatList, TouchableOpacity, Image, ScrollView, Modal, Alert } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './search.style';
@@ -54,6 +55,12 @@ const Search = ({ navigation }) => {
         }
     }, [searchText]);
 
+    useFocusEffect(
+        useCallback(() => {
+            setModalVisible(false);
+        }, [])
+    );      
+
     const getCommonInterestsCount = (userInterests, otherUserInterests) => {
         return userInterests.filter(interest => otherUserInterests.includes(interest)).length;
     };
@@ -92,7 +99,7 @@ const Search = ({ navigation }) => {
 
     const closeModal = () => {
         setModalVisible(false);
-        setSelectedUser(null);
+        setSelectedUser({});
     };
 
     return (
@@ -145,11 +152,11 @@ const Search = ({ navigation }) => {
             <Modal  
                 visible={modalVisible}
                 transparent={true}
-                animationType='fade'
-                onRequestClose={closeModal}>
+                animationType='fade'>
                 <View style={styles.modalWrapper}>
                     <ProfileModal
                         user={selectedUser}
+                        interests={userInterests}
                         onClose={closeModal}
                         navigation={navigation}
                     />

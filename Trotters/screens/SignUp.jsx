@@ -17,7 +17,7 @@ const SignUp = ({ route, navigation }) => {
         name: '',
         age: '',
         description: '',
-        profileImage: null
+        profileImage: ''
     });
     const [isValid, setIsValid] = useState(false);
     const [focusedField, setFocusedField] = useState('');
@@ -34,7 +34,7 @@ const SignUp = ({ route, navigation }) => {
         if ((typeof name === 'string' && name.trim().length > 0) &&
             (/^\d+$/.test(age)) &&
             (typeof description === 'string' && description.trim().length > 0 && description.trim().length < 250) &&
-            (profileImage)) {
+            (typeof profileImage === 'string' && profileImage.trim().length > 0)) {
             setIsValid(true);
 
         } else {

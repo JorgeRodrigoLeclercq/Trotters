@@ -4,7 +4,7 @@ import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-si
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles, { GradientBackground } from './signIn.style';
-import { COLORS, SIZES } from '../resources';
+import { COLORS } from '../resources';
 import Button from '../components/Button';
 
 GoogleSignin.configure({
