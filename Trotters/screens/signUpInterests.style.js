@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center', 
         flexDirection: 'row',
-        paddingHorizontal: 5,
+        paddingHorizontal: 10,
         borderWidth: 2,  
         borderRadius: 25,
         marginBottom: 1
@@ -40,12 +40,12 @@ const styles = StyleSheet.create({
     circle: {
         width: 10,  
         height: 10,
-        borderRadius: 5,  
-        marginRight: 8
+        borderRadius: 25,  
+        marginRight: 5
     },
     interest: {
-        fontFamily: 'Poppins-Medium',
-        fontSize: 14
+        fontFamily: 'Poppins-Regular',
+        fontSize: SIZES.medium
     },
     button: {
         width: '100%',
