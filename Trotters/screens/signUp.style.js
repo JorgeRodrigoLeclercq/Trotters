@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         marginBottom: '15%',
-        marginHorizontal: '5%'
+        marginHorizontal: '3%'
     },
     inputWrapper: (height, borderColor) => ({
         height: height,

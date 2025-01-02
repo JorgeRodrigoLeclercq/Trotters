@@ -30,10 +30,7 @@ const SignIn = ({ navigation }) => {
                     
                     if (response.status === 200) {
                         await AsyncStorage.setItem('trottersApp', JSON.stringify(response.data.userData));
-                        navigation.reset({
-                            index: 0,
-                            routes: [{ name: 'BottomNavigation' }],
-                        });
+                        navigation.navigate('BottomNavigation');
                     } else {
                         navigation.navigate('SignUp', { email: email });
                     }

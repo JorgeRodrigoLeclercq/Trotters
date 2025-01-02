@@ -9,12 +9,8 @@ const Settings = ({navigation}) => {
     const signOut = async () => {
         try {
             await AsyncStorage.removeItem('trottersApp');
-            navigation.reset({
-                index: 0,
-                routes: [{ name: 'SignIn' }],
-            });
-        } 
-        catch (error) {
+            navigation.navigate('SignIn');
+        } catch (error) {
             Alert.alert('Error', error);
         }
     };

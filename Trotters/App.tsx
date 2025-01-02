@@ -38,24 +38,23 @@ export default function App() {
         <Stack.Navigator>
           {loggedIn ? (
             <Stack.Group>
-              <Stack.Screen name='BottomNavigation' component={BottomTabNavigation} options={{ headerShown: false }} />
-              <Stack.Screen name='Chat' component={Chat} options={{ headerShown: false }} />
-              <Stack.Screen name='Settings' component={Settings} options={{ headerShown: false }} />
-              <Stack.Screen name='SignIn' component={SignIn} />
-              <Stack.Screen name='SignUp' component={SignUp} />
-              <Stack.Screen name='SignUpLocation' component={SignUpLocation} />
-              <Stack.Screen name='SignUpInterests' component={SignUpInterests} />
+              <Stack.Screen name='BottomNavigation' component={BottomTabNavigation} options={{ headerShown: false }}/>
+              <Stack.Screen name='Chat' component={Chat} options={{ headerShown: false }}/>
+              <Stack.Screen name='Settings' component={Settings} options={{ headerShown: false }}/>
+              <Stack.Screen name='SignIn' component={SignIn}/>
+              <Stack.Screen name='SignUp' component={SignUp}/>
+              <Stack.Screen name='SignUpLocation' component={SignUpLocation}/>
+              <Stack.Screen name='SignUpInterests' component={SignUpInterests}/>
             </Stack.Group>
           ) : (
             <Stack.Group screenOptions={{ headerShown: false }}>
-              <Stack.Screen name='SignIn' component={SignIn} />
-              <Stack.Screen name='SignUp' component={SignUp} />
-              <Stack.Screen name='SignUpLocation' component={SignUpLocation} />
-              <Stack.Screen name='SignUpInterests' component={SignUpInterests} />
-              <Stack.Screen name='BottomNavigation' component={BottomTabNavigation} options={{ headerShown: false }} />
-              <Stack.Screen name='Chat' component={Chat} options={{ headerShown: false }}
-              />
-              <Stack.Screen name='Settings' component={Settings} options={{ headerShown: false }} />
+              <Stack.Screen name='SignIn' component={SignIn}/>
+              <Stack.Screen name='SignUp' component={SignUp}/>
+              <Stack.Screen name='SignUpLocation' component={SignUpLocation}/>
+              <Stack.Screen name='SignUpInterests' component={SignUpInterests}/>
+              <Stack.Screen name='BottomNavigation' component={BottomTabNavigation} options={{ headerShown: false }}/>
+              <Stack.Screen name='Chat' component={Chat} options={{ headerShown: false }}/>
+              <Stack.Screen name='Settings' component={Settings} options={{ headerShown: false }}/>
             </Stack.Group>
           )}
         </Stack.Navigator>

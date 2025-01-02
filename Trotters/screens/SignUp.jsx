@@ -76,8 +76,8 @@ const SignUp = ({ route, navigation }) => {
         if (!(/^\d+$/.test(age))) {
             error += 'Age must be a number\n';
         }
-        if (!(typeof description === 'string' && description.trim().length > 0 && description.trim().length < 250)) {
-            error += 'Your description should be less than 250 characters\n';
+        if (!(typeof description === 'string' && description.trim().length > 0 && description.trim().length < 500)) {
+            error += 'Your description should be less than 500 characters\n';
         }
         if (!profileImage) {
             error += 'Please choose you profile picture';
