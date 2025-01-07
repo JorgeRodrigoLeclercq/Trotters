@@ -5,26 +5,24 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const createSocket = async () => {
   try {
     // Retrieve the userID from AsyncStorage
-    const userData = await AsyncStorage.getItem('trottersApp');
-    const parsedUserData = JSON.parse(userData);
-    const userID = parsedUserData._id;
+    const data = await AsyncStorage.getItem('trottersApp');
+    const parsedData = JSON.parse(data);
+    const userId = parsedData._id;
     
-    // Check if userID exists
-    if (userID !== null) {
-      // Pass the userID as a query parameter when establishing the connection
+    // Check if userId exists
+    if (userId !== null) {
+      // Pass the userId as a query parameter when establishing the connection
       const socket = io('http://192.168.0.22:3000', {
         query: {
-          userId: userID
+          userId: userId
         }
       });
       
       return socket;
     } else {
-      console.error('User ID not found in AsyncStorage');
       return null;
     }
   } catch (error) {
-    console.error('Error retrieving userID from AsyncStorage:', error);
     return null;
   }
 };

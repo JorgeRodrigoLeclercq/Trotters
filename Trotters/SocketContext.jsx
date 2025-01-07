@@ -15,13 +15,13 @@ export const SocketProvider = ({ children, loggedIn }) => {
         setSocket(socketConnection);
       }
     } else {
-      setSocket(null); // Reset socket if logged out
+      setSocket(null); // reset socket if logged out
     }
   };
 
   useEffect(() => {
     initializeSocket();
-  }, [loggedIn]); // Re-run whenever loggedIn changes
+  }, [loggedIn]); // re-run whenever loggedIn changes
 
   return (
     <SocketContext.Provider value={socket}>

@@ -37,23 +37,15 @@ const Chat = ({ route, navigation }) => {
     
         fetchData();
 
-        // if (socket && socket.connected) {
-        //     onConnect();
-        // }
+        socket.on('message', (message) => {
+            setMessages(prevMessages => [...prevMessages, message]);
+        });
 
-        // function onConnect() {
-        //     socket.emit('tamos on?');
-        // }
-
-        // socket.on('message', (message) => {
-        //     setMessages(prevMessages => [...prevMessages, message]);
-        // });
-
-        // return () => {
-        //     if (socket) {
-        //         socket.off('message');
-        //     }
-        // };
+        return () => {
+            if (socket) {
+                socket.off('message');
+            }
+        };
     }, []);
 
     const sendMessage = async () => {
@@ -74,15 +66,16 @@ const Chat = ({ route, navigation }) => {
                         ...newMessage,
                         _id: response.data._id
                     }
+
+                    socket.emit('send message', JSON.stringify({
+                        to: otherUserId,
+                        message: newMessage
+                    }));
+    
+                    setMessages([...messages, newMessage]);
+                    setInputText('');
                 }
-
-                socket.emit('send message', JSON.stringify({
-                    to: otherUserId,
-                    message: newMessage
-                }));
-
-                setMessages([...messages, newMessage]);
-                setInputText('');
+                
             } catch (error) {
                 console.error('Error sending message:', error);
             }
