@@ -25,6 +25,7 @@ const SignIn = ({ navigation }) => {
 
             if (response) {
                 const email = response.data.user.email;
+                
                 try {
                     const response = await axios.get(`http://192.168.0.22:3000/api/users/signIn/${email}`);
                     

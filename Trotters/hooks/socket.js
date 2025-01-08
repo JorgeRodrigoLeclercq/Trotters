@@ -6,18 +6,17 @@ export const createSocket = async () => {
   try {
     // Retrieve the userID from AsyncStorage
     const data = await AsyncStorage.getItem('trottersApp');
-    const parsedData = JSON.parse(data);
-    const userId = parsedData._id;
-    
-    // Check if userId exists
-    if (userId !== null) {
+    if (!!data) {
+      const parsedData = JSON.parse(data);
+      const userId = parsedData._id;
+      
       // Pass the userId as a query parameter when establishing the connection
       const socket = io('http://192.168.0.22:3000', {
         query: {
           userId: userId
         }
       });
-      
+        
       return socket;
     } else {
       return null;

@@ -1,5 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useState, useEffect, createContext, useContext,  } from 'react';
 import { createSocket } from './hooks/socket';
 
 const SocketContext = createContext(null);
@@ -9,11 +8,8 @@ export const SocketProvider = ({ children, loggedIn }) => {
 
   const initializeSocket = async () => {
     if (loggedIn) {
-      const userData = await AsyncStorage.getItem('trottersApp');
-      if (userData) {
-        const socketConnection = await createSocket();
-        setSocket(socketConnection);
-      }
+      const socketConnection = await createSocket();
+      setSocket(socketConnection);
     } else {
       setSocket(null); // reset socket if logged out
     }
