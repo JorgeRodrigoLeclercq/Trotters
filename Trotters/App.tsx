@@ -40,21 +40,45 @@ export default function App() {
             <Stack.Group>
               <Stack.Screen name='BottomNavigation' component={BottomTabNavigation} options={{ headerShown: false }}/>
               <Stack.Screen name='Chat' component={Chat} options={{ headerShown: false }}/>
-              <Stack.Screen name='Settings' component={Settings} options={{ headerShown: false }}/>
-              <Stack.Screen name='SignIn' component={SignIn}/>
+              <Stack.Screen
+                name="Settings"
+                options={{ headerShown: false }}
+                children={(props) => <Settings {...props} setLoggedIn={setLoggedIn} />}
+              />
+              <Stack.Screen
+                name="SignIn"
+                options={{ headerShown: false }}
+                children={(props) => <SignIn {...props} setLoggedIn={setLoggedIn} />}
+              />
               <Stack.Screen name='SignUp' component={SignUp}/>
               <Stack.Screen name='SignUpLocation' component={SignUpLocation}/>
-              <Stack.Screen name='SignUpInterests' component={SignUpInterests}/>
+              <Stack.Screen
+                name="SignUpInterests"
+                options={{ headerShown: false }}
+                children={(props) => <SignUpInterests {...props} setLoggedIn={setLoggedIn} />}
+              />
             </Stack.Group>
           ) : (
             <Stack.Group screenOptions={{ headerShown: false }}>
-              <Stack.Screen name='SignIn' component={SignIn}/>
+              <Stack.Screen
+                name="SignIn"
+                options={{ headerShown: false }}
+                children={(props) => <SignIn {...props} setLoggedIn={setLoggedIn} />}
+              />
               <Stack.Screen name='SignUp' component={SignUp}/>
               <Stack.Screen name='SignUpLocation' component={SignUpLocation}/>
-              <Stack.Screen name='SignUpInterests' component={SignUpInterests}/>
+              <Stack.Screen
+                name="SignUpInterests"
+                options={{ headerShown: false }}
+                children={(props) => <SignUpInterests {...props} setLoggedIn={setLoggedIn} />}
+              />
               <Stack.Screen name='BottomNavigation' component={BottomTabNavigation} options={{ headerShown: false }}/>
               <Stack.Screen name='Chat' component={Chat} options={{ headerShown: false }}/>
-              <Stack.Screen name='Settings' component={Settings} options={{ headerShown: false }}/>
+              <Stack.Screen
+                name="Settings"
+                options={{ headerShown: false }}
+                children={(props) => <Settings {...props} setLoggedIn={setLoggedIn} />}
+              />
             </Stack.Group>
           )}
         </Stack.Navigator>

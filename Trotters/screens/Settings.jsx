@@ -5,10 +5,11 @@ import { COLORS } from '../resources/constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Button from '../components/Button';
 
-const Settings = ({navigation}) => {
+const Settings = ({ navigation, setLoggedIn }) => {
     const signOut = async () => {
         try {
             await AsyncStorage.removeItem('trottersApp');
+            setLoggedIn(false);
             navigation.navigate('SignIn');
         } catch (error) {
             Alert.alert('Error', error);

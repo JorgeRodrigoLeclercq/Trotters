@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Image, KeyboardAvoidingView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Image, KeyboardAvoidingView, Alert } from 'react-native';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -31,7 +31,7 @@ const Chat = ({ route, navigation }) => {
 
                 setMessages(response.data);
             } catch (error) {
-                console.error('Error', 'Failed to fetch messages.');
+                Alert.alert('Error', 'Failed to fetch the messages.')
             }
         };
     
@@ -77,7 +77,7 @@ const Chat = ({ route, navigation }) => {
                 }
                 
             } catch (error) {
-                console.error('Error sending message:', error);
+                Alert.alert('Error', error.message);
             }
         }
     };

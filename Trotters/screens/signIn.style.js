@@ -17,14 +17,14 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     logo: {
-        fontFamily: 'Poppins-Bold',
-        fontSize: SIZES.xxLarge,
-        color: COLORS.white
+        width: 300,
+        height: 54.4
     },
     motto: {
         fontFamily: 'Poppins-SemiBold',
         fontSize: SIZES.large,
-        color: COLORS.white
+        color: COLORS.white,
+        marginTop: 3
     },
     buttonContainer: {
         flex: 1,

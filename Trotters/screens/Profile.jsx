@@ -44,7 +44,11 @@ const Profile = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.logo}>TROTTERS</Text>
+        {/* <Text style={styles.logo}>TROTTERS</Text> */}
+        <Image
+          source={require('../resources/trotters-logo-green.png')}
+          style={styles.logo}
+        />
         <TouchableOpacity 
           onPress={() => navigation.navigate('Settings')}
           style={styles.settingsWrapper}>

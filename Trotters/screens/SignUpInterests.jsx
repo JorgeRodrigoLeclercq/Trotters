@@ -7,7 +7,7 @@ import { COLORS } from '../resources';
 import Button from '../components/Button';
 import interests from '../resources/interests.json';
 
-const SignUpInterests = ({ route, navigation }) => {
+const SignUpInterests = ({ route, navigation, setLoggedIn }) => {
     const interestsList = interests.interests;
     const [signUpData, setSignUpData] = useState(route.params.data);
     const [selectedInterests, setSelectedInterests] = useState({});
@@ -53,6 +53,7 @@ const SignUpInterests = ({ route, navigation }) => {
                     _id: response._id
                 }));
                 await AsyncStorage.setItem('trottersApp', JSON.stringify(signUpData));
+                setLoggedIn(true);
                 navigation.navigate('BottomNavigation');
             } else {
                 Alert.alert('Error', 'Failed to sign up.');

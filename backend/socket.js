@@ -20,5 +20,6 @@ module.exports = (httpServer) => {
         socket.on("disconnect", () => {
             delete sockets[socket.handshake.query.userId]; // clean up
         });
+        console.log(sockets);
     });
 };

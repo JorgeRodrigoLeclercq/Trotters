@@ -12,7 +12,7 @@ GoogleSignin.configure({
     scopes: ['email'],
 });
 
-const SignIn = ({ navigation }) => {
+const SignIn = ({ navigation, setLoggedIn }) => {
     const [isLoading, setIsLoading ] = useState(false);
 
     const signIn = async () => {
@@ -31,6 +31,7 @@ const SignIn = ({ navigation }) => {
                     
                     if (response.status === 200) {
                         await AsyncStorage.setItem('trottersApp', JSON.stringify(response.data.userData));
+                        setLoggedIn(true);
                         navigation.navigate('BottomNavigation');
                     } else {
                         navigation.navigate('SignUp', { email: email });
@@ -57,9 +58,10 @@ const SignIn = ({ navigation }) => {
         <GradientBackground>
             <View style={styles.container}>
                 <View style={styles.logoContainer}>
-                    <Text style={styles.logo}>
-                        Trotters
-                    </Text>
+                    <Image
+                        source={require('../resources/trotters-logo-white.png')}
+                        style={styles.logo}
+                    />
                     <Text style={styles.motto}>
                         We are Trotters!
                     </Text>

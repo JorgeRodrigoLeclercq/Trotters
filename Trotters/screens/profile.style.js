@@ -13,9 +13,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   logo: {    
-    fontFamily: 'Poppins-Bold',
-    fontSize: 30,
-    color: COLORS.primary
+    width: 150,
+    height: 27.2010,
+    marginTop: -20
   },
   settingsWrapper: {
     position: 'absolute', 
