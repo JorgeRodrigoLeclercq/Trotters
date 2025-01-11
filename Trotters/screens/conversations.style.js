@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.white
   },
-  searchContainer: {
+  searchBarContainer: {
     height: '10%',
     flexDirection: 'row',
     paddingHorizontal: 33
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     flex: 1,
     color: COLORS.black
   },
-  listWrapper: {
+  flatList: {
     marginLeft: '2%'
   },
   conversationContainer: {
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     marginLeft: '1.5%'
   },
-  recipientAndLastMessage: {
+  recipientAndLastMessageContainer: {
     marginLeft: '2%'
   },
   recipient: {

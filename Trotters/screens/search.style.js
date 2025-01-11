@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
         marginHorizontal: '1.5%',
         overflow: 'hidden',
     },
-    userData: {
+    userDataContainer: {
         position: 'absolute',
         margin: 10,
         bottom: 0,
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%'    
     },
-    modalWrapper: { 
+    modalContainer: { 
         flex: 1,
         justifyContent: 'center', 
         alignItems: 'center', 

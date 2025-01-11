@@ -1,4 +1,4 @@
-import { View, Text, TextInput, ScrollView, Image, TouchableOpacity, KeyboardAvoidingView, Alert } from 'react-native';
+import { View, TextInput, ScrollView, Image, TouchableOpacity, KeyboardAvoidingView, Alert } from 'react-native';
 import { useState, useEffect } from 'react';
 import { launchImageLibrary } from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
@@ -13,11 +13,11 @@ const SignUp = ({ route, navigation }) => {
     const [profileImage, setProfileImage] = useState('');
     const [imageUri, setImageUri] = useState('');
     const [signUpData, setSignUpData] = useState({
-        email: route.params.email,
         name: '',
         age: '',
         description: '',
-        profileImage: ''
+        profileImage: '',
+        email: route.params.email,
     });
     const [isValid, setIsValid] = useState(false);
     const [focusedField, setFocusedField] = useState('');
@@ -31,12 +31,11 @@ const SignUp = ({ route, navigation }) => {
             profileImage
         }));
 
-        if ((typeof name === 'string' && name.trim().length > 0) &&
-            (/^\d+$/.test(age)) &&
-            (typeof description === 'string' && description.trim().length > 0 && description.trim().length < 250) &&
+        if ((typeof name === 'string' && name.trim().length > 0) && 
+            (/^\d+$/.test(age)) && // age should be a number
+            (typeof description === 'string' && description.trim().length > 0 && description.trim().length < 250) && // description should be less than 250 characters long
             (typeof profileImage === 'string' && profileImage.trim().length > 0)) {
             setIsValid(true);
-
         } else {
             setIsValid(false);
         }
@@ -61,7 +60,6 @@ const SignUp = ({ route, navigation }) => {
                 } catch (error) {
                     Alert.alert('Error reading the file', error);
                 }
-
             } else {
                 Alert.alert('Invalid file type', 'Please select a JPG, JPEG, or PNG image.');
             }
@@ -76,8 +74,8 @@ const SignUp = ({ route, navigation }) => {
         if (!(/^\d+$/.test(age))) {
             error += 'Age must be a number\n';
         }
-        if (!(typeof description === 'string' && description.trim().length > 0 && description.trim().length < 500)) {
-            error += 'Your description should be less than 500 characters\n';
+        if (!(typeof description === 'string' && description.trim().length > 0 && description.trim().length < 250)) {
+            error += 'Your description should be less than 250 characters\n';
         }
         if (!profileImage) {
             error += 'Please choose you profile picture';
@@ -90,9 +88,10 @@ const SignUp = ({ route, navigation }) => {
         <View style={styles.container}>
             <KeyboardAvoidingView 
                 behavior='height'
-                style={styles.scrollViewWrapper}>
+                style={styles.scrollViewContainer}
+            >
                 <ScrollView
-                    contentContainerStyle={styles.valuesScroll}
+                    contentContainerStyle={styles.scrollView}
                     keyboardShouldPersistTaps='handled'
                 >
                     <TouchableOpacity
@@ -105,7 +104,7 @@ const SignUp = ({ route, navigation }) => {
                         />
                     </TouchableOpacity>
 
-                    <View style={styles.wrapper}>
+                    <View style={styles.inputContainer}>
                         <View style={styles.inputWrapper(55, focusedField === 'name' ? COLORS.primary : COLORS.white)}>
                             <TextInput
                                 placeholder="What's your name?"
@@ -122,7 +121,7 @@ const SignUp = ({ route, navigation }) => {
                         </View>
                     </View>
 
-                    <View style={styles.wrapper}>
+                    <View style={styles.inputContainer}>
                         <View style={styles.inputWrapper(55, focusedField === 'age' ? COLORS.primary : COLORS.white)}>
                             <TextInput
                                 placeholder='How old are you?'
@@ -140,7 +139,7 @@ const SignUp = ({ route, navigation }) => {
                         </View>
                     </View>
 
-                    <View style={styles.wrapper}>
+                    <View style={styles.inputContainer}>
                         <View style={styles.inputWrapper(110, focusedField === 'description' ? COLORS.primary : COLORS.white)}>
                             <TextInput
                                 placeholder='Tell fellow Trotters something about yourself!'
@@ -161,7 +160,7 @@ const SignUp = ({ route, navigation }) => {
                 </ScrollView>
             </KeyboardAvoidingView>
 
-            <View style={styles.button}>
+            <View style={styles.buttonContainer}>
                 <Button
                     title='Continue'
                     onPress={isValid ? 

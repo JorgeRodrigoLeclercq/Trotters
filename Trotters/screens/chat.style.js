@@ -10,23 +10,23 @@ const styles = StyleSheet.create({
     height: '10%',
     alignItems: 'center',
     flexDirection: 'row',
-    marginLeft: "2%"
+    marginLeft: '2%'
   },
   profileImage: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    marginLeft: "1%"
+    marginLeft: '1%'
   },
   name: {
     fontFamily: 'Poppins-Medium',
     fontSize: SIZES.medium,
     color: COLORS.black,
-    marginLeft: "2%"
+    marginLeft: '2%'
   },
   messagesContainer: {
     flex: 1,
-    padding: "2%"
+    padding: '2%'
   },
   messageWrapper: {
     maxWidth: '80%',
@@ -56,8 +56,8 @@ const styles = StyleSheet.create({
     color: COLORS.black,
     padding: 10
   },
-  sendButton: {
-    marginLeft: "2%"
+  sendButtonContainer: {
+    marginLeft: '2%'
   }
 });
 

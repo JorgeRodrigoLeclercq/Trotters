@@ -12,6 +12,7 @@ const Conversations = ({ navigation }) => {
   const [queryConversations, setQueryConversations] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Retrieve user's current conversations
   const fetchConversations = async () => {
     try {
       const userData = await AsyncStorage.getItem('trottersApp');
@@ -20,17 +21,18 @@ const Conversations = ({ navigation }) => {
 
       const response = await axios.get(`http://192.168.0.22:3000/api/messaging/getConversations/${userId}`);
 
-      if (response.status === 200) {
+      if (response.status === 200) { // if the user has at least 1 conversation
         const fetchedConversations = response.data;
 
+        // Sort the conversations based on the time of the last message
         const sortedConversations = fetchedConversations
           .map((conversation) => {
             if (conversation.lastMessage.senderId === userId) {
-              conversation.lastMessage.content = `You: ${conversation.lastMessage.content}`;
+              conversation.lastMessage.content = `You: ${conversation.lastMessage.content}`; // add a 'You: ' in case the last message was from the user
             }
             return conversation;
           })
-          .sort((a, b) => new Date(b.lastMessage.createdAt) - new Date(a.lastMessage.createdAt));
+          .sort((a, b) => new Date(b.lastMessage.createdAt) - new Date(a.lastMessage.createdAt)); // sorting based on the time of the last message
 
         setConversations(sortedConversations);
         setQueryConversations(sortedConversations);
@@ -40,6 +42,7 @@ const Conversations = ({ navigation }) => {
     }
   };
 
+  // Update every time the screen is mounted
   useFocusEffect(
     useCallback(() => {
       fetchConversations();
@@ -61,7 +64,7 @@ const Conversations = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.searchContainer}>
+      <View style={styles.searchBarContainer}>
         <TextInput
           placeholder='Who do you want to talk to?'
           placeholderTextColor={COLORS.gray}
@@ -84,17 +87,18 @@ const Conversations = ({ navigation }) => {
                 })}
               style={styles.conversationContainer}>
               <Image source={{ uri: item.profileImage }} style={styles.profileImage} />
-                <View style={styles.recipientAndLastMessage}>
+                <View style={styles.recipientAndLastMessageContainer}>
                   <Text style={styles.recipient}>{item.name}</Text>
                   <Text numberOfLines={1} style={styles.lastMessage}>{item.lastMessage.content}</Text>
                 </View>
             </TouchableOpacity>
           )}
-          style={styles.listWrapper}
+          style={styles.flatList}
         />
-      ) : 
-      (<View>
-      </View>)}
+      ) : (
+        <View>
+        </View>
+      )}
     </View>
   );
 };

@@ -7,17 +7,15 @@ import { COLORS } from '../resources';
 import Button from '../components/Button';
 import interests from '../resources/interests.json';
 
-const SignUpInterests = ({ route, navigation, setLoggedIn }) => {
+const SignUpInterests = ({ route, navigation, setIsSignedIn }) => {
     const interestsList = interests.interests;
     const [signUpData, setSignUpData] = useState(route.params.data);
     const [selectedInterests, setSelectedInterests] = useState({});
     const [isValid, setIsValid] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const colors = ['#3B00E6', '#E601D6', '#00E5C3', '#DCE600', '#E67200'];
-
     useEffect(() => {
-        if (Object.keys(selectedInterests).length === 3){
+        if (Object.keys(selectedInterests).length === 3){ // the user must select 3 interests to create an account
             setSignUpData(prevData => ({
                 ...prevData,
                 interests: Object.keys(selectedInterests)
@@ -31,20 +29,22 @@ const SignUpInterests = ({ route, navigation, setLoggedIn }) => {
     const handleInterestPress = (interest) => {
         setSelectedInterests(prev => {
             const newSelected = { ...prev };
-            if (newSelected[interest]) {
+            if (newSelected[interest]) { // the user re-selects an interest and therefore it is deleted from the list of selected interests
                 delete newSelected[interest];
-            } else {
-                newSelected[interest] = colors[Math.floor(Math.random() * colors.length)];
+            } else { // the user selects a new interest
+                newSelected[interest] = COLORS.interestsColors[Math.floor(Math.random() * COLORS.interestsColors.length)]; // randomize interest's color
             }
             return newSelected;
         });
     };
 
+    // Handle the Sign Up process
     const signUp = async () => {
         setIsLoading(true);
     
         try {
-            const endpoint = 'http://192.168.0.22:3000/api/users/signUp';
+            // Send new user's data to backend
+            const endpoint = 'http://192.168.0.22:3000/api/users/signUp'; 
             const response = await axios.post(endpoint, signUpData);
     
             if (response.status === 201) {
@@ -52,8 +52,9 @@ const SignUpInterests = ({ route, navigation, setLoggedIn }) => {
                     ...prevData,
                     _id: response._id
                 }));
-                await AsyncStorage.setItem('trottersApp', JSON.stringify(signUpData));
-                setLoggedIn(true);
+                // Save user data in the phone and go to Profile screen
+                await AsyncStorage.setItem('trottersApp', JSON.stringify(signUpData)); 
+                setIsSignedIn(true);
                 navigation.navigate('BottomNavigation');
             } else {
                 Alert.alert('Error', 'Failed to sign up.');
@@ -71,18 +72,18 @@ const SignUpInterests = ({ route, navigation, setLoggedIn }) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.placeholderWrapper}>
+            <View style={styles.placeholderContainer}>
                 <Text style={styles.placeholder}>What do you want to do while traveling?</Text>
             </View>
             
             <View style={styles.scrollViewWrapper}>
-                <ScrollView contentContainerStyle={styles.interestsScroll}>
+                <ScrollView contentContainerStyle={styles.scrollView}>
                     <View style={styles.interestsContainer}>
                         {interestsList.map((interest) => (
                             <View 
                                 key={interest} 
                                 style={[
-                                    styles.interestContainer,
+                                    styles.interestWrapper,
                                     { borderColor: selectedInterests[interest] || COLORS.gray }
                                 ]}
                                 onTouchEnd={() => handleInterestPress(interest)}
@@ -101,7 +102,7 @@ const SignUpInterests = ({ route, navigation, setLoggedIn }) => {
                 </ScrollView>
             </View>
 
-            <View style={styles.button}>
+            <View style={styles.buttonContainer}>
                 <Button 
                     title='Sign Up'
                     onPress={isValid ? 
@@ -111,7 +112,8 @@ const SignUpInterests = ({ route, navigation, setLoggedIn }) => {
                     isValid={isValid} 
                     isLoading={isLoading} 
                     color={COLORS.primary} 
-                    textColor={COLORS.white}/>
+                    textColor={COLORS.white}
+                />
             </View>
         </View>
     );

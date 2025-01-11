@@ -3,10 +3,10 @@ const { User } = require('../models/user');
 
 module.exports = {
     sendMessage: async (req, res) => {
-        const { content, senderId, receiverId } = req.body;
-
         try {
-            // Create a new message
+            const { content, senderId, receiverId } = req.body;
+
+            // Create the new message
             const newMessage = new Message({
                 content,
                 senderId,
@@ -18,8 +18,8 @@ module.exports = {
                 participants: { $all: [senderId, receiverId] },
             });
     
+            // If no conversation exists, create a new one
             if (!conversation) {
-                // If no conversation exists, create a new one
                 conversation = new Conversation({
                     participants: [senderId, receiverId],
                     messages: []
@@ -36,14 +36,14 @@ module.exports = {
             // Send response
             res.status(201).json({ _id: newMessage._id });
         } catch (error) {
-            res.status(500).json({ message: "Server error", error: error.message });
+            res.status(500).json({ message: 'Server error' });
         }
     },
     
-    getMessages: async (req, res) => {
-        const { currentUserId, otherUserId } = req.query;
-        
+    getMessages: async (req, res) => {        
         try {
+            const { currentUserId, otherUserId } = req.query;
+
             // Find the conversation between the two users
             const conversation = await Conversation.findOne({
                 participants: { $all: [currentUserId, otherUserId] },
@@ -56,19 +56,19 @@ module.exports = {
             // Send response
             res.status(200).json(conversation.messages);
         } catch (error) {
-            res.status(500).json({ message: "Server error", error: error.message });
+            res.status(500).json({ message: 'Server error' });
         }
     },
 
-    getConversations: async (req, res) => {
-        const userId = req.params.key;
-    
+    getConversations: async (req, res) => {    
         try {
+            const userId = req.params.key;
+
             // Fetch all conversations involving the user
             const conversations = await Conversation.find({
                 participants: userId,
             });
-    
+            
             if (conversations.length === 0) {
                 return res.status(204).end();
             }
@@ -101,8 +101,8 @@ module.exports = {
                     name: user.name,
                     profileImage: user.profileImage,
                     lastMessage: {
-                        senderId: lastMessage.senderId,
                         content: lastMessage.content,
+                        senderId: lastMessage.senderId,
                         createdAt: lastMessage.createdAt
                     }
                 };
@@ -111,7 +111,7 @@ module.exports = {
             // Send response
             res.status(200).json(result);
         } catch (error) {
-            res.status(500).json({ message: "Server error", error: error.message });
+            res.status(500).json({ message: 'Server error' });
         }  
     }    
 }

@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row'
   },
-  title: {
+  settings: {
     position: 'absolute', 
     left: '10%', 
     top: '25%',
@@ -21,12 +21,12 @@ const styles = StyleSheet.create({
     fontSize: SIZES.large,
     color: COLORS.black
   },
-  backWrapper: {
+  backButtonContainer: {
     position: 'absolute', 
     left: '2%', 
     top: '25%'
   },
-  button: {
+  buttonContainer: {
     width: '50%',
     height: '10%',
     justifyContent: 'center',

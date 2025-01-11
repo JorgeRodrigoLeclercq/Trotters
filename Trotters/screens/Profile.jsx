@@ -8,32 +8,31 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const Profile = ({navigation}) => {
 
   const [user, setUser] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    // Retrieve user's data
+    const fetchUserData = async () => {
       try {
-        const data = await AsyncStorage.getItem('trottersApp');
-        const parsedData = JSON.parse(data);
-        setUser(parsedData);
-        setLoading(false);
+        const userData = await AsyncStorage.getItem('trottersApp');
+        const parsedUserData = JSON.parse(userData);
+        setUser(parsedUserData); 
+        setIsLoading(false);
       } catch (error) {
-        setLoading(false);
         Alert.alert('Error', 'Failed to fetch user data.');
       }
     };
 
-    fetchData();
+    fetchUserData();
   }, []);
 
   const getRandomColor = () => {
-    const colorList = ['#3B00E6', '#E601D6', '#00E5C3', '#DCE600', '#E67200'];
-    const randomIndex = Math.floor(Math.random() * colorList.length);
+    const randomIndex = Math.floor(Math.random() * COLORS.interestsColors.length);
 
-    return colorList[randomIndex];
+    return COLORS.interestsColors[randomIndex];
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
         <ActivityIndicator size={SIZES.large}/>
@@ -44,14 +43,13 @@ const Profile = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        {/* <Text style={styles.logo}>TROTTERS</Text> */}
         <Image
           source={require('../resources/trotters-logo-green.png')}
           style={styles.logo}
         />
         <TouchableOpacity 
           onPress={() => navigation.navigate('Settings')}
-          style={styles.settingsWrapper}>
+          style={styles.settingsButtonContainer}>
           <Ionicons
             name='settings-sharp'
             size={30}
@@ -60,8 +58,8 @@ const Profile = ({navigation}) => {
         </TouchableOpacity>
       </View>
 
-      <ScrollView contentContainerStyle={styles.dataContainer}>
-        <View style={styles.user}>
+      <ScrollView contentContainerStyle={styles.userDataContainer}>
+        <View style={styles.upperDataContainer}>
           <Image
             source={{ uri: user.profileImage }} 
             style={styles.profileImage}
@@ -70,18 +68,18 @@ const Profile = ({navigation}) => {
           <Text style={styles.location}>{user.location}</Text>
         </View>
 
-        <View style={styles.attribute}>
-          <Text style={styles.tag}>Age</Text>
-          <Text style={styles.data}>{user.age}</Text>
+        <View style={styles.keyValueContainer}>
+          <Text style={styles.key}>Age</Text>
+          <Text style={styles.value}>{user.age}</Text>
         </View>
 
-        <View style={styles.attribute}>
-          <Text style={styles.tag}>Interests</Text>
-          <View style={styles.interests}>
+        <View style={styles.keyValueContainer}>
+          <Text style={styles.key}>Interests</Text>
+          <View style={styles.interestsContainer}>
             {user.interests.map((interest, index) => {
               const randomColor = getRandomColor();
               return (
-                <View key={index} style={[styles.interestContainer, { borderColor: randomColor }]}>
+                <View key={index} style={[styles.interestWrapper, { borderColor: randomColor }]}>
                   <View style={[styles.circle, { backgroundColor: randomColor }]} />
                   <Text style={styles.interest}>{interest}</Text>
                 </View>
@@ -90,9 +88,9 @@ const Profile = ({navigation}) => {
           </View>
         </View>
 
-        <View style={styles.attribute}>
-          <Text style={styles.tag}>About Me</Text>
-          <Text style={styles.data}>{user.description}</Text>
+        <View style={styles.keyValueContainer}>
+          <Text style={styles.key}>About Me</Text>
+          <Text style={styles.value}>{user.description}</Text>
         </View>
       </ScrollView>
     </View>

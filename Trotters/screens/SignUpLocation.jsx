@@ -13,16 +13,18 @@ const SignUpLocation = ({ route, navigation }) => {
     const [isValid, setIsValid] = useState(false);
 
     useEffect(() => {
+        // Load locations
         const allLocations = [];
-        const countries = Object.keys(locations);
+        const countries = Object.keys(locations); 
         countries.forEach(country => {
-            allLocations.push(country); 
+            allLocations.push(country); // countries
             locations[country].forEach(city => {
-                allLocations.push(`${city}, ${country}`); 
+                allLocations.push(`${city}, ${country}`); // cities
             });
         });
 
-        if (allLocations.includes(searchText)) {
+        // Change Flat List based on search text
+        if (allLocations.includes(searchText)) { // search text is a valid location
             setShowFlatList(false);
             setIsValid(true);
             
@@ -31,7 +33,7 @@ const SignUpLocation = ({ route, navigation }) => {
                 location: searchText
             }));
 
-        } else if (searchText) {
+        } else if (searchText) { // search text is not a valid location
             const results = allLocations.filter(location =>
                 location.toLowerCase().includes(searchText.toLowerCase())
             ).slice(0, 13);
@@ -39,15 +41,11 @@ const SignUpLocation = ({ route, navigation }) => {
             setShowFlatList(true);
             setIsValid(false);
             
-        } else {
+        } else { // search text is ''
             setShowFlatList(false);
             setIsValid(false);
         }
     }, [searchText]);
-
-    const handleLocationPress = async (item) => {
-        setSearchText(item);
-    };
 
     const invalidForm = () => {
         Alert.alert('Invalid form', 'Please choose a location.');
@@ -57,8 +55,9 @@ const SignUpLocation = ({ route, navigation }) => {
         <View style={styles.container}>
             <KeyboardAvoidingView
                 behavior='height'
-                style={styles.searchContainer}>
-                <View style={styles.searchBarContainer}>
+                style={styles.searchBarContainer}
+            >
+                <View style={styles.searchBarWrapper}>
                     <TextInput
                         style={styles.searchBar}
                         placeholder='Where are you from?'
@@ -76,7 +75,7 @@ const SignUpLocation = ({ route, navigation }) => {
                             data={filteredLocations}
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={({ item }) => (
-                                <TouchableOpacity style={styles.item} onPress={() => handleLocationPress(item)}>
+                                <TouchableOpacity style={styles.item} onPress={setSearchText}>
                                     <Text style={{ fontFamily: 'Poppins-Medium', color:COLORS.black }}>{item}</Text>
                                 </TouchableOpacity>
                             )}
@@ -85,7 +84,7 @@ const SignUpLocation = ({ route, navigation }) => {
                 )}
             </KeyboardAvoidingView>
 
-            <View style={styles.button}>
+            <View style={styles.buttonContainer}>
                 <Button 
                     title='Continue' 
                     onPress={isValid ? 

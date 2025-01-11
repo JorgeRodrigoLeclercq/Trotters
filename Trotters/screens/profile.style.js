@@ -17,16 +17,16 @@ const styles = StyleSheet.create({
     height: 27.2010,
     marginTop: -20
   },
-  settingsWrapper: {
+  settingsButtonContainer: {
     position: 'absolute', 
     right: '4%', 
     top: '25%'
   },
-  dataContainer: {
+  userDataContainer: {
     flexGrow: 1,
     paddingBottom: 70
   },
-  user: {
+  upperDataContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: '6%',
@@ -47,27 +47,27 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: COLORS.black
   },
-  attribute: {
+  keyValueContainer: {
     margin: '3%'
   },
-  tag:{
+  key:{
     fontFamily: 'Poppins-SemiBold',
     fontSize: SIZES.small,
     color: COLORS.black,
     paddingHorizontal: '5%'
   },
-  data: {
+  value: {
     fontFamily: 'Poppins-Regular',
     fontSize: SIZES.medium,
     color: COLORS.black,
     paddingHorizontal: '5%'
   },
-  interests: {
+  interestsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',    
     paddingHorizontal: '5%'  
   },
-  interestContainer: {
+  interestWrapper: {
     justifyContent: 'center',
     alignItems: 'center',  
     flexDirection: 'row',  

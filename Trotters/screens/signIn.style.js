@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     gradientBackground: {
         ...StyleSheet.absoluteFillObject
     },
-    logoContainer: {
+    logoAndMottoContainer: {
         flex: 2,
         justifyContent: 'center',
         alignItems: 'center'
@@ -41,6 +41,7 @@ export const GradientBackground = ({ children }) => (
         locations={[0.1, 1]}
         style={styles.gradientBackground}
     >
+        
         {children}
     </LinearGradient>
 );

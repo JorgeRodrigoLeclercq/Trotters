@@ -19,37 +19,40 @@ const Search = ({ navigation }) => {
     const [selectedUser, setSelectedUser] = useState({});
 
     useEffect(() => {
-        const fetchData = async () => {
+        // Retrieve user's data
+        const fetchUserData = async () => {
           try {
-            const data = await AsyncStorage.getItem('trottersApp');
-            const parsedData = JSON.parse(data);
-            setUserId(parsedData._id);
-            setUserInterests(parsedData.interests);
+            const userData = await AsyncStorage.getItem('trottersApp');
+            const parsedUserData = JSON.parse(userData);
+            setUserId(parsedUserData._id);
+            setUserInterests(parsedUserData.interests);
           } catch (error) {
             Alert.alert('Error', 'Failed to fetch user data.');
           }
         };
     
-        fetchData();
+        fetchUserData();
     }, []);
 
     useEffect(() => {
+        // Load locations
         const allLocations = [];
         const countries = Object.keys(locations);
         countries.forEach(country => {
-            allLocations.push(country); 
+            allLocations.push(country); // countries 
             locations[country].forEach(city => {
-                allLocations.push(`${city}, ${country}`); 
+                allLocations.push(`${city}, ${country}`); // cities 
             });
         });
 
+        // Change Flat List based on search text
         if (searchText) {
             const results = allLocations.filter(location =>
                 location.toLowerCase().includes(searchText.toLowerCase())
             ).slice(0, 10);
             setFilteredLocations(results);
             setShowFlatList(true);
-        } else {
+        } else { // search text is ''
             setFilteredLocations([]);
             setShowFlatList(false);
         }
@@ -65,11 +68,13 @@ const Search = ({ navigation }) => {
         return userInterests.filter(interest => otherUserInterests.includes(interest)).length;
     };
 
+    // Retrieve list of users from location = item and sort them based on the number of interests they share in common with the user
     const handleLocationPress = async (item) => {
         setSearchText(item); 
         setShowFlatList(false); 
-
+        
         try {
+            // Retrieve list of users from location = item
             const response = await axios.get(`http://192.168.0.22:3000/api/users/search`, {
                 params: { 
                     userId, 
@@ -78,6 +83,7 @@ const Search = ({ navigation }) => {
 
             const usersData = response.data;
 
+            // Sort them based on the number of interests they share in common with the user
             const sortedUsers = usersData.sort((a, b) => {
                 const commonInterestsA = getCommonInterestsCount(userInterests, a.interests);
                 const commonInterestsB = getCommonInterestsCount(userInterests, b.interests);
@@ -136,7 +142,7 @@ const Search = ({ navigation }) => {
                         onPress={() => handleUserPress(user)}
                         style={styles.userCard}
                     >
-                        <View style={styles.userData}>
+                        <View style={styles.userDataContainer}>
                             <Text style={styles.userName}>{user.name}</Text>
                             <Text style={styles.userAge}>{user.age} years old</Text>
                         </View>
@@ -153,7 +159,7 @@ const Search = ({ navigation }) => {
                 visible={modalVisible}
                 transparent={true}
                 animationType='fade'>
-                <View style={styles.modalWrapper}>
+                <View style={styles.modalContainer}>
                     <ProfileModal
                         user={selectedUser}
                         interests={userInterests}

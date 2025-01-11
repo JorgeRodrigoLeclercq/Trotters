@@ -1,14 +1,16 @@
-import { StyleSheet, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { COLORS, SIZES } from '../resources/index';
+import { Text, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
+import { COLORS } from '../resources/index';
 
 const Button = ({title, onPress, isValid, isLoading, color, textColor}) => {
     return(
         <TouchableOpacity 
-            style={styles.buttonStyle(isValid === false ? COLORS.gray : color)}
+            style={styles.buttonWrapper(isValid === false ? COLORS.gray : color)}
             onPress={onPress}> 
-            {isLoading === false ? (<Text style={styles.buttonText(textColor)}>{title}</Text>
-        ):(
-        <ActivityIndicator/>)}
+            {isLoading === false ? (
+                <Text style={styles.buttonText(textColor)}>{title}</Text>
+            ):(
+                <ActivityIndicator/>
+            )}
         </TouchableOpacity>
     )
 }
@@ -16,7 +18,7 @@ const Button = ({title, onPress, isValid, isLoading, color, textColor}) => {
 export default Button;
 
 const styles = StyleSheet.create({
-    buttonStyle: (backgroundColor)=>({
+    buttonWrapper: (backgroundColor)=>({
         width: '80%',
         height: 50,
         justifyContent: 'center',

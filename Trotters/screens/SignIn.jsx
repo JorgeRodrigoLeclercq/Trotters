@@ -12,15 +12,16 @@ GoogleSignin.configure({
     scopes: ['email'],
 });
 
-const SignIn = ({ navigation, setLoggedIn }) => {
-    const [isLoading, setIsLoading ] = useState(false);
+const SignIn = ({ navigation, setIsSignedIn }) => {
+    const [isLoading, setIsLoading] = useState(false);
 
+    // Handle the Sign In process
     const signIn = async () => {
         setIsLoading(true);
 
         try {
+            // Choose Google account modals
             await GoogleSignin.hasPlayServices();
-            setIsLoading(false);
             const response = await GoogleSignin.signIn();
 
             if (response) {
@@ -29,18 +30,18 @@ const SignIn = ({ navigation, setLoggedIn }) => {
                 try {
                     const response = await axios.get(`http://192.168.0.22:3000/api/users/signIn/${email}`);
                     
-                    if (response.status === 200) {
-                        await AsyncStorage.setItem('trottersApp', JSON.stringify(response.data.userData));
-                        setLoggedIn(true);
+                    if (response.status === 200) { // the user exists
+                        // Save user data in the phone and go to Profile screen
+                        await AsyncStorage.setItem('trottersApp', JSON.stringify(response.data.userData)); 
+                        setIsSignedIn(true);
                         navigation.navigate('BottomNavigation');
-                    } else {
+                    } else { // the user doesn't exist and therefore they have to create an account
                         navigation.navigate('SignUp', { email: email });
                     }
                 } catch (error) {
                     Alert.alert('Error', error.message);
                 }
             } 
-
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
                 Alert.alert('Sign In Cancelled', 'Sign in was cancelled by the user.');
@@ -51,13 +52,15 @@ const SignIn = ({ navigation, setLoggedIn }) => {
             } else {
                 Alert.alert('Error', error.message);
             }
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return (
         <GradientBackground>
             <View style={styles.container}>
-                <View style={styles.logoContainer}>
+                <View style={styles.logoAndMottoContainer}>
                     <Image
                         source={require('../resources/trotters-logo-white.png')}
                         style={styles.logo}

@@ -5,11 +5,13 @@ import { COLORS } from '../resources/constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Button from '../components/Button';
 
-const Settings = ({ navigation, setLoggedIn }) => {
+const Settings = ({ navigation, setIsSignedIn }) => {
+    // Handle the Sign Out process
     const signOut = async () => {
         try {
-            await AsyncStorage.removeItem('trottersApp');
-            setLoggedIn(false);
+            // Remove user data in the phone and go to Sign In screen
+            await AsyncStorage.removeItem('trottersApp'); 
+            setIsSignedIn(false);
             navigation.navigate('SignIn');
         } catch (error) {
             Alert.alert('Error', error);
@@ -21,16 +23,18 @@ const Settings = ({ navigation, setLoggedIn }) => {
             <View style={styles.header}>
                 <TouchableOpacity
                     onPress={() => navigation.navigate('BottomNavigation')}
-                    style={styles.backWrapper}>
+                    style={styles.backButtonContainer}
+                >
                     <Ionicons
                         name='caret-back'
                         size={30}
                         color={COLORS.gray}
                     />
                 </TouchableOpacity>
-                <Text style={styles.title}> Settings </Text>
+                <Text style={styles.settings}> Settings </Text>
             </View>
-            <View style={styles.button}>
+            
+            <View style={styles.buttonContainer}>
                 <Button
                     title='Sign Out' 
                     onPress={signOut}

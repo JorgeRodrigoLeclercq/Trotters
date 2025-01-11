@@ -8,12 +8,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: COLORS.white
     },
-    searchContainer: {
+    searchBarContainer: {
         width: '100%',
         height: '90%',
         alignItems: 'center'
     },
-    searchBarContainer: {
+    searchBarWrapper: {
         width: '90%',
         alignItems: 'center',
         flexDirection: 'row',
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: COLORS.white
     },
-    button: {
+    buttonContainer: {
         width: '100%',
         height: '10%',
         justifyContent: 'center',

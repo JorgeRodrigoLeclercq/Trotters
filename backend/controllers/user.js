@@ -22,7 +22,7 @@ module.exports = {
             // Send response
             res.status(201).json({ _id: newUser._id });
         } catch (error) {
-            res.status(500).json({ message: "Server error", error: error.message });
+            res.status(500).json({ message: 'Server error' });
         }
     },
 
@@ -41,24 +41,24 @@ module.exports = {
                 res.status(204).end();
             }
         } catch (error) {
-            res.status(500).json({ message: "Server error", error: error.message });
+            res.status(500).json({ message: 'Server error' });
         }
     },
 
-    searchUsers: async(req, res) => {
-        const { userId, location } = req.query;
-    
+    searchUsers: async(req, res) => {    
         try {
+            const { userId, location } = req.query;
+
             // Find users matching location but excluding the current user
             const users = await User.find({
                 location: location,
-                _id: { $ne: userId } // Exclude the current user
+                _id: { $ne: userId } // exclude the current user
             });
     
             // Send response 
             res.status(200).json(users);
         } catch (error) {
-            res.status(500).json({ message: "Server error", error: error.message });
+            res.status(500).json({ message: 'Server error' });
         }
     }
 }

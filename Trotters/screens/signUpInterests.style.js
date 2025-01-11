@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: COLORS.white
     },
-    placeholderWrapper:{
+    placeholderContainer:{
         height: '10%',
         justifyContent: 'center',
         alignItems: 'center'
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     scrollViewWrapper:{
         height: '80%'
     },
-    interestsScroll: {
+    scrollView: {
         flexGrow: 1,
         marginHorizontal: '2%'
     },
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         gap: 5
     },
-    interestContainer: {
+    interestWrapper: {
         justifyContent: 'center',
         alignItems: 'center', 
         flexDirection: 'row',
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins-Regular',
         fontSize: SIZES.medium
     },
-    button: {
+    buttonContainer: {
         width: '100%',
         height: '10%',
         justifyContent: 'center',

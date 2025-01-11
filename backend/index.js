@@ -1,39 +1,35 @@
 // Initialization
-const express = require("express");
+const express = require('express');
 const app = express();
 
 // CORS
-const cors = require("cors");
-app.use(cors({ origin: "*" }));
+const cors = require('cors');
+app.use(cors({ origin: '*' }));
 
 // Configuration
-const dotenv = require("dotenv");
+const dotenv = require('dotenv');
 dotenv.config();
 
 // MongoDB
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 mongoose
     .connect(process.env.MONGO_URL)
-    .then(() => console.log("MongoDB connected"))
-    .catch((err) => console.log(err));
 
 // Middleware
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ limit: "10mb", extended: true }));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // Routers
-const userRouter = require("./routers/user");
-app.use("/api/users", userRouter);
+const userRouter = require('./routers/user');
+app.use('/api/users', userRouter);
 
-const messagingRouter = require("./routers/messaging");
-app.use("/api/messaging", messagingRouter);
+const messagingRouter = require('./routers/messaging');
+app.use('/api/messaging', messagingRouter);
 
 // HTTP Server & Socket.IO
-const { createServer } = require("http");
+const { createServer } = require('http');
 const httpServer = createServer(app);
-require("./socket")(httpServer); 
+require('./socket')(httpServer); 
 
 // Start the server
-httpServer.listen(process.env.PORT, "0.0.0.0", () =>
-    console.log(`Trotters app listening on port ${process.env.PORT}!`)
-);
+httpServer.listen(process.env.PORT, '0.0.0.0');

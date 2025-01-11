@@ -6,10 +6,10 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: COLORS.white
     },
-    scrollViewWrapper:{
+    scrollViewContainer:{
         height: '90%'
     },
-    valuesScroll: {
+    scrollView: {
         flexGrow: 1
     },
     imageWrapper: {
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         height: 150,
         borderRadius: 100
     },
-    wrapper: {
+    inputContainer: {
         marginBottom: '15%',
         marginHorizontal: '3%'
     },
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         paddingHorizontal: '5%'
     }),
-    button: {
+    buttonContainer: {
         height: '10%',
         justifyContent: 'center',
         alignItems: 'center'
