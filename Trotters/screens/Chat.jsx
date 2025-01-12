@@ -13,6 +13,7 @@ const Chat = ({ route, navigation }) => {
     const [messages, setMessages] = useState([]);
     const [inputText, setInputText] = useState('');
     const socketRef = useRef({});
+    const scrollViewRef = useRef({});
 
     useEffect(() => {
         // Initialize a socket connection and retrieve the conversation's messages
@@ -57,6 +58,14 @@ const Chat = ({ route, navigation }) => {
             }
         };
     }, []); 
+
+    // Scroll to the bottom whenever a message from the user is added
+    useEffect(() => {
+        const lastMessage = messages[messages.length - 1];
+        if (lastMessage && lastMessage.senderId === currentUserId) {
+            scrollViewRef.current.scrollToEnd({ animated: true });
+        }
+    }, [messages]);
 
     const sendMessage = async () => {
         if (inputText.trim()) {
@@ -104,7 +113,10 @@ const Chat = ({ route, navigation }) => {
                 <Text style={styles.name}>{otherUserName}</Text>
             </View>
 
-            <ScrollView style={styles.messagesContainer}>
+            <ScrollView 
+                ref={scrollViewRef}
+                style={styles.messagesContainer}
+            >
                 {messages.map((message) => (
                     <View
                         key={message._id}

@@ -93,6 +93,7 @@ const SignUp = ({ route, navigation }) => {
                 <ScrollView
                     contentContainerStyle={styles.scrollView}
                     keyboardShouldPersistTaps='handled'
+                    showsVerticalScrollIndicator={false}
                 >
                     <TouchableOpacity
                         onPress={() => handleImageSelection()}

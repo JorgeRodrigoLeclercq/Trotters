@@ -18,13 +18,13 @@ const styles = StyleSheet.create({
     },
     logo: {
         width: 300,
-        height: 54.4
+        height: 54.511372157
     },
     motto: {
         fontFamily: 'Poppins-SemiBold',
         fontSize: SIZES.large,
         color: COLORS.white,
-        marginTop: 3
+        marginTop: 4
     },
     buttonContainer: {
         flex: 1,

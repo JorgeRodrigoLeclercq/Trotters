@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   sendButtonContainer: {
-    marginLeft: '2%'
+    marginRight: '2%'
   }
 });
 
