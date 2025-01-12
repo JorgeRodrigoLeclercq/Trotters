@@ -44,18 +44,6 @@ export default function App() {
               options={{ headerShown: false }}
               children={(props) => <Settings {...props} setIsSignedIn={setIsSignedIn}/>}
             />
-            <Stack.Screen
-              name='SignIn'
-              options={{ headerShown: false }}
-              children={(props) => <SignIn {...props} setIsSignedIn={setIsSignedIn}/>}
-            />
-            <Stack.Screen name='SignUp' component={SignUp}/>
-            <Stack.Screen name='SignUpLocation' component={SignUpLocation}/>
-            <Stack.Screen
-              name='SignUpInterests'
-              options={{ headerShown: false }}
-              children={(props) => <SignUpInterests {...props} setIsSignedIn={setIsSignedIn}/>}
-            />
           </Stack.Group>
         ) : (
           <Stack.Group screenOptions={{ headerShown: false }}>
@@ -70,13 +58,6 @@ export default function App() {
               name='SignUpInterests'
               options={{ headerShown: false }}
               children={(props) => <SignUpInterests {...props} setIsSignedIn={setIsSignedIn}/>}
-            />
-            <Stack.Screen name='BottomNavigation' component={BottomTabNavigation} options={{ headerShown: false }}/>
-            <Stack.Screen name='Chat' component={Chat} options={{ headerShown: false }}/>
-            <Stack.Screen
-              name='Settings'
-              options={{ headerShown: false }}
-              children={(props) => <Settings {...props} setIsSignedIn={setIsSignedIn} />}
             />
           </Stack.Group>
         )}
