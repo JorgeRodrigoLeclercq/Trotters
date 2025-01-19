@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     },
     logo: {
         width: 300,
-        height: 54.511372157
+        height: 54.3030300105
     },
     motto: {
         fontFamily: 'Poppins-SemiBold',

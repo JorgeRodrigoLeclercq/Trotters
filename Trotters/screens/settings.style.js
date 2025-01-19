@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
   settings: {
     position: 'absolute', 
     left: '10%', 
-    top: '25%',
     fontFamily: 'Poppins-Bold',
     fontSize: SIZES.large,
     color: COLORS.black
@@ -24,7 +23,7 @@ const styles = StyleSheet.create({
   backButtonContainer: {
     position: 'absolute', 
     left: '2%', 
-    top: '25%'
+    top: '27.5%'
   },
   buttonContainer: {
     width: '50%',

@@ -14,13 +14,11 @@ const styles = StyleSheet.create({
   },
   logo: {    
     width: 150,
-    height: 27.2010,
-    marginTop: -20
+    height: 27.15151501
   },
   settingsButtonContainer: {
     position: 'absolute', 
-    right: '4%', 
-    top: '25%'
+    right: '4%'
   },
   userDataContainer: {
     flexGrow: 1,
