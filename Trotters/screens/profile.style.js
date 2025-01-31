@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
   logo: {    
     width: 150,
-    height: 27.15151501
+    height: 27
   },
   settingsButtonContainer: {
     position: 'absolute', 

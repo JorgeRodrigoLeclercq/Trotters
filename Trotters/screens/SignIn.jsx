@@ -28,7 +28,7 @@ const SignIn = ({ navigation, setIsSignedIn }) => {
                 const email = response.data.user.email;
                 
                 try {
-                    const response = await axios.get(`http://192.168.0.22:3000/api/users/signIn/${email}`);
+                    const response = await axios.get(`https://api.wearetrotters.com/users/signIn/${email}`);
                     
                     if (response.status === 200) { // the user exists
                         // Save user data in the phone and go to Profile screen

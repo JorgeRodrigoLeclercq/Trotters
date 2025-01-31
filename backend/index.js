@@ -21,10 +21,15 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // Routers
 const userRouter = require('./routers/user');
-app.use('/api/users', userRouter);
+app.use('/users', userRouter);
 
 const messagingRouter = require('./routers/messaging');
-app.use('/api/messaging', messagingRouter);
+app.use('/messaging', messagingRouter);
+
+// Health Check Endpoint
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+});
 
 // HTTP Server & Socket.IO
 const { createServer } = require('http');
@@ -32,4 +37,5 @@ const httpServer = createServer(app);
 require('./socket')(httpServer); 
 
 // Start the server
-httpServer.listen(process.env.PORT, '0.0.0.0');
+const PORT = process.env.PORT || 8080;
+httpServer.listen(PORT, '0.0.0.0');

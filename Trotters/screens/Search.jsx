@@ -75,7 +75,7 @@ const Search = ({ navigation }) => {
         
         try {
             // Retrieve list of users from location = item
-            const response = await axios.get(`http://192.168.0.22:3000/api/users/search`, {
+            const response = await axios.get(`https://api.wearetrotters.com/users/search`, {
                 params: { 
                     userId, 
                     location: item }

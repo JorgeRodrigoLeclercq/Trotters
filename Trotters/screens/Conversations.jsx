@@ -19,7 +19,7 @@ const Conversations = ({ navigation }) => {
       const parsedUserData = JSON.parse(userData);
       const userId = parsedUserData._id;
 
-      const response = await axios.get(`http://192.168.0.22:3000/api/messaging/getConversations/${userId}`);
+      const response = await axios.get(`https://api.wearetrotters.com/messaging/getConversations/${userId}`);
 
       if (response.status === 200) { // if the user has at least 1 conversation
         const fetchedConversations = response.data;

@@ -26,13 +26,15 @@ const styles = StyleSheet.create({
   },
   messagesContainer: {
     flex: 1,
-    padding: '2%'
+    paddingHorizontal: '2%'
   },
   messageWrapper: {
     maxWidth: '80%',
-    padding: 10,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
     borderRadius: 25,
-    marginBottom: 10
+    marginHorizontal: 1,
+    marginBottom: 2
   },
   currentMessage: {
     alignSelf: 'flex-end',

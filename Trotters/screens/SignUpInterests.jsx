@@ -44,7 +44,7 @@ const SignUpInterests = ({ route, navigation, setIsSignedIn }) => {
     
         try {
             // Send new user's data to backend
-            const endpoint = 'http://192.168.0.22:3000/api/users/signUp'; 
+            const endpoint = 'https://api.wearetrotters.com/users/signUp'; 
             const response = await axios.post(endpoint, signUpData);
     
             if (response.status === 201) {

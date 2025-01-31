@@ -45,20 +45,23 @@ module.exports = {
         }
     },
 
-    searchUsers: async(req, res) => {    
+    searchUsers: async (req, res) => {    
         try {
             const { userId, location } = req.query;
-
-            // Find users matching location but excluding the current user
-            const users = await User.find({
-                location: location,
-                _id: { $ne: userId } // exclude the current user
-            });
     
-            // Send response 
+            // Create a regex to match users based on country or city
+            const locationRegex = new RegExp(`^(${location}|.*, ${location})$`, 'i');
+    
+            // Find users matching the location criteria, excluding the current user
+            const users = await User.find({
+                location: { $regex: locationRegex }, 
+                _id: { $ne: userId } 
+            });
+            
+            // Send response
             res.status(200).json(users);
         } catch (error) {
             res.status(500).json({ message: 'Server error' });
         }
-    }
+    }    
 }

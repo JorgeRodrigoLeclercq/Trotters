@@ -24,14 +24,14 @@ const Chat = ({ route, navigation }) => {
                 setCurrentUserId(parsedUserData._id);
 
                 // Initialize a socket connection
-                const socketConnection = io('http://192.168.0.22:3000', {
+                const socketConnection = io('https://api.wearetrotters.com', {
                     query: { userId: parsedUserData._id }
                 });
 
                 socketRef.current = socketConnection; 
 
                 // Retrieve the conversation's messages
-                const response = await axios.get('http://192.168.0.22:3000/api/messaging/getMessages', {
+                const response = await axios.get('https://api.wearetrotters.com/messaging/getMessages', {
                     params: {
                         currentUserId: parsedUserData._id,
                         otherUserId
@@ -77,7 +77,7 @@ const Chat = ({ route, navigation }) => {
 
             try {
                 // Post the message in the backend
-                const response = await axios.post('http://192.168.0.22:3000/api/messaging/sendMessage', newMessage);
+                const response = await axios.post('https://api.wearetrotters.com/messaging/sendMessage', newMessage);
 
                 if (response.status === 201) {
                     newMessage = { ...newMessage, _id: response.data._id };
