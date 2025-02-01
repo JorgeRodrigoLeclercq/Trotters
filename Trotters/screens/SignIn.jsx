@@ -8,7 +8,7 @@ import { COLORS } from '../resources';
 import Button from '../components/Button';
 
 GoogleSignin.configure({
-    webClientId: '999940019688-2q5ci841jkvgb9us36visi6qk3i72fhg.apps.googleusercontent.com',
+    webClientId: '415601145144-c1h0o2tdi46im99os79b2erh9hglq7ui.apps.googleusercontent.com',
     scopes: ['email'],
 });
 

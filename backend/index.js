@@ -26,6 +26,20 @@ app.use('/users', userRouter);
 const messagingRouter = require('./routers/messaging');
 app.use('/messaging', messagingRouter);
 
+// Main Screen Endpoint
+app.get('/', (req, res) => {
+    res.status(200).send(`
+        <h1>Welcome to the Trotters App</h1>
+        <p>Click here to read our <a href="/privacy-policy">Privacy Policy</a></p>
+    `);
+});
+
+// Privacy Policy Endpoint
+const privacyPolicy = require('./privacyPolicy');
+app.get('/privacy-policy', (req, res) => {
+    res.status(200).send(privacyPolicy);
+});
+
 // Health Check Endpoint
 app.get('/health', (req, res) => {
     res.status(200).send('OK');

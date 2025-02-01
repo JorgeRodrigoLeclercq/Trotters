@@ -75,7 +75,7 @@ const SignUpLocation = ({ route, navigation }) => {
                             data={filteredLocations}
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={({ item }) => (
-                                <TouchableOpacity style={styles.item} onPress={setSearchText}>
+                                <TouchableOpacity style={styles.item} onPress={() => setSearchText(item)}>
                                     <Text style={{ fontFamily: 'Poppins-Medium', color:COLORS.black }}>{item}</Text>
                                 </TouchableOpacity>
                             )}
