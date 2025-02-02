@@ -38,7 +38,9 @@ const Chat = ({ route, navigation }) => {
                     }
                 });
 
-                setMessages(response.data);
+                if (response.status === 200) {
+                    setMessages(response.data);
+                }
 
                 // Add incoming messages to the chat
                 socketConnection.on('message', (message) => {
