@@ -50,7 +50,7 @@ const SignUpInterests = ({ route, navigation, setIsSignedIn }) => {
             if (response.status === 201) {
                 setSignUpData(prevData => ({
                     ...prevData,
-                    _id: response._id
+                    _id: response.data._id
                 }));
                 // Save user data in the phone and go to Profile screen
                 await AsyncStorage.setItem('trottersApp', JSON.stringify(signUpData)); 
