@@ -4,11 +4,17 @@ module.exports = {
             <h1>Welcome to the Trotters App</h1>
             <p>Click here to read our <a href="/privacy-policy">Privacy Policy</a></p>
             
-            <p>Trotters is an application whose purpose is to help connect people who share interests when traveling.</p>
+            <p>Trotters is a mobile app whose purpose is to help connect people who share interests when traveling. For instance, meeting Jazz Fusion enthusiasts when visiting Japan!</p>
             <p>It has been developed by Jorge Rodrigo Leclercq, individually and without profit.</p>
-            <p>The frontend is programmed with React Native, the backend with Node.js, the database is MongoDB, and it uses other services provided by AWS and Google Cloud.</p>
-            <p>It is available for Android devices.</p>
-        `);
+            
+            <p>The frontend is programmed with React Native and the backend with Node.js, which is hosted in an AWS Elastic Beanstalk server and uses MongoDB as a database.</p>
+        
+            <h2>Use of Google OAuth</h2>
+            <p>Trotters uses Google's OAuth to authenticate users securely when signing in. The only information accessed is the user’s email, which is used solely for authentication purposes and is not shared with third parties.</p>
+            <p>This authentication method ensures a secure and seamless login experience while protecting user data.</p>
+            
+            <p>The app is available for Android devices.</p>
+        `);        
     },
 
     getPrivacyPolicy: (req, res) => {
