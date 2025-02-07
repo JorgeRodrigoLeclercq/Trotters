@@ -46,14 +46,12 @@ const SignUpInterests = ({ route, navigation, setIsSignedIn }) => {
             // Send new user's data to backend
             const endpoint = 'https://api.wearetrotters.com/users/signUp'; 
             const response = await axios.post(endpoint, signUpData);
-    
+            
             if (response.status === 201) {
-                setSignUpData(prevData => ({
-                    ...prevData,
-                    _id: response.data._id
-                }));
+                const userData = { ...signUpData, _id: response.data._id };
+
                 // Save user data in the phone and go to Profile screen
-                await AsyncStorage.setItem('trottersApp', JSON.stringify(signUpData)); 
+                await AsyncStorage.setItem('trottersApp', JSON.stringify(userData)); 
                 setIsSignedIn(true);
                 navigation.navigate('BottomNavigation');
             } else {
