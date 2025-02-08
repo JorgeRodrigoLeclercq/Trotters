@@ -1,6 +1,7 @@
 import { View, TextInput, ScrollView, Image, TouchableOpacity, KeyboardAvoidingView, Alert } from 'react-native';
 import { useState, useEffect } from 'react';
 import { launchImageLibrary } from 'react-native-image-picker';
+import ImageResizer from '@bam.tech/react-native-image-resizer';
 import RNFS from 'react-native-fs';
 import styles from './signUp.style';
 import { COLORS } from '../resources/index';
@@ -42,29 +43,36 @@ const SignUp = ({ route, navigation }) => {
     }, [name, age, description, profileImage]);
 
     const handleImageSelection = async () => {
-        const result = await launchImageLibrary({
-            mediaType: 'photo',
-        });
-
+        const result = await launchImageLibrary({ mediaType: 'photo' });
+    
         if (result.assets && result.assets[0].uri) {
             const image = result.assets[0];
             const imageType = image.type.split('/')[1];
             const validExtensions = ['jpg', 'jpeg', 'png'];
 
             if (validExtensions.includes(imageType)) {
-                setImageUri(image.uri); 
-
+                setImageUri(image.uri);
+    
                 try {
-                    const binaryData = await RNFS.readFile(image.uri.replace('file://', ''), 'base64');
-                    setProfileImage(`data:${image.type};base64,${binaryData}`);
+                    const resizedImage = await ImageResizer.createResizedImage(
+                        image.uri,
+                        500, 
+                        500, 
+                        'JPEG', 
+                        80, 
+                        0 
+                    );
+        
+                    const binaryData = await RNFS.readFile(resizedImage.uri.replace('file://', ''), 'base64');
+                    setProfileImage(`data:image/jpeg;base64,${binaryData}`);
                 } catch (error) {
-                    Alert.alert('Error reading the file', error);
+                    Alert.alert('Error resizing image', error.message);
                 }
             } else {
                 Alert.alert('Invalid file type', 'Please select a JPG, JPEG, or PNG image.');
             }
         }
-    };
+    };    
 
     const invalidForm = () => {
         let error = '';

@@ -28,8 +28,11 @@ const Conversations = ({ navigation }) => {
         const sortedConversations = fetchedConversations
           .map((conversation) => {
             if (conversation.lastMessage.senderId === userId) {
-              conversation.lastMessage.content = `You: ${conversation.lastMessage.content}`; // add a 'You: ' in case the last message was from the user
+              conversation.lastMessage.content = `You: ${conversation.lastMessage.content}`; // add a 'You: ' in case the last message is from the user
             }
+            if (conversation.lastMessage.content.length > 33) {
+              conversation.lastMessage.content = conversation.lastMessage.content.substring(0, 33) + '...'; // truncate in case the last message is too large
+            }            
             return conversation;
           })
           .sort((a, b) => new Date(b.lastMessage.createdAt) - new Date(a.lastMessage.createdAt)); // sorting based on the time of the last message
