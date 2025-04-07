@@ -18,7 +18,7 @@ const SignUp = ({ route, navigation }) => {
         age: '',
         description: '',
         profileImage: '',
-        email: route.params.email
+       email: route.params.email
     });
     const [isValid, setIsValid] = useState(false);
     const [focusedField, setFocusedField] = useState('');

@@ -1,2 +1,2 @@
 # Trotters
-The official repository for the Trotters app!
+The official repository of the Trotters app!

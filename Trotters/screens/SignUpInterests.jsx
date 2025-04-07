@@ -72,6 +72,7 @@ const SignUpInterests = ({ route, navigation, setIsSignedIn }) => {
         <View style={styles.container}>
             <View style={styles.placeholderContainer}>
                 <Text style={styles.placeholder}>What do you want to do while traveling?</Text>
+                <Text style={styles.subPlaceholder}>Please choose only 3</Text>
             </View>
             
             <View style={styles.scrollViewWrapper}>

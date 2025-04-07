@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, Linking } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './settings.style';
 import { COLORS } from '../resources/constants';
@@ -16,6 +16,17 @@ const Settings = ({ navigation, setIsSignedIn }) => {
         } catch (error) {
             Alert.alert('Error', error);
         }
+    };
+
+    // Handle CSAE report email
+    const handleEmailPress = () => {
+        const email = 'wearetrotters@gmail.com';
+        const subject = 'Report CSAE';
+        const body = 'Please describe the CSAE issue here...';
+        const url = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        
+        Linking.openURL(url)
+            .catch(err => Alert.alert('Error', 'Unable to send email.'));
     };
 
     return(
@@ -44,8 +55,14 @@ const Settings = ({ navigation, setIsSignedIn }) => {
                     textColor={COLORS.white}
                 />
             </View>
+
+            <View style={styles.contactContainer}>
+                <TouchableOpacity onPress={handleEmailPress}>
+                    <Text style={styles.contactText}>Contact us to report CSAE</Text>
+                </TouchableOpacity>
+            </View>
         </View>
-    )
+    );
 }
 
 export default Settings;

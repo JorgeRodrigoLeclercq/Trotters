@@ -16,6 +16,11 @@ const styles = StyleSheet.create({
         color: COLORS.black,
         fontSize: SIZES.medium
     },
+    subPlaceholder: {
+        fontFamily: 'Poppins-Semibold',
+        color: COLORS.black,
+        fontSize: 14
+    },
     scrollViewWrapper:{
         height: '80%'
     },

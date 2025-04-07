@@ -1,4 +1,5 @@
 const { User } = require('../models/user');
+const { Message, Conversation } = require('../models/messaging');
 
 module.exports = {
     signUp: async (req, res) => {
@@ -63,5 +64,51 @@ module.exports = {
         } catch (error) {
             res.status(500).json({ message: 'Server error' });
         }
-    }    
+    },
+    
+    deleteUserPage: (req, res) => {
+        res.send(`
+            <html>
+                <head>
+                    <title>Delete your account</title>
+                </head>
+                <body>
+                    <h1>Delete your account</h1>
+                    <p>Enter your email to delete your account and all of its related data.</p>
+                    <form action="/users/delete-user" method="POST">
+                        <input type="email" name="email" required placeholder="Enter your email" />
+                        <button type="submit">Delete</button>
+                    </form>
+                </body>
+            </html>
+        `);
+    },
+    
+    deleteUser: async (req, res) => {
+        try {
+            // Find user by email
+            const { email } = req.body;
+            const user = await User.findOne({ email });
+    
+            if (!user) { // the email isn't registered
+                return res.status(404).send('User not found.');
+            }
+    
+            const userId = user._id.toString();
+    
+            // Delete all messages where the user is either sender or receiver
+            await Message.deleteMany({ $or: [{ senderId: userId }, { receiverId: userId }] });
+    
+            // Delete all conversations where the user is a participant
+            await Conversation.deleteMany({ participants: userId });
+    
+            // Delete the user
+            await User.deleteOne({ _id: userId });
+            
+            // Send response
+            res.send('Your account and all related data have been deleted successfully.');
+        } catch (error) {
+            res.status(500).send('Server error');
+        }
+    }      
 }

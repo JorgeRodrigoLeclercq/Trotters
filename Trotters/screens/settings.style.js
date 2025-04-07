@@ -30,6 +30,15 @@ const styles = StyleSheet.create({
     height: '10%',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  contactContainer: {
+    marginTop: 20,
+    alignItems: 'center'
+  },
+  contactText: {
+      fontSize: 16,
+      color: COLORS.primary,
+      textDecorationLine: 'underline'
   }
 })
 

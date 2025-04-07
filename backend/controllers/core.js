@@ -65,5 +65,45 @@ module.exports = {
 
     getHealthCheck: (req, res) => {
         res.status(200).send('OK');
-    }
+    },
+
+    
+    getCSAEPolicy: (req, res) => {
+        res.status(200).send(`
+            <h1>Zero Tolerance for CSAE (Child Sexual Abuse and Exploitation)</h1>
+            <p>At Trotters, we have a strict zero-tolerance policy towards any form of Child Sexual Abuse and Exploitation (CSAE). CSAE refers to any content, behavior, or action that sexually exploits, abuses, or endangers children. This policy applies to all users and all forms of interaction on our platform. We are committed to protecting the safety and well-being of minors, and we will take immediate and firm action against any violation of this policy.</p>
+            
+            <h2>What is CSAE?</h2>
+            <p>CSAE refers to any act or content that involves the sexual abuse, exploitation, or endangerment of children. This includes, but is not limited to:</p>
+            <ul>
+                <li><strong>Grooming a child for sexual exploitation:</strong> Any attempt to establish a relationship with a minor to manipulate or coerce them into sexual activities.</li>
+                <li><strong>Sextortion of a child:</strong> The act of coercing or threatening a child with intimate content to exploit or manipulate them for sexual purposes.</li>
+                <li><strong>Trafficking a child for sex:</strong> Any involvement in the transportation or exploitation of a minor for the purpose of sex or sexual exploitation.</li>
+                <li><strong>Creation, possession, or distribution of child sexual abuse material:</strong> Any content that depicts the sexual abuse or exploitation of children, including photos, videos, or live streaming.</li>
+                <li><strong>Any other behavior that sexually exploits or endangers children:</strong> This includes online interactions, chat activities, or any form of communication used to manipulate, harm, or exploit minors sexually.</li>
+            </ul>
+
+            <h2>Our Commitment to Protecting Children</h2>
+            <p>We are fully committed to ensuring that Trotters remains a safe space for all users, especially minors. We have implemented several safeguards to prevent CSAE on our platform:</p>
+            <ul>
+                <li><strong>Active Monitoring:</strong> We actively monitor user activity for any signs of inappropriate behavior. Our team is trained to spot and address potential CSAE threats.</li>
+                <li><strong>Reporting Mechanisms:</strong> We provide a clear and easy way for users to report suspected CSAE. If you suspect any CSAE behavior, please contact us immediately so we can take action.</li>
+                <li><strong>Cooperation with Authorities:</strong> We will fully cooperate with law enforcement agencies and report any CSAE incidents or threats. We have a legal obligation to report suspected abuse or exploitation.</li>
+                <li><strong>User Education:</strong> We work to educate our users about the dangers of CSAE and encourage everyone to be vigilant and responsible when interacting online.</li>
+            </ul>
+
+            <h2>Consequences of CSAE Violations</h2>
+            <p>Any user found to be involved in CSAE will face immediate and severe consequences. These include:</p>
+            <ul>
+                <li><strong>Account Termination:</strong> Any account found to be engaging in CSAE will be permanently banned from the platform.</li>
+                <li><strong>Reporting to Authorities:</strong> We will immediately report any CSAE incident to the relevant law enforcement agencies for further investigation and legal action.</li>
+                <li><strong>Legal Action:</strong> In cases where CSAE is identified, we will assist authorities in the legal proceedings and ensure that appropriate action is taken against offenders.</li>
+            </ul>
+
+            <h2>Our Promise</h2>
+            <p>We take the safety of children seriously, and we will not tolerate any form of CSAE on our platform. We are committed to doing everything within our power to prevent these heinous acts and to ensure that Trotters remains a safe and secure environment for all users.</p>
+            <p>If you suspect any form of CSAE, please report it immediately to us at <a href="mailto:support@trottersapp.com">support@trottersapp.com</a>. We will investigate every report thoroughly and take the necessary actions to protect children from harm.</p>
+            <p>We encourage our users to educate themselves about the risks and signs of CSAE and to remain vigilant. Together, we can work towards a safer, more responsible online community.</p>
+        `);
+    }   
 };
